@@ -35,22 +35,6 @@ function RegisterForm() {
           }
       };
 
-      // {
-      //   "parameter": {
-      //     "name": "kessy",
-      //     "password": "1234",
-      //     "email": "kessy@hotmail.com",
-      //     "phone": "996086784",
-      //     "address_number": "88",
-      //     "address_neighborhood": "meia praia",
-      //     "address": "rua 319",
-      //     "address_complement": "502",
-      //     "city_id": 1,
-      //     "formation_id": 1,
-      //     "experience_id": 2
-      //   }
-      // }
-      
     const options = {
       method: 'POST',
       headers: {
