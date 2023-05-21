@@ -22,10 +22,10 @@ function TecnicalskillForm() {
 			<form>
 				<div className="form-group">
 				<button className="btn btn-secondary btn-lg">
-					<img src="plus.png" width="25" />
+					<img src="plus.png" alt="plus" width="25" />
 				</button>
 				<button className="btn btn-secondary btn-lg">
-					<img src="edit.png" width="25" />
+					<img src="edit.png" alt="edit" width="25" />
 				</button>
 				</div>
 
@@ -43,9 +43,6 @@ function TecnicalskillForm() {
 				<div className="justify-content-end row">
 				<div className="text-center p-3">
 					<button type="button" className="btn btn-outline-secondary btn-lg" onClick={navigateToPerfil}>Pular</button>
-				</div>
-
-				<div className="text-center p-3">
 					<button type="button" className="btn btn-secondary btn-lg" onClick={navigateToFormation}>Continuar</button>
 				</div>
 				</div>

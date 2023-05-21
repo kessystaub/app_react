@@ -32,16 +32,11 @@ function SoftskillForm() {
 							aqui</label>
 						<div className="custom-file">
 							<input type="file" className="custom-file-input" id="customFile" />
-							<label className="custom-file-label" htmlFor="customFile">Anexar</label>
 						</div>
 
 						<div className="justify-content-end row">
 							<div className="text-center p-3">
-								<button type="button" className="btn btn-outline-secondary btn-lg"
-									onClick={navigateToPerfil}>Pular</button>
-							</div>
-
-							<div className="text-center p-3">
+								<button type="button" className="btn btn-outline-secondary btn-lg" onClick={navigateToPerfil}>Pular</button>
 								<button type="submit" className="btn btn-secondary btn-lg" onClick={navigateToTecnicalskillForm}>Continuar</button>
 							</div>
 						</div>

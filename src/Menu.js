@@ -16,6 +16,10 @@ function Menu() {
     navigate('/candidaturas');
   };
 
+  const navigateToLogin = () => {
+    navigate('/');
+  };
+
   return (
     <div>
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -42,7 +46,10 @@ function Menu() {
             </div>
           </ul>
           <div className='m-1'>
-            <button className="btn btn-outline-success my-2 my-sm-0" onClick={navigateToCandidaturas} type="button">Candidaturas</button>
+            <button className="btn btn-outline-primary my-2 my-sm-0" onClick={navigateToCandidaturas} type="button">Candidaturas</button>
+          </div>
+          <div className='m-1'>
+            <button className="btn btn-outline-success my-2 my-sm-0" onClick={navigateToLogin} type="button">Sou Empresa</button>
           </div>
         </div>
       </div>
