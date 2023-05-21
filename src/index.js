@@ -6,6 +6,7 @@ import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import {Routes, Route} from 'react-router-dom';
 import Curriculo from './Curriculo';
+import Vaga from './Vaga';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -13,6 +14,7 @@ root.render(
     <BrowserRouter>
       <Routes>
             <Route path="/" element={<Perfil />} />
+            <Route path="/vaga" element={<Vaga />} />
             <Route path="/curriculo" element={<Curriculo />} />
         </Routes>
     </BrowserRouter>
