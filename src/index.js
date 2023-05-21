@@ -8,14 +8,28 @@ import {Routes, Route} from 'react-router-dom';
 import Curriculo from './Curriculo';
 import Vaga from './Vaga';
 import Candidaturas from './Candidaturas';
+import Login from './Login';
+import RegisterForm from './RegisterForm';
+import SoftskillForm from './SoftskillForm';
+import TecnicalskillForm from './TecnicalskillForm';
+import FormationForm from './FormationForm';
+import ExperienceForm from './ExperienceForm';
+import Search from './Search';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <BrowserRouter>
       <Routes>
-            <Route path="/" element={<Perfil />} />
+            <Route path="/" element={<Login />} />
+            <Route path="/perfil" element={<Perfil />} />
+            <Route path="/cadastro" element={<RegisterForm />} />
+            <Route path="/softskillForm" element={<SoftskillForm />} />
+            <Route path="/tecnicalskillForm" element={<TecnicalskillForm />} />
             <Route path="/candidaturas" element={<Candidaturas />} />
+            <Route path="/formationForm" element={<FormationForm />} />
+            <Route path="/experienceForm" element={<ExperienceForm />} />
+            <Route path="/search" element={<Search />} />
             <Route path="/vaga" element={<Vaga />} />
             <Route path="/curriculo" element={<Curriculo />} />
         </Routes>

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function RegisterForm() {
   const [nome, setNome] = useState('');
@@ -8,6 +9,16 @@ function RegisterForm() {
   const [address, setAddress] = useState('');
   const [city, setCity] = useState('');
   const [state, setState] = useState('');
+
+  const navigate = useNavigate();
+
+  const navigateToLogin = () => {
+    navigate('/');
+  };
+
+  const navigateToSoftskillForm = () => {
+    navigate('/softskillForm')
+  }
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -124,12 +135,12 @@ function RegisterForm() {
 						</div>
 
 						<div className="text-center p-3">
-							<button type="submit" className="btn btn-secondary btn-lg">Enviar</button>
+							<button type="submit" className="btn btn-secondary btn-lg" onClick={navigateToSoftskillForm}>Enviar</button>
 						</div>
 
 						<div>
 							<span>Já tem uma conta?</span>
-							<a href="http://127.0.0.1:5500/LoginForm/index.html">Entrar</a>
+							<button className="btn btn-sm" onClick={navigateToLogin}>Entrar</button>
 						</div>
           </form>
         </div>

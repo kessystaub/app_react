@@ -1,9 +1,16 @@
 import React, { useState } from 'react';
 import Menu from './Menu';
+import { useNavigate } from 'react-router-dom';
 
 function Vaga() {
   const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
+
+  const navigate = useNavigate();
+
+  const navigateToSearch = () => {
+    navigate('/search');
+  };
 
   function getjobOffers() {
     fetch('http://localhost:8000/joboffer/1')
@@ -49,7 +56,7 @@ function Vaga() {
             
             Será um diferencial ter:
             Conhecimento em outras linguagens de programação </p>
-        <button type="button" className="btn btn-outline-primary">Voltar</button>
+        <button type="button" className="btn btn-outline-primary" onClick={navigateToSearch}>Voltar</button>
         <button href="#" className="btn btn-primary">Aplicar</button>
         </div>
         <div className="card-footer text-muted">

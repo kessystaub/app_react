@@ -5,11 +5,11 @@ function Menu() {
   const navigate = useNavigate();
 
   const navigateToVaga = () => {
-    navigate('/vaga');
+    navigate('/search');
   };
 
   const navigateToPerfil = () => {
-    navigate('/');
+    navigate('/perfil');
   };
 
   const navigateToCandidaturas = () => {

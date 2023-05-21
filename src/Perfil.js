@@ -21,14 +21,6 @@ function Perfil() {
     navigate('/curriculo');
   };
 
-  const navigateToVaga = () => {
-    navigate('/vaga');
-  };
-
-  const navigateToPerfil = () => {
-    navigate('/');
-  };
-
   function getUser() {
     fetch('http://localhost:8000/user/8')
       .then(response => response.json())
