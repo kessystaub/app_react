@@ -3,11 +3,19 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import Perfil from './Perfil';
 import reportWebVitals from './reportWebVitals';
+import { BrowserRouter } from 'react-router-dom';
+import {Routes, Route} from 'react-router-dom';
+import Curriculo from './Curriculo';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <Perfil />
+    <BrowserRouter>
+      <Routes>
+            <Route path="/" element={<Perfil />} />
+            <Route path="/curriculo" element={<Curriculo />} />
+        </Routes>
+    </BrowserRouter>
   </React.StrictMode>
 );
 

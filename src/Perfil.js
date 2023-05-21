@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import {useNavigate} from 'react-router-dom';
 
 function Perfil() {
   const [id, setId] = useState('');
@@ -12,6 +13,12 @@ function Perfil() {
   const [courseformation, setCourseformation] = useState('');
   const [companyname, setCompanyName] = useState('');
 
+
+  const navigate = useNavigate();
+
+  const navigateToCurriculo = () => {
+    navigate('/curriculo');
+  };
 
   function getUser() {
     fetch('http://localhost:8000/user/8')
@@ -56,7 +63,7 @@ function Perfil() {
       console.error('Erro:', error);
     });
   }
-
+  
   getUser()
   getFormations()
   getExperiences()
@@ -112,7 +119,7 @@ function Perfil() {
             </div>
             <div className="mt-5">
               <button className="btn btn-outline-success my-2 my-sm-0"
-                type="button">Currículo</button>
+                type="button" onClick={navigateToCurriculo}>Currículo</button>
             </div>
           </div>
           <div className="col-md-8">
