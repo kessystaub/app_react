@@ -12,40 +12,39 @@ function Menu() {
     navigate('/');
   };
 
+  const navigateToCandidaturas = () => {
+    navigate('/candidaturas');
+  };
+
   return (
     <div>
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
-      <a className="navbar-brand" href="#">Match Code</a>
-      <button className="navbar-toggler" type="button" data-toggle="collapse"
-        data-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent" aria-expanded="false"
-        aria-label="Toggle navigation">
-        <span className="navbar-toggler-icon"></span>
-      </button>
+      <h4>Match Code</h4>
+      <div className='pl-1'>
+        <button className="navbar-toggler" type="button" data-toggle="collapse"
+          data-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent" aria-expanded="false"
+          aria-label="Toggle navigation">
+          <span className="navbar-toggler-icon"></span>
+        </button>
 
-      <div className="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul className="navbar-nav mr-auto">
-          <li className="nav-item active">
-            <button className="btn btn-outline-primary" onClick={navigateToPerfil}>Perfil</button>
-          </li>
-          <li className="nav-item">
-            <button className="btn btn-outline-primary" onClick={navigateToVaga}>Vagas</button>
-          </li>
-          <li className="nav-item dropdown">
-            <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown"
-              role="button" data-toggle="dropdown" aria-haspopup="true"
-              aria-expanded="false">
-              Configurações
-            </a>
-            <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a className="dropdown-item" href="#">Action</a>
-              <a className="dropdown-item" href="#">Another action</a>
-              <div className="dropdown-divider"></div>
-              <a className="dropdown-item" href="#">Something else here</a>
+        <div className="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul className="navbar-nav mr-auto">
+            <div className='m-1'>
+              <li className="nav-item active">
+                <button className="btn btn-outline-primary" onClick={navigateToPerfil}>Perfil</button>
+              </li>
             </div>
-          </li>
-        </ul>
-        <button className="btn btn-outline-success my-2 my-sm-0" type="button">Candidaturas</button>
+            <div className='m-1'>
+              <li className="nav-item">
+                <button className="btn btn-outline-primary" onClick={navigateToVaga}>Vagas</button>
+              </li>
+            </div>
+          </ul>
+          <div className='m-1'>
+            <button className="btn btn-outline-success my-2 my-sm-0" onClick={navigateToCandidaturas} type="button">Candidaturas</button>
+          </div>
+        </div>
       </div>
       </nav>
     </div>
