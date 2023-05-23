@@ -8,7 +8,11 @@ function RegisterForm() {
   const [phone, setPhone] = useState('');
   const [address, setAddress] = useState('');
   const [city, setCity] = useState('');
+  const [cityId, setCityId] = useState('');
   const [state, setState] = useState('');
+  const [addressNeighborhood, setAddressNeighborhood] = useState('');
+  const [addressComplement, setAddressComplement] = useState('');
+  const [addressNumber, setAddressNumber] = useState('');
 
   const navigate = useNavigate();
 
@@ -20,15 +24,21 @@ function RegisterForm() {
     navigate('/softskillForm')
   }
 
+
+  function getCityByName(city_name) {
+      fetch(`http://localhost:8000/city/getCityByName/${city_name}`)
+      .then(response => response.json())
+      .then(data => {
+        console.log('data.result.id', data.result.id)
+        setCityId(data.result.id)
+    })
+    .catch(error => {
+      console.error('Erro:', error);
+    });
+  }
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log('Nome:', nome);
-    console.log('Email:', email);
-    console.log('senha:', password);
-    console.log('telefone', phone);
-    console.log('endereço:', address);
-    console.log('cidade:', city);
-    console.log('estado:', state);
 
     const create = {
       "parameter": {
@@ -36,11 +46,11 @@ function RegisterForm() {
             "password": password,
             "email": email,
             "phone": phone,
-            "address_number": "88",
-            "address_neighborhood": "meia praia",
+            "address_number": addressNumber,
+            "address_neighborhood": addressNeighborhood,
             "address": address,
-            "address_complement": "502",
-            "city_id": 1,
+            "address_complement": addressComplement,
+            "city_id": cityId,
             "formation_id": 1,
             "experience_id": 2
           }
@@ -61,6 +71,7 @@ function RegisterForm() {
          }
          return data.json();
         }).then(create => {
+        navigateToSoftskillForm()
         console.log(create);
         }).catch(e => {
         console.log(e);
@@ -79,63 +90,93 @@ function RegisterForm() {
 							<input type="text" className="form-control" id="name" name="name" value={nome}
 								placeholder="Digite seu nome completo" onChange={(event) => setNome(event.target.value)} required />
             </div>
-            <div className="form-group">
+            <div className="form-group p-1">
 							<label htmlFor="email">Email:</label>
 							<input type="email" className="form-control" id="email" name="email"
 								value={email}
                 onChange={(event) => setEmail(event.target.value)} placeholder="Digite seu e-mail" required />
 						</div>
-            <div className="form-group">
+            <div className="form-group p-1">
 							<label htmlFor="email-confirmation">Confirme o Email:</label>
 							<input type="email" className="form-control" id="email-confirmation"
 								name="email-confirmation" placeholder="Confirme seu e-mail" required />
 						</div>
 
-						<div className="form-group">
+						<div className="form-group p-1">
 							<label htmlFor="password">Senha:</label>
 							<input type="password" className="form-control" id="password" name="password"
 								placeholder="Digite sua senha" value={password}
                 onChange={(event) => setPassword(event.target.value)} required />
 						</div>
 
-						<div className="form-group">
+						<div className="form-group p-1">
 							<label htmlFor="password-confirmation">Confirme a Senha:</label>
 							<input type="password" className="form-control" id="password-confirmation"
 								name="password-confirmation" placeholder="Confirme sua senha" required />
 						</div>
 
-						<div className="form-group">
+						<div className="form-group p-1">
 							<label htmlFor="phone">Telefone:</label>
 							<input type="text" className="form-control" id="phone" name="phone"
 								placeholder="Digite seu número de telefone" value={phone}
                 onChange={(event) => setPhone(event.target.value)} required />
 						</div>
 
-						<div className="form-group">
+						<div className="form-group p-1">
 							<label htmlFor="address">Endereço:</label>
 							<input type="text" className="form-control" id="address" name="address"
 								placeholder="Digite seu endereço" value={address}
                 onChange={(event) => setAddress(event.target.value)} required />
 						</div>
 
-						<div className="form-group">
-							<label htmlFor="city">Cidade:</label>
-							<input type="text" className="form-control" id="city" name="city"
-								placeholder="Digite sua cidade" value={city}
-                onChange={(event) => setCity(event.target.value)} required />
+            <div className="form-group p-1">
+							<label htmlFor="address">Bairro:</label>
+							<input type="text" className="form-control" id="address_neighborhood" name="address_neighborhood"
+								placeholder="Digite seu bairro" value={addressNeighborhood}
+                onChange={(event) => setAddressNeighborhood(event.target.value)} required />
 						</div>
 
-						<div className="form-group">
+            <div className="form-group p-1">
+							<label htmlFor="address">Número de endereço:</label>
+							<input type="text" className="form-control" id="address_number" name="address_number"
+								placeholder="Digite seu número de endereço" value={addressNumber}
+                onChange={(event) => setAddressNumber(event.target.value)} required />
+						</div>
+
+            <div className="form-group p-1">
+							<label htmlFor="address">Complemento:</label>
+							<input type="text" className="form-control" id="address_complement" name="address_complement"
+								placeholder="Digite seu complemento" value={addressComplement}
+                onChange={(event) => setAddressComplement(event.target.value)} required />
+						</div>
+
+						<div className="form-group p-1">
+							<label htmlFor="city">Cidade:</label>
+              <select className="form-control" id="city" name="city" value={city}
+                onChange={(event) => {
+                  setCity(event.target.value)
+                  getCityByName(event.target.value)
+                  }} required>
+								<option value="">Selecione...</option>
+								<option value="TIJUCAS">Tijucas</option>
+								<option value="ITAPEMA">Itapema</option>
+								<option value="PORTO BELO">Porto Belo</option>
+							</select>
+						</div>
+
+						<div className="form-group p-1">
 							<label htmlFor="state">Estado:</label>
 							<select className="form-control" id="state" name="state" value={state}
                 onChange={(event) => setState(event.target.value)} required>
 								<option value="">Selecione...</option>
 								<option value="SP">São Paulo</option>
+								<option value="RS">Rio Grande do Sul</option>
+								<option value="SC">Santa Catarina</option>
 							</select>
 						</div>
 
 						<div className="text-center p-3">
-							<button type="submit" className="btn btn-secondary btn-lg" onClick={navigateToSoftskillForm}>Enviar</button>
+							<button type="submit" className="btn btn-secondary btn-lg" onClick={handleSubmit}>Enviar</button>
 						</div>
 
 						<div>
