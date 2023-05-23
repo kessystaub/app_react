@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { UserContext } from './UserContext';
 
 function RegisterForm() {
   const [nome, setNome] = useState('');
@@ -13,6 +14,8 @@ function RegisterForm() {
   const [addressNeighborhood, setAddressNeighborhood] = useState('');
   const [addressComplement, setAddressComplement] = useState('');
   const [addressNumber, setAddressNumber] = useState('');
+
+  const { currentUser } = useContext(UserContext);
 
   const navigate = useNavigate();
 
@@ -77,6 +80,8 @@ function RegisterForm() {
         console.log(e);
         });
   };
+
+  console.log(currentUser)
 
   return (
     <div className="container">

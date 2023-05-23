@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {useNavigate} from 'react-router-dom';
 
 function SoftskillForm() {
+  const [softskills, setSoftskills] = useState([]);
+
   const navigate = useNavigate();
 
   const navigateToPerfil = () => {
@@ -11,6 +13,26 @@ function SoftskillForm() {
   const navigateToTecnicalskillForm = () => {
     navigate('/tecnicalskillForm');
   };
+
+  function addSoftskill() {
+	
+  }
+
+useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`http://localhost:8000/softskill`);
+        const data = await response.json();
+		setSoftskills(data.result)
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, []); // Empty dependency array ensures the effect runs only once
+
+
 
   return (
     <div>
@@ -22,9 +44,12 @@ function SoftskillForm() {
 					<form>
 						<div className="form-group">
 							<label htmlFor="name">Selecione as habilidades que possui</label>
-							<select className="form-control" id="softskill" name="softskill" required>
+							<select className="form-control" id="softskill" name="softskill" value={softskills}
+							 onChange={(event) => { addSoftskill(event.target.value)}} required>
 								<option value="">Selecione...</option>
-								<option value="teamwork">Trabalho em equipe</option>
+								{softskills.map((item) => (
+									<option key={item.id} value={item.name}>{item.name}</option>
+								))}
 							</select>
 						</div>
 
