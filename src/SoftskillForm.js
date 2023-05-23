@@ -3,6 +3,8 @@ import {useNavigate} from 'react-router-dom';
 
 function SoftskillForm() {
   const [softskills, setSoftskills] = useState([]);
+  const [userSoftskills, setUserSoftskills] = useState([]);
+  const [softskill, setSoftskill] = useState();
 
   const navigate = useNavigate();
 
@@ -14,9 +16,62 @@ function SoftskillForm() {
     navigate('/tecnicalskillForm');
   };
 
-  function addSoftskill() {
+  function getSoftskillsByUser(user_id) {
+		fetch(`http://localhost:8000/user_softskill/getSoftskillsByUserId/${user_id}`)
+		.then(response => response.json())
+		.then(data => {
+		setUserSoftskills(data.result)
+	})
+	.catch(error => {
+		console.error('Erro:', error);
+	});
+	}
 	
-  }
+
+	function getSoftskillsById(id) {
+		fetch(`http://localhost:8000/softskill/${id}`)
+		.then(response => response.json())
+		.then(data => {
+			setSoftskill(data.result)
+			return softskill.name
+	})
+	.catch(error => {
+		console.error('Erro:', error);
+	});
+	}
+
+	const addSoftskill = (event) => {
+		event.preventDefault();
+	
+		const update = {
+		  "parameter": {
+				"formation_id": 1,
+				"experience_id": 2
+			  }
+		  };
+	
+		const options = {
+		  method: 'PATCH',
+		  headers: {
+		  'Content-Type': 'application/json',
+		  },
+		  body: JSON.stringify(update),
+		  };
+	
+		fetch(`http://localhost:8000/user/10`, options)
+		.then(data => {
+			if (!data.ok) {
+			  throw Error(data.status);
+			 }
+			 return data.json();
+			}).then(update => {
+			console.log(update);
+			}).catch(e => {
+			console.log(e);
+			});
+	  };
+	
+
 
 useEffect(() => {
     const fetchData = async () => {
@@ -24,6 +79,7 @@ useEffect(() => {
         const response = await fetch(`http://localhost:8000/softskill`);
         const data = await response.json();
 		setSoftskills(data.result)
+		getSoftskillsByUser('10')
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -52,6 +108,15 @@ useEffect(() => {
 								))}
 							</select>
 						</div>
+
+						{userSoftskills.map((item) => (
+							<div key={item.id} className="card">
+								<div className="card-header">
+									{/* {getSoftskillsById(item.softskill_id)} */}
+								</div>
+							</div>
+						))}
+
 
 						<label htmlFor="name">Já possui uma carta de recomedação? Você pode anexá-la
 							aqui</label>
