@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {useNavigate} from 'react-router-dom';
 import Menu from './Menu';
 
@@ -22,12 +22,10 @@ function Perfil() {
   };
 
   function getUser() {
-    fetch('http://localhost:8000/user/8')
+
+    fetch(`http://localhost:8000/user/${id}`)
       .then(response => response.json())
       .then(data => {
-      // console.log('data: ', data);
-      // console.log('result: ', data.result);
-      setId(data.result.id)
       setNome(data.result.name)
       setEmail(data.result.email)
       setPassword(data.result.password)
@@ -43,8 +41,6 @@ function Perfil() {
     fetch('http://localhost:8000/formation/1')
       .then(response => response.json())
       .then(data => {
-      // console.log('data: ', data);
-      // console.log('result: ', data.result);
       setCourseformation(data.result.course)
     })
     .catch(error => {
@@ -56,14 +52,19 @@ function Perfil() {
     fetch('http://localhost:8000/experience/2')
       .then(response => response.json())
       .then(data => {
-      // console.log('data: ', data);
-      // console.log('result: ', data.result);
       setCompanyName(data.result.company)
     })
     .catch(error => {
       console.error('Erro:', error);
     });
   }
+
+  useEffect(() => {
+    const storedValue = localStorage.getItem('user-info');
+    const jsonObject = JSON.parse(storedValue);
+    const userId = jsonObject.user_id;
+    setId(userId)
+  }, []);
   
   getUser()
   getFormations()
