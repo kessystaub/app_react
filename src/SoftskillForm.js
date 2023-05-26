@@ -84,7 +84,7 @@ function SoftskillForm() {
 		};
 
 		fetchData();
-	}, []); // Empty dependency array ensures the effect runs only once
+	}, [id, relations]); // Empty dependency array ensures the effect runs only once
 
 	async function getSoftskillByName(name) {
 		const response = await fetch(`http://localhost:8000/softskill/getByName/${name}`);
