@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import {useNavigate} from 'react-router-dom';
+import axios from 'axios';
 
 function SoftskillForm() {
+
 	const [softskills, setSoftskills] = useState([]);
-	const [userSoftskills, setUserSoftskills] = useState([]);
-	const [userSoftskillsnames, setUserSoftskillsNames] = useState([]);
-	const [softskill, setSoftskill] = useState();
+	const [relations, setRelations] = useState([]);
 	const [id, setId] = useState('');
 
 	const navigate = useNavigate();
@@ -50,15 +50,15 @@ function SoftskillForm() {
 	};
 
 	async function deleteSoftskill(softskill_id) {
-		console.log(softskill_id)
-		console.log(id)
-
-		const options = {
-			method: 'DELETE',
-		};
-
-		const response = await fetch(`http://localhost:8000/user_softskill/deleteByUser/${id}/${softskill_id}`, options)
-		console.log(response)
+		axios.delete(`http://localhost:8000/user_softskill/deleteByUser/${id}/${softskill_id}`)
+		.then(response => {
+			// Manipule a resposta da API, se necessário
+			console.log(response);
+		})
+		.catch(error => {
+			// Manipule erros da solicitação, se houver
+			console.error(error);
+		});
 	};
 
 
@@ -76,7 +76,7 @@ function SoftskillForm() {
 
 			const response2 = await fetch(`http://localhost:8000/user_softskill/getSoftskillsByUserId/${id}`);
 			const data2 = await response2.json();
-			setUserSoftskills(data2.result)					
+			setRelations(data2.result)					
 			
 		} catch (error) {
 			console.error('Error fetching data:', error);
@@ -86,11 +86,18 @@ function SoftskillForm() {
 		fetchData();
 	}, []); // Empty dependency array ensures the effect runs only once
 
+	async function getSoftskillByName(name) {
+		const response = await fetch(`http://localhost:8000/softskill/getByName/${name}`);
+		const data = await response.json();
+		deleteSoftskill(data.result.id)
+	}
+
+	// seta as softskills do usuário
 	function returnNames() {
 		const result = []
 
 		softskills?.forEach((item) => {
-			userSoftskills?.forEach((names) => {
+			relations?.forEach((names) => {
 				if (item.id === names.softskill_id) {
 					result.push(item.name)
 				}
@@ -118,11 +125,12 @@ function SoftskillForm() {
 								</select>
 							</div>
 							
+							{/* buscar softskill pelo nome e retornar um objeto com nome e id*/}
 							{returnNames().map((item) => (
 								<div key={item} className="card m-2">
 									<div className="card-header">
 										<p>{item}</p>
-										<button className="btn btn-outline-secondary btn-sm" onClick={() => deleteSoftskill(item.id)}>
+										<button className="btn btn-outline-secondary btn-sm" onClick={() => getSoftskillByName(item)}>
 											excluir
 										</button>
 									</div>
