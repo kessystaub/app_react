@@ -54,8 +54,6 @@ function RegisterForm() {
             "address": address,
             "address_complement": addressComplement,
             "city_id": cityId,
-            "formation_id": 1,
-            "experience_id": 2
           }
       };
 
@@ -74,7 +72,9 @@ function RegisterForm() {
          }
          return data.json();
         }).then(create => {
-        navigateToSoftskillForm()
+          console.log(create)
+          localStorage.setItem("user-info", JSON.stringify(create))
+          navigateToSoftskillForm()
         console.log(create);
         }).catch(e => {
         console.log(e);
