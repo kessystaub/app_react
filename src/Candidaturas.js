@@ -1,23 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import Menu from './Menu';
+import { useNavigate } from 'react-router-dom';
 
 function Candidaturas() {
+  const navigate = useNavigate();
+
   const [applications, setApplications] = useState([]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch('http://localhost:8000/application');
-        const data = await response.json();
-        setApplications(data.result);
-        console.log(applications)
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
+  const navigateToVaga = () => {
+    navigate('/search');
+  };
 
-    fetchData();
-  }, []); // Empty dependency array ensures the effect runs only once
+  useEffect(() => {
+    const storedValue = localStorage.getItem('user-info') ? JSON.parse(localStorage.getItem('user-info')) : [];
+    setApplications(storedValue.applications)
+  }, [setApplications]);
 
   return (
     <div>
@@ -49,31 +46,16 @@ function Candidaturas() {
             <ul className="list-group list-group-flush">
               <li className="list-group-item">São Paulo, São Paulo, Brasil Remoto
               </li>
-              <li className="list-group-item">Tempo integral</li>
+              <li className="list-group-item">Data da candidatura: {item.date}</li>
             </ul>
             <div className="card-body">
-              <a href="#" className="card-link">Descrição completa</a>
-              <br />
-              <a href="http://127.0.0.1:5500/Search/index.html" className="card-link">Outras
-                vagas</a>
+              <button className="btn btn-outline-success my-2 my-sm-0 m-3">Descrição completa</button>
+              <button className="btn btn-outline-success my-2 my-sm-0 m-3" onClick={navigateToVaga}>Outras
+                vagas</button>
             </div>
           </div>
           ))}
         </div>
-
-        <nav aria-label="Page navigation example">
-          <ul className="pagination justify-content-center">
-            <li className="page-item disabled">
-              <a className="page-link" href="#" tabIndex="-1">Previous</a>
-            </li>
-            <li className="page-item"><a className="page-link" href="#">1</a></li>
-            <li className="page-item"><a className="page-link" href="#">2</a></li>
-            <li className="page-item"><a className="page-link" href="#">3</a></li>
-            <li className="page-item">
-              <a className="page-link" href="#">Next</a>
-            </li>
-          </ul>
-        </nav>
       </div>
     </div>
   );
