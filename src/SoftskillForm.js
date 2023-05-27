@@ -63,7 +63,7 @@ function SoftskillForm() {
 	useEffect(() => {
 		const storedValue = localStorage.getItem('user-info');
 		const jsonObject = JSON.parse(storedValue);
-		const userId = jsonObject.result;
+		const userId = jsonObject.user.id;
 		setId(userId)
 
 		const fetchData = async () => {

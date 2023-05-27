@@ -49,6 +49,7 @@ function ExperienceForm() {
         }
         return data.json();
       }).then(create => {
+        console.log(create)
         setExperienceId(create.result.id)
       }).catch(e => {
       console.log(e);
@@ -61,7 +62,6 @@ function ExperienceForm() {
         }
       };
 
-      console.log(relation)
     const options2 = {
       method: 'POST',
       headers: {
@@ -83,10 +83,24 @@ function ExperienceForm() {
       });
   }
 
+  function returnExperiences() {
+    const result = []
+  
+    experiences?.forEach((item) => {
+      relations?.forEach((names) => {
+        if (item.id === names.experience_id) {
+          result.push(item)
+        }
+      });
+    });
+  
+    return result
+  }
+
   useEffect(() => {
     const storedValue = localStorage.getItem('user-info');
     const jsonObject = JSON.parse(storedValue);
-    const userId = jsonObject.result;
+    const userId = jsonObject.user.id;
     setId(userId)
     
       const fetchData = async () => {
@@ -108,7 +122,7 @@ function ExperienceForm() {
       };
   
       fetchData();
-    }, [id, relations]); // Empty dependency array ensures the effect runs only once
+    }, [id, relations, setExperiences, cargos]); // Empty dependency array ensures the effect runs only once
 
 
     async function deleteExperience(experience_id) {
@@ -170,7 +184,7 @@ function ExperienceForm() {
             Adicionar
           </button>
 
-          {experiences.map((item) => (
+          {returnExperiences().map((item) => (
               <div key={item.id} className="card">
                 <div className="card-header">
                   {item.company}
