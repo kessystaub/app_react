@@ -21,7 +21,7 @@ function Perfil() {
   const [city, setCity] = useState('');
   const [state, setState] = useState('');
   const [disabled, setDisabled] = useState(true)
-
+  const [mostraBotao, setMostraBotao] = useState(false)
 
   const navigate = useNavigate();
 
@@ -116,6 +116,22 @@ function Perfil() {
                         <input type="text" className="form-control" id="form"
                           placeholder={user.name} onChange={(event) => setFormNome(event.target.value)} disabled={disabled} />
                       </td>
+                      <td>
+                      <button className="btn my-2 my-sm-0"
+                        type="button" onClick={() => {
+                          setMostraBotao(true)
+                          setDisabled(false)
+                        }}>Editar</button>
+                      </td>
+                      <td>
+                        {mostraBotao && (
+                          <button className="btn my-2 my-sm-0"
+                          type="button" onClick={() => {
+                            setMostraBotao(false)
+                            setDisabled(true)
+                          }}>Salvar</button>
+                        )}
+                      </td>
                     </tr>
                     <tr>
                       <th scope="row">
@@ -125,6 +141,23 @@ function Perfil() {
                         <input type="text" className="form-control" id="form"
                           placeholder={user.email} onChange={(event) => setFormEmail(event.target.value)} disabled={disabled} />
                       </td>
+                      <td>
+                      <button className="btn my-2 my-sm-0"
+                        type="button" onClick={() => {
+                          setMostraBotao(true)
+                          setDisabled(false)
+                        }}>Editar</button>
+                      </td>
+                      <td>
+                        {mostraBotao && (
+                          <button className="btn my-2 my-sm-0"
+                          type="button" onClick={() => {
+                            setMostraBotao(false)
+                            setDisabled(true)
+                          }}>Salvar</button>
+                        )}
+                      </td>
+                      
                     </tr>
                     <tr>
                       <th scope="row">
@@ -133,6 +166,22 @@ function Perfil() {
                       <td>
                         <input type="text" className="form-control" id="form"
                           placeholder={user.phone} onChange={(event) => setFormPhone(event.target.value)} disabled={disabled} />
+                      </td>
+                      <td>
+                      <button className="btn my-2 my-sm-0"
+                        type="button" onClick={() => {
+                          setMostraBotao(true)
+                          setDisabled(false)
+                        }}>Editar</button>
+                      </td>
+                      <td>
+                        {mostraBotao && (
+                          <button className="btn my-2 my-sm-0"
+                          type="button" onClick={() => {
+                            setMostraBotao(false)
+                            setDisabled(true)
+                          }}>Salvar</button>
+                        )}
                       </td>
                     </tr>
                     <tr>
@@ -143,17 +192,26 @@ function Perfil() {
                         <input type="text" className="form-control" id="form" onChange={(event) => setFormAddress(event.target.value)}
                           placeholder={user.address} disabled={disabled} />
                       </td>
+                      <td>
+                      <button className="btn my-2 my-sm-0"
+                        type="button" onClick={() => {
+                          setMostraBotao(true)
+                          setDisabled(false)
+                        }}>Editar</button>
+                      </td>
+                      <td>
+                        {mostraBotao && (
+                          <button className="btn my-2 my-sm-0"
+                          type="button" onClick={() => {
+                            setMostraBotao(false)
+                            setDisabled(true)
+                          }}>Salvar</button>
+                        )}
+                      </td>
                     </tr>
 
                   </tbody>
                 </table>
-                <button className="btn btn-outline-success my-2 my-sm-0"
-                  type="button" onClick={() => {setDisabled(false)
-                  }}>Editar</button>
-                <button className="btn btn-outline-success my-2 my-sm-0"
-                  type="button" onClick={() =>
-                    updateUser()
-                    }>Salvar</button>
               </div>
             </div>
             <div className="card mt-4">
@@ -166,19 +224,20 @@ function Perfil() {
                         <label htmlFor="form">Formação</label>
                       </th>
                       <td>
+                        <button className="btn btn-outline-secondary btn-sm m-2">
+                                adicionar
+                        </button>
                         {formations.map((item) => (
-                          <div key={item.id} className="card mb-3">
-                            <div className="card-header">
-                              {item.course}
-                            </div>
+                          <div key={item.id} className="card">
                             <div className="card-body">
-                              <blockquote className="blockquote mb-0">
-                              <p>{item.institution_id}</p>
-                              <footer className="blockquote-footer">{item.date}</footer>
-                              </blockquote>
-
+                              <h5 className="card-title">{item.course}</h5>
+                              <h6 className="card-subtitle mb-2 text-muted">{item.date}</h6>
+                              <p className="card-text">{item.institution_id}</p>
                               <button className="btn btn-outline-secondary btn-sm m-2">
                                 excluir
+                              </button>
+                              <button className="btn btn-outline-secondary btn-sm m-2">
+                                editar
                               </button>
                             </div>
                           </div>
@@ -190,12 +249,21 @@ function Perfil() {
                         <label htmlFor="exp">Experiência</label>
                       </th>
                       <td>
+                        <button className="btn btn-outline-secondary btn-sm m-2">
+                                adicionar
+                        </button>
                         {experiences.map((item) => (
                           <div key={item.id} className="card">
                             <div className="card-body">
                               <h5 className="card-title">{item.company}</h5>
                               <h6 className="card-subtitle mb-2 text-muted">{item.date}</h6>
                               <p className="card-text">{item.position_id}</p>
+                              <button className="btn btn-outline-secondary btn-sm m-2">
+                                excluir
+                              </button>
+                              <button className="btn btn-outline-secondary btn-sm m-2">
+                                editar
+                              </button>
                             </div>
                           </div>
                         ))}
@@ -206,10 +274,19 @@ function Perfil() {
                         <label htmlFor="exp">Habilidades interpessoais</label>
                       </th>
                       <td>
+                        <button className="btn btn-outline-secondary btn-sm m-2">
+                                adicionar
+                        </button>
                         {softskills.map((item) => (
                           <div key={item.id} className="card">
                             <div className="card-body">
                               <h5 className="card-title">{item.name}</h5>
+                              <button className="btn btn-outline-secondary btn-sm m-2">
+                                excluir
+                              </button>
+                              <button className="btn btn-outline-secondary btn-sm m-2">
+                                editar
+                              </button>
                             </div>
                           </div>
                         ))}
@@ -220,10 +297,20 @@ function Perfil() {
                         <label htmlFor="exp">Habilidades técnicas</label>
                       </th>
                       <td>
+                        <button className="btn btn-outline-secondary btn-sm m-2">
+                                adicionar
+                        </button>
+                        
                         {hardskills.map((item) => (
                           <div key={item.id} className="card">
                             <div className="card-body">
                               <h5 className="card-title">{item.name}</h5>
+                              <button className="btn btn-outline-secondary btn-sm m-2">
+                                excluir
+                              </button>
+                              <button className="btn btn-outline-secondary btn-sm m-2">
+                                editar
+                              </button>
                             </div>
                           </div>
                         ))}
