@@ -4,7 +4,6 @@ import {useNavigate} from 'react-router-dom';
 
 function FormationForm() {
   const navigate = useNavigate();
-  const [formations, setFormations] = useState([]);
   const [institution, setInstitution] = useState('');
   const [institutionName, setInstitutionName] = useState('');
   const [institutions, setInstitutions] = useState([]);
@@ -12,6 +11,7 @@ function FormationForm() {
   const [periodo, setPeriodo] = useState('');
   const [id, setId] = useState('');
   const [formationId, setFormationId] = useState(0);
+  const [formations, setFormations] = useState([]);
   const [relations, setRelations] = useState([]);
 
   const navigateToPerfil = () => {

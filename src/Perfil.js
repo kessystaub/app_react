@@ -4,15 +4,23 @@ import Menu from './Menu';
 
 function Perfil() {
   const [id, setId] = useState('');
+  const [user, setUser] = useState([]);
+  const [experiences, setExperiences] = useState([]);
+  const [formations, setFormations] = useState([]);
+  const [softskills, setSoftskills] = useState([]);
+  const [hardskills, setHardskills] = useState([])
   const [nome, setNome] = useState('');
+  const [formNome, setFormNome] = useState('');
   const [email, setEmail] = useState('');
+  const [formEmail, setFormEmail] = useState('');
   const [password, setPassword] = useState('');
   const [phone, setPhone] = useState('');
   const [address, setAddress] = useState('');
+  const [formPhone, setFormPhone] = useState('');
+  const [formAddress, setFormAddress] = useState('');
   const [city, setCity] = useState('');
   const [state, setState] = useState('');
-  const [courseformation, setCourseformation] = useState('');
-  const [companyname, setCompanyName] = useState('');
+  const [disabled, setDisabled] = useState(true)
 
 
   const navigate = useNavigate();
@@ -21,54 +29,58 @@ function Perfil() {
     navigate('/curriculo');
   };
 
-  function getUser() {
+  function updateUser() {
+    setDisabled(true)
 
-    fetch(`http://localhost:8000/user/${id}`)
-      .then(response => response.json())
-      .then(data => {
-      setNome(data.result.name)
-      setEmail(data.result.email)
-      setPassword(data.result.password)
-      setPhone(data.result.phone)
-      setAddress(data.result.address)
-    })
-    .catch(error => {
-      console.error('Erro:', error);
-    });
-  }
+    if (formNome === ''){
+      setFormNome(nome)
+    }
 
-  function getFormations() {
-    fetch('http://localhost:8000/formation/1')
-      .then(response => response.json())
-      .then(data => {
-      setCourseformation(data.result.course)
-    })
-    .catch(error => {
-      console.error('Erro:', error);
-    });
-  }
+    const update = {
+      "parameter": {
+        "phone": formPhone,
+        "name": formNome,
+        "email": formEmail,
+        "address": formAddress
+      }
+    }
+  
+    console.log(update)
 
-  function getExperiences() {
-    fetch('http://localhost:8000/experience/2')
-      .then(response => response.json())
-      .then(data => {
-      setCompanyName(data.result.company)
-    })
-    .catch(error => {
-      console.error('Erro:', error);
-    });
+    const options = {
+      method: 'PATCH',
+      headers: {
+      'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(update),
+      };
+  
+    fetch(`http://localhost:8000/user/${id}`, options)
+    .then(data => {
+      if (!data.ok) {
+        throw Error(data.status);
+        }
+        return data.json();
+      }).then(update => {
+      console.log(update);
+      }).catch(e => {
+      console.log(e);
+      });
   }
 
   useEffect(() => {
-    const storedValue = localStorage.getItem('user-info');
-    const jsonObject = JSON.parse(storedValue);
-    const userId = jsonObject.user_id;
-    setId(userId)
-  }, []);
-  
-  getUser()
-  getFormations()
-  getExperiences()
+    const storedValue = localStorage.getItem('user-info') ? JSON.parse(localStorage.getItem('user-info')) : [];
+    const user = storedValue.user;
+    const formationslist = storedValue.formations;
+    const experienceslist = storedValue.experiences;
+    const softskillslist = storedValue.softskills;
+    const hardskillslist = storedValue.hardskills;
+    setUser(user)
+    setFormations(formationslist)
+    setExperiences(experienceslist)
+    setSoftskills(softskillslist)
+    setHardskills(hardskillslist)
+  }, [setUser, setFormations, setExperiences]);
 
   return (
     <div>
@@ -81,7 +93,7 @@ function Perfil() {
               <img src="https://via.placeholder.com/150" className="card-img-top"
                 alt="..." />
               <div className="card-body">
-                <h5 className="card-title">{nome}</h5>
+                <h5 className="card-title">{user.name}</h5>
                 <p className="card-text">Software Developer</p>
               </div>
             </div>
@@ -102,7 +114,7 @@ function Perfil() {
                       </th>
                       <td>
                         <input type="text" className="form-control" id="form"
-                          placeholder={nome} disabled />
+                          placeholder={user.name} onChange={(event) => setFormNome(event.target.value)} disabled={disabled} />
                       </td>
                     </tr>
                     <tr>
@@ -111,7 +123,7 @@ function Perfil() {
                       </th>
                       <td>
                         <input type="text" className="form-control" id="form"
-                          placeholder={email} disabled />
+                          placeholder={user.email} onChange={(event) => setFormEmail(event.target.value)} disabled={disabled} />
                       </td>
                     </tr>
                     <tr>
@@ -120,7 +132,7 @@ function Perfil() {
                       </th>
                       <td>
                         <input type="text" className="form-control" id="form"
-                          placeholder={phone} disabled />
+                          placeholder={user.phone} onChange={(event) => setFormPhone(event.target.value)} disabled={disabled} />
                       </td>
                     </tr>
                     <tr>
@@ -128,15 +140,20 @@ function Perfil() {
                         <label htmlFor="form">Endereço</label>
                       </th>
                       <td>
-                        <input type="text" className="form-control" id="form"
-                          placeholder={address} disabled />
+                        <input type="text" className="form-control" id="form" onChange={(event) => setFormAddress(event.target.value)}
+                          placeholder={user.address} disabled={disabled} />
                       </td>
                     </tr>
 
                   </tbody>
                 </table>
                 <button className="btn btn-outline-success my-2 my-sm-0"
-                  type="button">Editar</button>
+                  type="button" onClick={() => {setDisabled(false)
+                  }}>Editar</button>
+                <button className="btn btn-outline-success my-2 my-sm-0"
+                  type="button" onClick={() =>
+                    updateUser()
+                    }>Salvar</button>
               </div>
             </div>
             <div className="card mt-4">
@@ -149,28 +166,23 @@ function Perfil() {
                         <label htmlFor="form">Formação</label>
                       </th>
                       <td>
-                        <div className="card">
-                          <div className="card-body">
-                            <h5 className="card-title">{courseformation}</h5>
-                            <h6 className="card-subtitle mb-2 text-muted">Card
-                              subtitle</h6>
-                            <p className="card-text">Some quick example text to build
-                              on the card title and make up the bulk of the card's
-                              content.</p>
-                            <div className="row">
-                              <div className="m-1">
-                                <button className="btn btn-outline-success my-2
-                                  my-sm-0"
-                                  type="button">Editar</button>
-                              </div>
-                              <div className="m-1">
-                                <button className="btn btn-outline-success my-2
-                                  my-sm-0"
-                                  type="button">Excluir</button>
-                              </div>
+                        {formations.map((item) => (
+                          <div key={item.id} className="card mb-3">
+                            <div className="card-header">
+                              {item.course}
+                            </div>
+                            <div className="card-body">
+                              <blockquote className="blockquote mb-0">
+                              <p>{item.institution_id}</p>
+                              <footer className="blockquote-footer">{item.date}</footer>
+                              </blockquote>
+
+                              <button className="btn btn-outline-secondary btn-sm m-2">
+                                excluir
+                              </button>
                             </div>
                           </div>
-                        </div>
+                        ))}
                       </td>
                     </tr>
                     <tr>
@@ -178,28 +190,43 @@ function Perfil() {
                         <label htmlFor="exp">Experiência</label>
                       </th>
                       <td>
-                        <div className="card">
-                          <div className="card-body">
-                            <h5 className="card-title">{companyname}</h5>
-                            <h6 className="card-subtitle mb-2 text-muted">Card
-                              subtitle</h6>
-                            <p className="card-text">Some quick example text to build
-                              on the card title and make up the bulk of the card's
-                              content.</p>
-                            <div className="row">
-                              <div className="m-1">
-                                <button className="btn btn-outline-success my-2
-                                  my-sm-0"
-                                  type="button">Editar</button>
-                              </div>
-                              <div className="m-1">
-                                <button className="btn btn-outline-success my-2
-                                  my-sm-0"
-                                  type="button">Excluir</button>
-                              </div>
+                        {experiences.map((item) => (
+                          <div key={item.id} className="card">
+                            <div className="card-body">
+                              <h5 className="card-title">{item.company}</h5>
+                              <h6 className="card-subtitle mb-2 text-muted">{item.date}</h6>
+                              <p className="card-text">{item.position_id}</p>
                             </div>
                           </div>
-                        </div>
+                        ))}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">
+                        <label htmlFor="exp">Habilidades interpessoais</label>
+                      </th>
+                      <td>
+                        {softskills.map((item) => (
+                          <div key={item.id} className="card">
+                            <div className="card-body">
+                              <h5 className="card-title">{item.name}</h5>
+                            </div>
+                          </div>
+                        ))}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">
+                        <label htmlFor="exp">Habilidades técnicas</label>
+                      </th>
+                      <td>
+                        {hardskills.map((item) => (
+                          <div key={item.id} className="card">
+                            <div className="card-body">
+                              <h5 className="card-title">{item.name}</h5>
+                            </div>
+                          </div>
+                        ))}
                       </td>
                     </tr>
                   </tbody>
