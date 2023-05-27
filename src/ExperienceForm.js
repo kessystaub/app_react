@@ -19,8 +19,9 @@ function ExperienceForm() {
     navigate('/perfil');
   };
 
-  const navigateToSearch = () => {
-    navigate('/search');
+  const navigateToLogin = () => {
+    localStorage.clear()
+    navigate('/');
   };
 
   function addExperience() {
@@ -206,7 +207,7 @@ function ExperienceForm() {
             <div className="justify-content-end row">
               <div className="text-center p-3">
                 <button type="button" className="btn btn-outline-secondary btn-lg" onClick={navigateToPerfil}>Pular</button>
-                <button type="button" className="btn btn-secondary btn-lg" onClick={navigateToSearch}>Continuar</button>
+                <button type="button" className="btn btn-secondary btn-lg" onClick={navigateToLogin}>Continuar</button>
               </div>
             </div>
           </form>
