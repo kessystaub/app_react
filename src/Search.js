@@ -5,6 +5,9 @@ import Menu from './Menu';
 function Search() {
   const [joboffers, setJoboffers] = useState([]);
   const [busca, setBusca] = useState('');
+  const [nameCom, setNameCom] = useState('');
+  const [nameCity, setNameCity] = useState('');
+  const [nameCargo, setNameCargo] = useState('');
 
   const navigate = useNavigate();
 
@@ -28,6 +31,51 @@ function Search() {
 
     fetchData();
   }, []); // Empty dependency array ensures the effect runs only once
+
+  function returnCompanyName(company_id) {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`http://localhost:8000/company/${company_id}`);
+        const data = await response.json();
+        setNameCom(data.result.name)
+        } catch (error) {
+          console.error('Error fetching data:', error);
+        }
+      };
+
+    fetchData();
+    return nameCom
+  }
+
+  function returnCityName(city_id) {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`http://localhost:8000/city/${city_id}`);
+        const data = await response.json();
+        setNameCity(data.result.name)
+        } catch (error) {
+          console.error('Error fetching data:', error);
+        }
+      };
+
+    fetchData();
+    return nameCity
+  }
+
+  function returnCargoName(cargo_id) {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`http://localhost:8000/position/${cargo_id}`);
+        const data = await response.json();
+        setNameCargo(data.result.name)
+        } catch (error) {
+          console.error('Error fetching data:', error);
+        }
+      };
+
+    fetchData();
+    return nameCargo
+  }
 
   return (
 	<div>
@@ -56,6 +104,7 @@ function Search() {
             <th scope="col">Nome da vaga</th>
             <th scope="col">Empresa</th>
             <th scope="col">Cidade</th>
+            <th scope="col">Cargo</th>
 			      <th />
           </tr>
         </thead>
@@ -64,8 +113,9 @@ function Search() {
             <tr key={item.id}>
               <th scope="row">{item.code}</th>
                 <td>{item.name}</td>
-                <td>Samsung</td>
-                <td>Itapema</td>
+                <td>{returnCompanyName(item.company_id)}</td>
+                <td>{returnCityName(item.city_id)}</td>
+                <td>{returnCargoName(item.position_id)}</td>
                 <td>
                   <button className="btn btn-sm" onClick={() => navigateToVaga(item.id)}>Visualizar</button>
                 </td>
