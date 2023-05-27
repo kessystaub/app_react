@@ -8,8 +8,9 @@ function Search() {
 
   const navigate = useNavigate();
 
-  const navigateToVaga = () => {
-    navigate('/vaga');
+  function navigateToVaga(vaga_id) {
+    localStorage.setItem("vaga_id", vaga_id)
+    navigate(`/vaga`);
   };
 
   const joboffersFilter = joboffers.filter(item => item.name.toLocaleLowerCase().includes(busca.toLocaleLowerCase()));
@@ -66,10 +67,11 @@ function Search() {
                 <td>Samsung</td>
                 <td>Itapema</td>
                 <td>
-                  <button className="btn btn-sm" onClick={navigateToVaga}>Visualizar</button>
+                  <button className="btn btn-sm" onClick={() => navigateToVaga(item.id)}>Visualizar</button>
                 </td>
             </tr>
           ))}
+
         </tbody>
       </table>
     </div>
