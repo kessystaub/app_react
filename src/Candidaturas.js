@@ -13,6 +13,7 @@ function Candidaturas() {
 
   useEffect(() => {
     const storedValue = localStorage.getItem('user-info') ? JSON.parse(localStorage.getItem('user-info')) : [];
+    console.log(storedValue)
     setApplications(storedValue.applications)
   }, [setApplications]);
 
