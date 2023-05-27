@@ -7,6 +7,11 @@ function Candidaturas() {
 
   const [applications, setApplications] = useState([]);
 
+  function navigateToVaga(vaga_id) {
+    localStorage.setItem("vaga_id", vaga_id)
+    navigate(`/vaga`);
+  };
+
   const navigateToVagas = () => {
     navigate('/search');
   };
@@ -50,7 +55,7 @@ function Candidaturas() {
               <li className="list-group-item">Data da candidatura: {item.date}</li>
             </ul>
             <div className="card-body">
-              <button className="btn btn-outline-success my-2 my-sm-0 m-3">Descrição completa</button>
+              <button className="btn btn-outline-success my-2 my-sm-0 m-3" onClick={() => navigateToVaga(item.joboffer_id)}>Descrição completa</button>
               <button className="btn btn-outline-success my-2 my-sm-0 m-3" onClick={navigateToVagas}>Outras
                 vagas</button>
             </div>
