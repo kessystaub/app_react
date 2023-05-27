@@ -74,8 +74,7 @@ function SoftskillForm() {
 
 			const response2 = await fetch(`http://localhost:8000/user_softskill/getSoftskillsByUserId/${id}`);
 			const data2 = await response2.json();
-			setRelations(data2.result)					
-			
+			setRelations(data2.result)
 		} catch (error) {
 			console.error('Error fetching data:', error);
 		}
