@@ -4,6 +4,7 @@ import Menu from './Menu';
 
 function Search() {
   const [joboffers, setJoboffers] = useState([]);
+  const [busca, setBusca] = useState('');
 
   const navigate = useNavigate();
 
@@ -11,13 +12,14 @@ function Search() {
     navigate('/vaga');
   };
 
+  const joboffersFilter = joboffers.filter(item => item.name.toLocaleLowerCase().includes(busca.toLocaleLowerCase()));
+
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await fetch('http://localhost:8000/joboffer');
         const data = await response.json();
         setJoboffers(data.result);
-        // console.log('joboffers: ', joboffers)
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -39,23 +41,8 @@ function Search() {
 
           <form>
             <div className="form-inline my-2 my-lg-0">
-              <input className="form-control mr-sm-2" type="search"
-                placeholder="Digite aqui" aria-label="Search" />
-              <button className="btn btn-outline-primary my-2 my-sm-0"
-                type="submit">Pesquisar</button>
-
-              <div className="dropdown m-2">
-                <button className="btn btn-secondary dropdown-toggle" type="button"
-                  id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true"
-                  aria-expanded="false">
-                  Filtros
-                </button>
-                <div className="dropdown-menu" aria-labelledby="dropdownMenu2">
-                  <button className="dropdown-item" type="button">C++</button>
-                  <button className="dropdown-item" type="button">Python</button>
-                  <button className="dropdown-item" type="button">Javascript</button>
-                </div>
-              </div>
+              <input className="form-control mr-sm-2 m-3" type="search" value={busca}
+                placeholder="Digite aqui" onChange={(event) => setBusca(event.target.value)} aria-label="Search" />
             </div>
           </form>
         </div>
@@ -72,8 +59,7 @@ function Search() {
           </tr>
         </thead>
         <tbody>
-
-          {joboffers.map((item) => (
+          {joboffersFilter.map((item) => (
             <tr key={item.id}>
               <th scope="row">{item.code}</th>
                 <td>{item.name}</td>
@@ -86,20 +72,6 @@ function Search() {
           ))}
         </tbody>
       </table>
-
-      <nav aria-label="Page navigation example">
-        <ul className="pagination justify-content-center">
-          <li className="page-item disabled">
-            <a className="page-link" href="#" tabIndex="-1">Previous</a>
-          </li>
-          <li className="page-item"><a className="page-link" href="#">1</a></li>
-          <li className="page-item"><a className="page-link" href="#">2</a></li>
-          <li className="page-item"><a className="page-link" href="#">3</a></li>
-          <li className="page-item">
-            <a className="page-link" href="#">Next</a>
-          </li>
-        </ul>
-      </nav>
     </div>
     </div>
   );

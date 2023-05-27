@@ -7,7 +7,7 @@ function Candidaturas() {
 
   const [applications, setApplications] = useState([]);
 
-  const navigateToVaga = () => {
+  const navigateToVagas = () => {
     navigate('/search');
   };
 
@@ -50,7 +50,7 @@ function Candidaturas() {
             </ul>
             <div className="card-body">
               <button className="btn btn-outline-success my-2 my-sm-0 m-3">Descrição completa</button>
-              <button className="btn btn-outline-success my-2 my-sm-0 m-3" onClick={navigateToVaga}>Outras
+              <button className="btn btn-outline-success my-2 my-sm-0 m-3" onClick={navigateToVagas}>Outras
                 vagas</button>
             </div>
           </div>
