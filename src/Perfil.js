@@ -22,6 +22,7 @@ function Perfil() {
   const [state, setState] = useState('');
   const [disabled, setDisabled] = useState(true)
   const [mostraBotao, setMostraBotao] = useState(false)
+  const [nomeIns, setNomeIns] = useState(false)
 
   const navigate = useNavigate();
 
@@ -81,6 +82,22 @@ function Perfil() {
     setSoftskills(softskillslist)
     setHardskills(hardskillslist)
   }, [setUser, setFormations, setExperiences]);
+
+
+  function returnInstitutionName(institution_id){
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`http://localhost:8000/institution/${institution_id}`);
+        const data = await response.json();
+        setNomeIns(data.result.name)
+        } catch (error) {
+          console.error('Error fetching data:', error);
+        }
+      };
+
+    fetchData();
+    return nomeIns
+  }
 
   return (
     <div>
@@ -232,7 +249,7 @@ function Perfil() {
                             <div className="card-body">
                               <h5 className="card-title">{item.course}</h5>
                               <h6 className="card-subtitle mb-2 text-muted">{item.date}</h6>
-                              <p className="card-text">{item.institution_id}</p>
+                              <p className="card-text">{returnInstitutionName(item.institution_id)}</p>
                               <button className="btn btn-outline-secondary btn-sm m-2">
                                 excluir
                               </button>
