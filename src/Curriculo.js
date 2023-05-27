@@ -1,9 +1,26 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Menu from './Menu';
 
 function Curriculo() {
-  const [nome, setNome] = useState('');
-  const [email, setEmail] = useState('');
+    const [user, setUser] = useState([]);
+    const [experiences, setExperiences] = useState([]);
+    const [formations, setFormations] = useState([]);
+    const [softskills, setSoftskills] = useState([]);
+    const [hardskills, setHardskills] = useState([])
+
+  useEffect(() => {
+    const storedValue = localStorage.getItem('user-info') ? JSON.parse(localStorage.getItem('user-info')) : [];
+    const user = storedValue.user;
+    const formationslist = storedValue.formations;
+    const experienceslist = storedValue.experiences;
+    const softskillslist = storedValue.softskills;
+    const hardskillslist = storedValue.hardskills;
+    setUser(user)
+    setFormations(formationslist)
+    setExperiences(experienceslist)
+    setSoftskills(softskillslist)
+    setHardskills(hardskillslist)
+  }, [setUser, setFormations, setExperiences]);
 
   return (
     <div>
@@ -23,11 +40,9 @@ function Curriculo() {
                                         rounded-circle mb-3" />
                                 </div>
                                 <div className="col-md-8">
-                                    <h2 className="mb-0">John Doe</h2>
-                                    <p className="text-muted">Web Developer</p>
+                                    <h2 className="mb-0">{user.name}</h2>
                                     <p className="mb-3"><i className="fas
-                                            fa-map-marker-alt mr-2"></i>San
-                                        Francisco, California</p>
+                                            fa-map-marker-alt mr-2"></i>{user.address}</p>
                                     <p>Lorem ipsum dolor sit amet,
                                         consectetur adipiscing elit.
                                         Suspendisse euismod sem id ligula
@@ -49,35 +64,46 @@ function Curriculo() {
                             </div>
                             <hr />
                             <div className="row">
-                                <div className="col-md-4">
-                                    <h4>Skills</h4>
+                                <div className="col-md-4 m-3">
+                                    <h4>Habilidades interpessoais</h4>
                                     <ul className="list-group">
-                                        <li className="list-group-item">HTML</li>
-                                        <li className="list-group-item">CSS</li>
-                                        <li className="list-group-item">JavaScript</li>
-                                        <li className="list-group-item">Bootstrap</li>
+                                        {softskills.map((item) => (
+                                            <li key={item.id} className="list-group-item">{item.name}</li>
+                                        ))}
                                     </ul>
                                 </div>
-                                <div className="col-md-4">
-                                    <h4>Education</h4>
+                                <div className="col-md-4 m-3">
+                                    <h4>Habilidades técnicas</h4>
                                     <ul className="list-group">
-                                        <li className="list-group-item">Bachelor's
-                                            Degree in Computer
-                                            Science</li>
-                                        <li className="list-group-item">Master's
-                                            Degree in Web
-                                            Development</li>
+                                        {hardskills.map((item) => (
+                                            <li key={item.id} className="list-group-item">{item.name}</li>
+                                        ))}
                                     </ul>
                                 </div>
-                                <div className="col-md-4">
-                                    <h4>Contact</h4>
+                                <div className="col-md-4 m-3">
+                                    <h4>Educação</h4>
+                                    <ul className="list-group">
+                                        {formations.map((item) => (
+                                                <li key={item.id} className="list-group-item">{item.course}</li>
+                                            ))}
+                                    </ul>
+                                </div>
+                                <div className="col-md-4 m-3">
+                                    <h4>Experiência</h4>
+                                    <ul className="list-group">
+                                        {experiences.map((item) => (
+                                                <li key={item.id} className="list-group-item">{item.company}</li>
+                                            ))}
+                                    </ul>
+                                </div>
+                                <div className="col-md-4 m-3">
+                                    <h4>Contato</h4>
                                     <ul className="list-group" />
                                         <li className="list-group-item"><i
                                                 className="fas fa-envelope
-                                                mr-2"></i>johndoe@example.com</li>
+                                                mr-2"></i>{user.email}</li>
                                         <li className="list-group-item"><i
-                                                className="fas fa-phone mr-2"></i>(123)
-                                            456-7890</li>
+                                                className="fas fa-phone mr-2"></i>{user.phone}</li>
                                         <li className="list-group-item"><i
                                                 className="fab fa-github mr-2"></i>https://github.com/johndoe</li>
                                     </div>
