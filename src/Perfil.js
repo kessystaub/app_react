@@ -22,7 +22,9 @@ function Perfil() {
   const [state, setState] = useState('');
   const [disabled, setDisabled] = useState(true)
   const [mostraBotao, setMostraBotao] = useState(false)
-  const [nomeIns, setNomeIns] = useState(false)
+  const [nomeIns, setNomeIns] = useState('')
+  const [nomePos, setNomePos] = useState('')
+
 
   const navigate = useNavigate();
 
@@ -97,6 +99,21 @@ function Perfil() {
 
     fetchData();
     return nomeIns
+  }
+
+  function returnPositionName(position_id) {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`http://localhost:8000/position/${position_id}`);
+        const data = await response.json();
+        setNomePos(data.result.name)
+        } catch (error) {
+          console.error('Error fetching data:', error);
+        }
+      };
+
+    fetchData();
+    return nomePos
   }
 
   return (
@@ -274,7 +291,7 @@ function Perfil() {
                             <div className="card-body">
                               <h5 className="card-title">{item.company}</h5>
                               <h6 className="card-subtitle mb-2 text-muted">{item.date}</h6>
-                              <p className="card-text">{item.position_id}</p>
+                              <p className="card-text">{returnPositionName(item.position_id)}</p>
                               <button className="btn btn-outline-secondary btn-sm m-2">
                                 excluir
                               </button>
