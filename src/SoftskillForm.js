@@ -3,7 +3,6 @@ import {useNavigate} from 'react-router-dom';
 import axios from 'axios';
 
 function SoftskillForm() {
-
 	const [softskills, setSoftskills] = useState([]);
 	const [relations, setRelations] = useState([]);
 	const [id, setId] = useState('');
@@ -17,7 +16,6 @@ function SoftskillForm() {
 	const navigateToTecnicalskillForm = () => {
 	navigate('/tecnicalskillForm');
 	};
-
 
 	async function addSoftskill(softskill_id) {
 		const create = {
