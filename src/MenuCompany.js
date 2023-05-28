@@ -4,8 +4,8 @@ import {useNavigate} from 'react-router-dom';
 function MenuCompany() {
   const navigate = useNavigate();
 
-  const navigateToVaga = () => {
-    navigate('/search');
+  const navigateToCadastroVaga = () => {
+    navigate('/cadastrovaga');
   };
 
   const navigateToPerfil = () => {
@@ -37,12 +37,12 @@ function MenuCompany() {
             </div>
             <div className='m-1'>
               <li className="nav-item">
-                <button className="btn" onClick={navigateToVaga}>Cadastrar vaga</button>
+                <button className="btn" onClick={navigateToCadastroVaga}>Cadastrar vaga</button>
               </li>
             </div>
             <div className='m-1'>
               <li className="nav-item">
-                <button className="btn" onClick={navigateToVaga}>Suas vagas</button>
+                <button className="btn" onClick={navigateToCadastroVaga}>Suas vagas</button>
               </li>
             </div>
           </ul>

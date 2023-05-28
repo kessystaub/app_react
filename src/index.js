@@ -20,6 +20,7 @@ import Talentos from './Talentos'
 import Search from './Search';
 import { UserProvider } from './UserContext';
 import PerfilEmpresa from './PerfilEmpresa';
+import RegisterVaga from './RegisterVaga';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -42,6 +43,7 @@ root.render(
               <Route path="/cadastroempresa" element={<RegisterFormCompany />} />
               <Route path="/talentos" element={<Talentos />} />
               <Route path="/perfilempresa" element={<PerfilEmpresa />} />
+              <Route path="/cadastrovaga" element={<RegisterVaga />} />
           </Routes>
       </BrowserRouter>
     </React.StrictMode>
