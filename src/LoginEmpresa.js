@@ -7,23 +7,20 @@ function Login() {
 
   const navigate = useNavigate();
 
-  const navigateToPerfil = () => {
-    navigate('/perfil');
+
+  const navigateToCadastroEmpresa = () => {
+    navigate('/cadastroempresa');
   };
 
   const navigateToCadastro = () => {
     navigate('/cadastro');
   };
 
-  const navigateToLoginEmpresa = () => {
-    navigate('/loginempresa');
-  };
-
   const handleSubmit = (event) => {
     event.preventDefault();
 
 	let item = {email, password}
-    fetch(`http://localhost:8000/user/login?username=${email}&password=${password}`, {
+    fetch(`http://localhost:8000/company/loginempresa?username=${email}&password=${password}`, {
 		method: 'POST',
 		headers: {
 			"Content-Type":"application/json",
@@ -38,7 +35,7 @@ function Login() {
          return data.json();
         }).then(login => {
 			localStorage.setItem("user-info", JSON.stringify(login))
-			navigateToPerfil()
+            console.log(login)
         console.log(login);
         }).catch(e => {
         console.log(e);
@@ -51,7 +48,7 @@ function Login() {
 			<div className="row justify-content-center">
 				<div className="col-md-6">
 					<img src="logo.png" alt="Logo" />
-					<h4 className="text-center text-secondary mb-4">Acesse sua conta Match Code</h4>
+					<h4 className="text-center text-secondary mb-4">Acesse sua conta empresarial Match Code</h4>
 					<form>
 						<div className="form-group">
 							<label htmlFor="email">Email:</label>
@@ -75,11 +72,12 @@ function Login() {
 
 						<div>
 							<span>Ainda não tem conta?</span>
-							  <button className="btn btn-sm" onClick={navigateToCadastro}>Criar conta</button>
+							  <button className="btn btn-sm" onClick={navigateToCadastroEmpresa}>Criar conta</button>
 						</div>
 
-						<div className='m-1'>
-							<button className="btn btn-secondary my-2 my-sm-0" type="button" onClick={navigateToLoginEmpresa}>Sou Empresa</button>
+                        <div>
+                            <span>Procurando emprego?</span>
+							<button className="btn btn-sm" type="button" onClick={navigateToCadastro}>Cadastre-se</button>
 						</div>
 					</form>
 				</div>

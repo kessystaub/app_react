@@ -14,6 +14,8 @@ import SoftskillForm from './SoftskillForm';
 import TecnicalskillForm from './TecnicalskillForm';
 import FormationForm from './FormationForm';
 import ExperienceForm from './ExperienceForm';
+import LoginEmpresa from './LoginEmpresa'
+import RegisterFormCompany from './RegisterFormCompany'
 import Search from './Search';
 import { UserProvider } from './UserContext';
 
@@ -34,6 +36,8 @@ root.render(
               <Route path="/search" element={<Search />} />
               <Route path="/vaga" element={<Vaga />} />
               <Route path="/curriculo" element={<Curriculo />} />
+              <Route path="/loginempresa" element={<LoginEmpresa />} />
+              <Route path="/cadastroempresa" element={<RegisterFormCompany />} />
           </Routes>
       </BrowserRouter>
     </React.StrictMode>

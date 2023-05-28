@@ -90,7 +90,15 @@ function TecnicalskillForm() {
 		deleteTecnicalskill(data.result.id)
 	}
 
+// id """
+// 	SELECT name,intitution,formation FROM users 
+// 	inner join userformations on userformations.uid= user.id
+// 	inner join formation on formation.id=formations.id
+// 	inner join institution on instituition.id = formation.intitutionid
+// 	where user.id = {id}
 
+
+// """
 	function returnNames() {
 		const result = []
 

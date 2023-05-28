@@ -6,6 +6,9 @@ function Candidaturas() {
   const navigate = useNavigate();
 
   const [applications, setApplications] = useState([]);
+  const [status, setStatus] = useState('');
+  const [jobName, setJobname] = useState('');
+  const [jobCode, setJobcode] = useState('');
 
   function navigateToVaga(vaga_id) {
     localStorage.setItem("vaga_id", vaga_id)
@@ -21,6 +24,52 @@ function Candidaturas() {
     console.log(storedValue)
     setApplications(storedValue.applications)
   }, [setApplications]);
+
+  function returnStatusName(status_id) {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`http://localhost:8000/status/${status_id}`);
+        const data = await response.json();
+        setStatus(data.result.status)
+        } catch (error) {
+          console.error('Error fetching data:', error);
+        }
+      };
+
+    fetchData();
+    return status
+  }
+
+  function returnJobName(joboffer_id) {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`http://localhost:8000/joboffer/${joboffer_id}`);
+        const data = await response.json();
+        setJobname(data.result.name)
+        } catch (error) {
+          console.error('Error fetching data:', error);
+        }
+      };
+
+    fetchData();
+    return jobName
+  }
+
+  function returnJobCode(joboffer_id) {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`http://localhost:8000/joboffer/${joboffer_id}`);
+        const data = await response.json();
+        setJobcode(data.result.code)
+        } catch (error) {
+          console.error('Error fetching data:', error);
+        }
+      };
+
+    fetchData();
+    return jobCode
+  }
+
 
   return (
     <div>
@@ -40,9 +89,9 @@ function Candidaturas() {
           <div className="card m-3" key={item.id}>
             <div className="card-body">
               <div className="form-inline">
-                <h5 className="card-title">Pessoa Desenvolvedora Full Stack</h5>
+                <h5 className="card-title">{returnJobName(item.joboffer_id)}</h5>
               </div>
-              <p className="card-text">Situação: {item.status_id}</p>
+              <p className="card-text">Situação: {returnStatusName(item.status_id)}</p>
               <div className="progress">
                 <div className="progress-bar progress-bar-striped
                   progress-bar-animated" role="progressbar" aria-valuenow="75"
