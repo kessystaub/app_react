@@ -16,7 +16,8 @@ function Menu() {
     navigate('/candidaturas');
   };
 
-  const navigateToLogin = () => {
+  const exit = () => {
+    localStorage.clear()
     navigate('/');
   };
 
@@ -49,7 +50,7 @@ function Menu() {
             <button className="btn my-2 my-sm-0" onClick={navigateToCandidaturas} type="button">Candidaturas</button>
           </div>
           <div className='m-1'>
-            <button className="btn my-2 my-sm-0" onClick={navigateToLogin} type="button">Sou Empresa</button>
+            <button className="btn my-2 my-sm-0" onClick={exit} type="button">Sair</button>
           </div>
         </div>
       </div>

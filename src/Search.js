@@ -97,35 +97,24 @@ function Search() {
         </div>
       </div>
 
-      <table className="table m-3">
-        <thead>
-          <tr>
-            <th scope="col">Código da vaga</th>
-            <th scope="col">Nome da vaga</th>
-            <th scope="col">Empresa</th>
-            <th scope="col">Cidade</th>
-            <th scope="col">Cargo</th>
-			      <th />
-          </tr>
-        </thead>
-        <tbody>
-          {joboffersFilter.map((item) => (
-            <tr key={item.id}>
-              <th scope="row">{item.code}</th>
-                <td>{item.name}</td>
-                <td>{returnCompanyName(item.company_id)}</td>
-                <td>{returnCityName(item.city_id)}</td>
-                <td>{returnCargoName(item.position_id)}</td>
-                <td>
+      {joboffersFilter.map((item) => (
+        <div key={item.id} className="card-deck m-2">
+          <div className="card">
+              <div className="card-body">
+                  <h5 className="card-title">{item.name}</h5>
+                  <p className="card-text">Código da vaga: {item.code}</p>
+                  <p className="card-text">{item.description}</p>
+                  <p className="card-text">Empresa: {returnCompanyName(item.company_id)}</p>
+                  {/* <p className="card-text">Cidade: {returnCityName(item.city_id)}</p> */}
+                  {/* <p className="card-text">Cargo: {returnCargoName(item.position_id)}</p> */}
                   <button className="btn btn-sm" onClick={() => navigateToVaga(item.id)}>Visualizar</button>
-                </td>
-            </tr>
-          ))}
-
-        </tbody>
-      </table>
+                  <p className="card-text"><small className="text-muted">Last updated 3 mins ago</small></p>
+              </div>
+          </div>
+        </div>
+      ))}
     </div>
-    </div>
+  </div>
   );
 }
 

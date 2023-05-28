@@ -20,6 +20,11 @@ function MenuCompany() {
     navigate('/talentos');
   };
 
+  const exit = () => {
+    localStorage.clear()
+    navigate('/');
+  };
+
   return (
     <div>
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -52,6 +57,9 @@ function MenuCompany() {
           </ul>
           <div className='m-1'>
             <button className="btn my-2 my-sm-0" onClick={navigateToCandidatos} type="button">Candidatos</button>
+          </div>
+          <div className='m-1'>
+            <button className="btn my-2 my-sm-0" onClick={exit} type="button">Sair</button>
           </div>
         </div>
       </div>
