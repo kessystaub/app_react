@@ -26,6 +26,10 @@ function RegisterFormCompany() {
     navigate('/loginempresa');
   };
 
+  const navigateToTalentos = () => {
+    navigate('/talentos');
+  };
+
   function getCityByName(city_name) {
       fetch(`http://localhost:8000/city/getCityByName/${city_name}`)
       .then(response => response.json())
@@ -74,6 +78,7 @@ function RegisterFormCompany() {
         }).then(create => {
           console.log(create)
           localStorage.setItem("user-info", JSON.stringify(create))
+          navigateToTalentos()
         console.log(create);
         }).catch(e => {
         console.log(e);

@@ -16,8 +16,10 @@ import FormationForm from './FormationForm';
 import ExperienceForm from './ExperienceForm';
 import LoginEmpresa from './LoginEmpresa'
 import RegisterFormCompany from './RegisterFormCompany'
+import Talentos from './Talentos'
 import Search from './Search';
 import { UserProvider } from './UserContext';
+import PerfilEmpresa from './PerfilEmpresa';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -38,6 +40,8 @@ root.render(
               <Route path="/curriculo" element={<Curriculo />} />
               <Route path="/loginempresa" element={<LoginEmpresa />} />
               <Route path="/cadastroempresa" element={<RegisterFormCompany />} />
+              <Route path="/talentos" element={<Talentos />} />
+              <Route path="/perfilempresa" element={<PerfilEmpresa />} />
           </Routes>
       </BrowserRouter>
     </React.StrictMode>

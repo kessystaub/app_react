@@ -15,6 +15,10 @@ function Login() {
   const navigateToCadastro = () => {
     navigate('/cadastro');
   };
+  
+  const navigateToTalentos = () => {
+    navigate('/talentos');
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -36,6 +40,7 @@ function Login() {
         }).then(login => {
 			localStorage.setItem("user-info", JSON.stringify(login))
             console.log(login)
+            navigateToTalentos()
         console.log(login);
         }).catch(e => {
         console.log(e);
