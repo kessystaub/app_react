@@ -21,6 +21,7 @@ import Search from './Search';
 import { UserProvider } from './UserContext';
 import PerfilEmpresa from './PerfilEmpresa';
 import RegisterVaga from './RegisterVaga';
+import Vagas from './Vagas';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -44,6 +45,7 @@ root.render(
               <Route path="/talentos" element={<Talentos />} />
               <Route path="/perfilempresa" element={<PerfilEmpresa />} />
               <Route path="/cadastrovaga" element={<RegisterVaga />} />
+              <Route path="/vagas" element={<Vagas />} />
           </Routes>
       </BrowserRouter>
     </React.StrictMode>

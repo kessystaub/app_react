@@ -97,7 +97,7 @@ function RegisterVaga() {
         <div className="row justify-content-center">
           <div className="col-md-6">
             <img src="logo.png" alt="Logo" />
-            <h4 className="text-center text-secondary mb-4">Crie sua conta Match Code</h4>
+            <h4 className="text-center text-secondary mb-4">Crie sua vaga</h4>
             <form onSubmit={handleSubmit}>
               <div className="form-group">
                 <label htmlFor="code">Codigo da vaga:</label>

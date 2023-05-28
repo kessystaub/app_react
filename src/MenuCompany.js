@@ -8,6 +8,10 @@ function MenuCompany() {
     navigate('/cadastrovaga');
   };
 
+  const navigateToVagas = () => {
+    navigate('/vagas')
+  };
+
   const navigateToPerfil = () => {
     navigate('/perfilempresa');
   };
@@ -42,7 +46,7 @@ function MenuCompany() {
             </div>
             <div className='m-1'>
               <li className="nav-item">
-                <button className="btn" onClick={navigateToCadastroVaga}>Suas vagas</button>
+                <button className="btn" onClick={navigateToVagas}>Suas vagas</button>
               </li>
             </div>
           </ul>
