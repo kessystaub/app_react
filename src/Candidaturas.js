@@ -33,7 +33,7 @@ function Candidaturas() {
       };
 
     fetchData();
-  }, [setUser, applications]);
+  }, [setUser]);
 
 
   return (
