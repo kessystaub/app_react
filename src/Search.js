@@ -63,7 +63,7 @@ function Search() {
                   <p className="card-text">Empresa: {item.Company.name}</p>
                   <p className="card-text">Cidade: {item.City.name}</p>
                   <p className="card-text">Cargo: {item.Position.name}</p>
-                  <button className="btn btn-secondary btn-sm" onClick={() => navigateToVaga(item.id)}>Visualizar</button>
+                  <button className="btn btn-secondary btn-sm" onClick={() => navigateToVaga(item.Joboffer.id)}>Visualizar</button>
               </div>
           </div>
         </div>

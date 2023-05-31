@@ -4,11 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import moment from 'moment';
 
 function Vaga() {
-  const [user, setUser] = useState([]);
-  const [nome, setNome] = useState('');
-  const [code, setCode] = useState('');
-  const [description, setDescription] = useState('');
-  const [jobofferId, setJobofferId] = useState('');
+  const [user, setUser] = useState({});
+  const [joboffer, setJoboffer] = useState({ Joboffer: { name: '', code: '', description: '' } , City: { name: '' } ,  Company: {name: ''}});
 
   const navigate = useNavigate();
 
@@ -26,7 +23,7 @@ function Vaga() {
       "parameter": {
         "date": getCurrentDate(),
         "status_id": 1,
-        "joboffer_id": jobofferId,
+        "joboffer_id": joboffer.Joboffer.id,
         "user_id": user.id
       }
     }
@@ -56,8 +53,7 @@ function Vaga() {
 	};
 
   useEffect(() => {
-
-    const storedValue = localStorage.getItem('vaga_id') ? localStorage.getItem('vaga_id') : '';
+    const storedValue = localStorage.getItem('vaga_id') ? localStorage.getItem('vaga_id') : {};
     const id = storedValue
 
     const storedValue2 = localStorage.getItem('user-info') ? JSON.parse(localStorage.getItem('user-info')) : [];
@@ -68,18 +64,14 @@ function Vaga() {
       try {
         const response = await fetch(`http://localhost:8000/joboffer/${id}`);
         const data = await response.json();
-        setJobofferId(data.result.id)
-        setNome(data.result.name)
-        setCode(data.result.code)
-        setDescription(data.result.description)
-        console.log(data)
+        setJoboffer(data.result)
         } catch (error) {
           console.error('Error fetching data:', error);
         }
       };
 
       fetchData();
-  }, []);
+  }, [setJoboffer]);
 
   return (
     <div>
@@ -90,19 +82,19 @@ function Vaga() {
           Vaga
         </div>
         <div className="card-body">
-          <h5 className="card-title">{nome}</h5>
+          <h5 className="card-title">{joboffer.Joboffer.name}</h5>
           <p>
-              Código: {code}
+              Código: {joboffer.Joboffer.code}
           </p>
           <p>
-              Local:  Florianópolis, Santa Catarina, Brasil Remoto
+              Cidade: {joboffer.City.name}
           </p>
-          <p className="card-text">{description}</p>
+          <p>
+              Empresa: {joboffer.Company.name}
+          </p>
+          <p className="card-text">{joboffer.Joboffer.description}</p>
         <button type="button" className="btn btn-outline-primary m-3" onClick={navigateToSearch}>Voltar</button>
         <button href="#" className="btn btn-primary" onClick={addApplication}>Aplicar</button>
-        </div>
-        <div className="card-footer text-muted">
-          há 2 dias
         </div>
       </div>
     </div>

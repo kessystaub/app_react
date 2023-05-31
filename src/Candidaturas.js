@@ -69,7 +69,7 @@ function Candidaturas() {
               <li className="list-group-item">Data da candidatura: {item.Application.date}</li>
             </ul>
             <div className="card-body">
-              <button className="btn btn-outline-success my-2 my-sm-0 m-3" onClick={() => navigateToVaga(item.joboffer_id)}>Descrição completa</button>
+              <button className="btn btn-outline-success my-2 my-sm-0 m-3" onClick={() => navigateToVaga(item.Joboffer.id)}>Descrição completa</button>
               <button className="btn btn-outline-success my-2 my-sm-0 m-3" onClick={navigateToVagas}>Outras
                 vagas</button>
             </div>
