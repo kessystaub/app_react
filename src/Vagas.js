@@ -82,7 +82,6 @@ function Vagas() {
                         <h5 className="card-title">{item.name}</h5>
                         <p className="card-text">{item.code}</p>
                         <p className="card-text">{item.description}</p>
-                        <p className="card-text"><small className="text-muted">Last updated 3 mins ago</small></p>
                     </div>
                 </div>
             </div>

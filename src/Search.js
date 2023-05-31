@@ -5,9 +5,7 @@ import Menu from './Menu';
 function Search() {
   const [joboffers, setJoboffers] = useState([]);
   const [busca, setBusca] = useState('');
-  const [nameCom, setNameCom] = useState('');
-  const [nameCity, setNameCity] = useState('');
-  const [nameCargo, setNameCargo] = useState('');
+  const [user, setUser] = useState();
 
   const navigate = useNavigate();
 
@@ -16,12 +14,16 @@ function Search() {
     navigate(`/vaga`);
   };
 
-  const joboffersFilter = joboffers.filter(item => item.name.toLocaleLowerCase().includes(busca.toLocaleLowerCase()));
+  const joboffersFilter = joboffers.filter(item => item.Joboffer.name.toLocaleLowerCase().includes(busca.toLocaleLowerCase()));
 
   useEffect(() => {
+    const storedValue = localStorage.getItem('user-info') ? JSON.parse(localStorage.getItem('user-info')) : [];
+    const user = storedValue.user;
+    setUser(user)
+
     const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost:8000/joboffer');
+        const response = await fetch('http://localhost:8000/joboffer/get_vagas');
         const data = await response.json();
         setJoboffers(data.result);
       } catch (error) {
@@ -31,51 +33,6 @@ function Search() {
 
     fetchData();
   }, []); // Empty dependency array ensures the effect runs only once
-
-  function returnCompanyName(company_id) {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(`http://localhost:8000/company/${company_id}`);
-        const data = await response.json();
-        setNameCom(data.result.name)
-        } catch (error) {
-          console.error('Error fetching data:', error);
-        }
-      };
-
-    fetchData();
-    return nameCom
-  }
-
-  function returnCityName(city_id) {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(`http://localhost:8000/city/${city_id}`);
-        const data = await response.json();
-        setNameCity(data.result.name)
-        } catch (error) {
-          console.error('Error fetching data:', error);
-        }
-      };
-
-    fetchData();
-    return nameCity
-  }
-
-  function returnCargoName(cargo_id) {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(`http://localhost:8000/position/${cargo_id}`);
-        const data = await response.json();
-        setNameCargo(data.result.name)
-        } catch (error) {
-          console.error('Error fetching data:', error);
-        }
-      };
-
-    fetchData();
-    return nameCargo
-  }
 
   return (
 	<div>
@@ -95,24 +52,23 @@ function Search() {
             </div>
           </form>
         </div>
-      </div>
 
-      {joboffersFilter.map((item) => (
+        {joboffersFilter.map((item) => (
         <div key={item.id} className="card-deck m-2">
           <div className="card">
               <div className="card-body">
-                  <h5 className="card-title">{item.name}</h5>
-                  <p className="card-text">Código da vaga: {item.code}</p>
-                  <p className="card-text">{item.description}</p>
-                  <p className="card-text">Empresa: {returnCompanyName(item.company_id)}</p>
-                  {/* <p className="card-text">Cidade: {returnCityName(item.city_id)}</p> */}
-                  {/* <p className="card-text">Cargo: {returnCargoName(item.position_id)}</p> */}
-                  <button className="btn btn-sm" onClick={() => navigateToVaga(item.id)}>Visualizar</button>
-                  <p className="card-text"><small className="text-muted">Last updated 3 mins ago</small></p>
+                  <h5 className="card-title">{item.Joboffer.name}</h5>
+                  <p className="card-text">Código da vaga: {item.Joboffer.code}</p>
+                  <p className="card-text">Descrição da vaga: {item.Joboffer.description}</p>
+                  <p className="card-text">Empresa: {item.Company.name}</p>
+                  <p className="card-text">Cidade: {item.City.name}</p>
+                  <p className="card-text">Cargo: {item.Position.name}</p>
+                  <button className="btn btn-secondary btn-sm" onClick={() => navigateToVaga(item.id)}>Visualizar</button>
               </div>
           </div>
         </div>
       ))}
+      </div>
     </div>
   </div>
   );
