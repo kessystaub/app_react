@@ -23,64 +23,71 @@ function FormationForm() {
   };
 
   function addFormation() {
-	let institution_id = institution
-
-	const create = {
-		"parameter": {
-		  "course": curso,
-		  "date": periodo,
-		  "institution_id": institution_id
-		}
-	  }
-
-	const options = {
-		method: 'POST',
-		headers: {
-		'Content-Type': 'application/json',
-		},
-		body: JSON.stringify(create),
-		};
-
-	fetch(`http://localhost:8000/formation`, options)
-	.then(data => {
-		if (!data.ok) {
-			throw Error(data.status);
-			}
-			return data.json();
-		}).then(create => {
-			setFormationId(create.result.id)
-		}).catch(e => {
-		console.log(e);
-		});
-
-		
-	const relation = {
-		"parameter": {
-				"user_id": id,
-				"formation_id": formationId
-			}
-		};
-
-	const options2 = {
-		method: 'POST',
-		headers: {
-		'Content-Type': 'application/json',
-		},
-		body: JSON.stringify(relation),
-		};
-
-	fetch(`http://localhost:8000/user_formation`, options2)
-	.then(data => {
-		if (!data.ok) {
-			throw Error(data.status);
-			}
-			return data.json();
-		}).then(create => {
-		console.log(create);
-		}).catch(e => {
-		console.log(e);
-		});
+    let institution_id = institution
+  
+    const create = {
+      "parameter": {
+        "course": curso,
+        "date": periodo,
+        "institution_id": institution_id
+      }
+      }
+  
+    const options = {
+      method: 'POST',
+      headers: {
+      'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(create),
+      };
+  
+    fetch(`http://localhost:8000/formation`, options)
+    .then(data => {
+      if (!data.ok) {
+        throw Error(data.status);
+        }
+        return data.json();
+      }).then(create => {
+        console.log('create.result.id',create.result.id)
+        addUserFormation(create.result.id)
+      }).catch(e => {
+      console.log(e);
+      });
+  
+      
   }
+
+  function addUserFormation(formation_id) {
+    const relation = {
+      "parameter": {
+          "user_id": id,
+          "formation_id": formation_id
+        }
+      };
+
+      console.log(relation)
+  
+    const options2 = {
+      method: 'POST',
+      headers: {
+      'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(relation),
+      };
+  
+    fetch(`http://localhost:8000/user_formation`, options2)
+    .then(data => {
+      if (!data.ok) {
+        throw Error(data.status);
+        }
+        return data.json();
+      }).then(create => {
+      console.log(create);
+      }).catch(e => {
+      console.log(e);
+      });
+  }
+
 
   useEffect(() => {
 	const storedValue = localStorage.getItem('user-info');
