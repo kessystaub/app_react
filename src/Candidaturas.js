@@ -74,7 +74,7 @@ function Candidaturas() {
                 vagas</button>
             </div>
           </div>
-          ))}
+        ))}
         </div>
       </div>
     </div>

@@ -5,7 +5,7 @@ import MenuCompany from './MenuCompany';
 function Talentos() {
   const [id, setId] = useState('');
   const [company, setCompany] = useState([]);
-  const [users, setUsers] = useState([]);
+  const [users, setUsers] = useState([{ City: { name: '' } ,  User: {name: '',  email: '', phone_number: ''}}]);
   const [experiences, setExperiences] = useState([]);
   const [formations, setFormations] = useState([]);
   const [softskills, setSoftskills] = useState([]);
@@ -25,11 +25,26 @@ function Talentos() {
   const [mostraBotao, setMostraBotao] = useState(false)
   const [nomeIns, setNomeIns] = useState('')
   const [nomePos, setNomePos] = useState('')
+  const [user, setUser] = useState({})
 
 
   const navigate = useNavigate();
 
-  const navigateToCurriculo = () => {
+  async function navigateToCurriculo(user_id) {
+    try {
+        const response = await fetch(`http://localhost:8000/user/get_skills/${user_id}`);
+        const data = await response.json();
+        console.log(data.result)
+        setUser(data.result)
+    } catch (error) {
+        console.error('Error fetching data:', error);
+    }
+
+    console.log(user)
+    if (JSON.stringify(user) === {}){
+        return
+    }
+    localStorage.setItem("user-info", JSON.stringify(user))
     navigate('/curriculo');
   };
 
@@ -64,13 +79,16 @@ function Talentos() {
             </div>
 
             {users.map((item) => (
-                <div key={item.id} className="card-deck">
+                <div key={item.id} className="card-deck m-2">
                     <div className="card">
                         <div className="card-body">
-                            <h5 className="card-title">{item.name}</h5>
-                            <p className="card-text">{item.email}</p>
-                            <p className="card-text">{item.phone}</p>
-                            <p className="card-text"><small className="text-muted">Last updated 3 mins ago</small></p>
+                            <h5 className="card-title">{item.User.name}</h5>
+                            <p className="card-text">{item.User.email}</p>
+                            <p className="card-text">{item.User.phone_number}</p>
+                            <p className="card-text">{item.City.name}</p>
+                        <button className='btn' onClick={() => navigateToCurriculo(item.User.id)}>
+                            Visualizar currículo
+                        </button>
                         </div>
                     </div>
                 </div>

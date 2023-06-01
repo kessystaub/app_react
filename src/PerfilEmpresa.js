@@ -4,7 +4,7 @@ import MenuCompany from './MenuCompany';
 
 function PerfilEmpresa() {
   const [id, setId] = useState('');
-  const [company, setCompany] = useState([]);
+  const [company, setCompany] = useState({ City: { name: '' } ,  Company: {name: '', address : '', cnpj: '', email: '', phone_number: '', description: ''}});
   const [nome, setNome] = useState('');
   const [formNome, setFormNome] = useState('');
   const [email, setEmail] = useState('');
@@ -28,7 +28,21 @@ function PerfilEmpresa() {
   useEffect(() => {
     const storedValue = localStorage.getItem('user-info') ? JSON.parse(localStorage.getItem('user-info')) : [];
     const company = storedValue.company;
-    setCompany(company)
+    const id = company.id
+    console.log(id)
+
+    const fetchData = async () => {
+      try {
+          const response = await fetch(`http://localhost:8000/company/${id}`);
+          const data = await response.json();
+          console.log(data)
+          setCompany(data.result)
+      } catch (error) {
+          console.error('Error fetching data:', error);
+      }
+      };
+  
+      fetchData();
   }, [setCompany]);
 
   return (
@@ -42,8 +56,7 @@ function PerfilEmpresa() {
               <img src="https://via.placeholder.com/150" className="card-img-top"
                 alt="..." />
               <div className="card-body">
-                <h5 className="card-title">{company.name}</h5>
-                <p className="card-text">Software Developer</p>
+                <h5 className="card-title">{company.Company.name}</h5>
               </div>
             </div>
           </div>
@@ -59,7 +72,7 @@ function PerfilEmpresa() {
                       </th>
                       <td>
                         <input type="text" className="form-control" id="form"
-                          placeholder={company.name} onChange={(event) => setFormNome(event.target.value)} disabled={disabled} />
+                          placeholder={company.Company.name} onChange={(event) => setFormNome(event.target.value)} disabled={disabled} />
                       </td>
                       <td>
                       <button className="btn my-2 my-sm-0"
@@ -68,14 +81,21 @@ function PerfilEmpresa() {
                           setDisabled(false)
                         }}>Editar</button>
                       </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">
+                        <label htmlFor="form">CNPJ: </label>
+                      </th>
+                    <td>
+                      <input type="text" className="form-control" id="form"
+                          placeholder={company.Company.cnpj} disabled={disabled} />
+                      </td>
                       <td>
-                        {mostraBotao && (
-                          <button className="btn my-2 my-sm-0"
-                          type="button" onClick={() => {
-                            setMostraBotao(false)
-                            setDisabled(true)
-                          }}>Salvar</button>
-                        )}
+                      <button className="btn my-2 my-sm-0"
+                        type="button" onClick={() => {
+                          setMostraBotao(true)
+                          setDisabled(false)
+                        }}>Editar</button>
                       </td>
                     </tr>
                     <tr>
@@ -84,7 +104,7 @@ function PerfilEmpresa() {
                       </th>
                       <td>
                         <input type="text" className="form-control" id="form"
-                          placeholder={company.email} onChange={(event) => setFormEmail(event.target.value)} disabled={disabled} />
+                          placeholder={company.Company.email} onChange={(event) => setFormEmail(event.target.value)} disabled={disabled} />
                       </td>
                       <td>
                       <button className="btn my-2 my-sm-0"
@@ -92,15 +112,6 @@ function PerfilEmpresa() {
                           setMostraBotao(true)
                           setDisabled(false)
                         }}>Editar</button>
-                      </td>
-                      <td>
-                        {mostraBotao && (
-                          <button className="btn my-2 my-sm-0"
-                          type="button" onClick={() => {
-                            setMostraBotao(false)
-                            setDisabled(true)
-                          }}>Salvar</button>
-                        )}
                       </td>
                       
                     </tr>
@@ -110,7 +121,7 @@ function PerfilEmpresa() {
                       </th>
                       <td>
                         <input type="text" className="form-control" id="form"
-                          placeholder={company.phone} onChange={(event) => setFormPhone(event.target.value)} disabled={disabled} />
+                          placeholder={company.Company.phone_number} onChange={(event) => setFormPhone(event.target.value)} disabled={disabled} />
                       </td>
                       <td>
                       <button className="btn my-2 my-sm-0"
@@ -118,15 +129,6 @@ function PerfilEmpresa() {
                           setMostraBotao(true)
                           setDisabled(false)
                         }}>Editar</button>
-                      </td>
-                      <td>
-                        {mostraBotao && (
-                          <button className="btn my-2 my-sm-0"
-                          type="button" onClick={() => {
-                            setMostraBotao(false)
-                            setDisabled(true)
-                          }}>Salvar</button>
-                        )}
                       </td>
                     </tr>
                     <tr>
@@ -135,7 +137,7 @@ function PerfilEmpresa() {
                       </th>
                       <td>
                         <input type="text" className="form-control" id="form" onChange={(event) => setFormAddress(event.target.value)}
-                          placeholder={company.address} disabled={disabled} />
+                          placeholder={company.Company.address}disabled={disabled} />
                       </td>
                       <td>
                       <button className="btn my-2 my-sm-0"
@@ -143,15 +145,6 @@ function PerfilEmpresa() {
                           setMostraBotao(true)
                           setDisabled(false)
                         }}>Editar</button>
-                      </td>
-                      <td>
-                        {mostraBotao && (
-                          <button className="btn my-2 my-sm-0"
-                          type="button" onClick={() => {
-                            setMostraBotao(false)
-                            setDisabled(true)
-                          }}>Salvar</button>
-                        )}
                       </td>
                     </tr>
 
@@ -162,7 +155,7 @@ function PerfilEmpresa() {
             <div className="card mt-4">
               <div className="card-body">
                 <h5 className="card-title">Sobre</h5>
-                <p>{company.description}</p>
+                <p>{company.Company.description}</p>
               </div>
             </div>
           </div>

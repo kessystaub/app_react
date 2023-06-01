@@ -10,6 +10,7 @@ function Curriculo() {
 
   useEffect(() => {
     const storedValue = localStorage.getItem('user-info') ? JSON.parse(localStorage.getItem('user-info')) : [];
+    console.log(storedValue)
     const user = storedValue.user;
     const formationslist = storedValue.formations;
     const experienceslist = storedValue.experiences;
@@ -43,23 +44,7 @@ function Curriculo() {
                                     <h2 className="mb-0">{user.name}</h2>
                                     <p className="mb-3"><i className="fas
                                             fa-map-marker-alt mr-2"></i>{user.address}</p>
-                                    <p>Lorem ipsum dolor sit amet,
-                                        consectetur adipiscing elit.
-                                        Suspendisse euismod sem id ligula
-                                        accumsan, nec bibendum
-                                        nunc placerat. Sed aliquam velit nec
-                                        ante tempus
-                                        scelerisque. Sed eget enim vel ex
-                                        interdum tempus. Sed
-                                        maximus velit vel vestibulum
-                                        fringilla. Proin tincidunt orci
-                                        eu eros fringilla tempus. Nullam
-                                        porttitor est et est
-                                        vehicula suscipit. Aliquam consequat
-                                        aliquet elit, vel
-                                        rhoncus elit molestie sed. Sed ut mi
-                                        non quam tincidunt
-                                        rhoncus in ac turpis. </p>
+                                    <p>{user.description}</p>
                                 </div>
                             </div>
                             <hr />
