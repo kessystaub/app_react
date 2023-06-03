@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import {useNavigate} from 'react-router-dom';
 import MenuCompany from './MenuCompany';
+import UsuarioImagem from './images/user (2).png';
 
 function PerfilEmpresa() {
   const [id, setId] = useState('');
@@ -50,112 +51,116 @@ function PerfilEmpresa() {
       <MenuCompany />
 
       <div className="container mt-5">
-        <div className="row">
-          <div className="col-md-4">
-            <div className="card">
-              <img src="https://via.placeholder.com/150" className="card-img-top"
-                alt="..." />
-              <div className="card-body">
-                <h5 className="card-title">{company.Company.name}</h5>
+        <div className='d-flex justify-content-center align-items-center'>    
+          <div className="card mt-4 w-75 border-0">
+            <div className="row">
+              <div className="col-md-4">
+                <div className="card border-0">
+                  <img src={UsuarioImagem} className="card-img-top w-50 mt-5"
+                              alt="..." />
+                  <div className="card-body">
+                    <h5 className="card-title">{company.Company.name}</h5>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
-          <div className="col-md-8">
-            <div className="card">
-              <div className="card-body">
-                <h5 className="card-title">Informações pessoais</h5>
-                <table className="table">
-                  <tbody>
-                    <tr>
-                      <th scope="row">
-                        <label htmlFor="form">Nome</label>
-                      </th>
-                      <td>
-                        <input type="text" className="form-control" id="form"
-                          placeholder={company.Company.name} onChange={(event) => setFormNome(event.target.value)} disabled={disabled} />
-                      </td>
-                      <td>
-                      <button className="btn my-2 my-sm-0"
-                        type="button" onClick={() => {
-                          setMostraBotao(true)
-                          setDisabled(false)
-                        }}>Editar</button>
-                      </td>
-                    </tr>
-                    <tr>
-                      <th scope="row">
-                        <label htmlFor="form">CNPJ: </label>
-                      </th>
-                    <td>
-                      <input type="text" className="form-control" id="form"
-                          placeholder={company.Company.cnpj} disabled={disabled} />
-                      </td>
-                      <td>
-                      <button className="btn my-2 my-sm-0"
-                        type="button" onClick={() => {
-                          setMostraBotao(true)
-                          setDisabled(false)
-                        }}>Editar</button>
-                      </td>
-                    </tr>
-                    <tr>
-                      <th scope="row">
-                        <label htmlFor="form">Email</label>
-                      </th>
-                      <td>
-                        <input type="text" className="form-control" id="form"
-                          placeholder={company.Company.email} onChange={(event) => setFormEmail(event.target.value)} disabled={disabled} />
-                      </td>
-                      <td>
-                      <button className="btn my-2 my-sm-0"
-                        type="button" onClick={() => {
-                          setMostraBotao(true)
-                          setDisabled(false)
-                        }}>Editar</button>
-                      </td>
-                      
-                    </tr>
-                    <tr>
-                      <th scope="row">
-                        <label htmlFor="form">Telefone</label>
-                      </th>
-                      <td>
-                        <input type="text" className="form-control" id="form"
-                          placeholder={company.Company.phone_number} onChange={(event) => setFormPhone(event.target.value)} disabled={disabled} />
-                      </td>
-                      <td>
-                      <button className="btn my-2 my-sm-0"
-                        type="button" onClick={() => {
-                          setMostraBotao(true)
-                          setDisabled(false)
-                        }}>Editar</button>
-                      </td>
-                    </tr>
-                    <tr>
-                      <th scope="row">
-                        <label htmlFor="form">Endereço</label>
-                      </th>
-                      <td>
-                        <input type="text" className="form-control" id="form" onChange={(event) => setFormAddress(event.target.value)}
-                          placeholder={company.Company.address}disabled={disabled} />
-                      </td>
-                      <td>
-                      <button className="btn my-2 my-sm-0"
-                        type="button" onClick={() => {
-                          setMostraBotao(true)
-                          setDisabled(false)
-                        }}>Editar</button>
-                      </td>
-                    </tr>
+              <div className="col-md-8">
+                <div className="card">
+                  <div className="card-body">
+                    <h5 className="card-title">Informações pessoais</h5>
+                    <table className="table">
+                      <tbody>
+                        <tr>
+                          <th scope="row">
+                            <label htmlFor="form">Nome</label>
+                          </th>
+                          <td>
+                            <input type="text" className="form-control" id="form"
+                              placeholder={company.Company.name} onChange={(event) => setFormNome(event.target.value)} disabled={disabled} />
+                          </td>
+                          <td>
+                          <button className="btn my-2 my-sm-0"
+                            type="button" onClick={() => {
+                              setMostraBotao(true)
+                              setDisabled(false)
+                            }}>Editar</button>
+                          </td>
+                        </tr>
+                        <tr>
+                          <th scope="row">
+                            <label htmlFor="form">CNPJ: </label>
+                          </th>
+                        <td>
+                          <input type="text" className="form-control" id="form"
+                              placeholder={company.Company.cnpj} disabled={disabled} />
+                          </td>
+                          <td>
+                          <button className="btn my-2 my-sm-0"
+                            type="button" onClick={() => {
+                              setMostraBotao(true)
+                              setDisabled(false)
+                            }}>Editar</button>
+                          </td>
+                        </tr>
+                        <tr>
+                          <th scope="row">
+                            <label htmlFor="form">Email</label>
+                          </th>
+                          <td>
+                            <input type="text" className="form-control" id="form"
+                              placeholder={company.Company.email} onChange={(event) => setFormEmail(event.target.value)} disabled={disabled} />
+                          </td>
+                          <td>
+                          <button className="btn my-2 my-sm-0"
+                            type="button" onClick={() => {
+                              setMostraBotao(true)
+                              setDisabled(false)
+                            }}>Editar</button>
+                          </td>
+                          
+                        </tr>
+                        <tr>
+                          <th scope="row">
+                            <label htmlFor="form">Telefone</label>
+                          </th>
+                          <td>
+                            <input type="text" className="form-control" id="form"
+                              placeholder={company.Company.phone_number} onChange={(event) => setFormPhone(event.target.value)} disabled={disabled} />
+                          </td>
+                          <td>
+                          <button className="btn my-2 my-sm-0"
+                            type="button" onClick={() => {
+                              setMostraBotao(true)
+                              setDisabled(false)
+                            }}>Editar</button>
+                          </td>
+                        </tr>
+                        <tr>
+                          <th scope="row">
+                            <label htmlFor="form">Endereço</label>
+                          </th>
+                          <td>
+                            <input type="text" className="form-control" id="form" onChange={(event) => setFormAddress(event.target.value)}
+                              placeholder={company.Company.address}disabled={disabled} />
+                          </td>
+                          <td>
+                          <button className="btn my-2 my-sm-0"
+                            type="button" onClick={() => {
+                              setMostraBotao(true)
+                              setDisabled(false)
+                            }}>Editar</button>
+                          </td>
+                        </tr>
 
-                  </tbody>
-                </table>
-              </div>
-            </div>
-            <div className="card mt-4">
-              <div className="card-body">
-                <h5 className="card-title">Sobre</h5>
-                <p>{company.Company.description}</p>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <div className="card mt-4">
+                  <div className="card-body">
+                    <h5 className="card-title">Sobre</h5>
+                    <p>{company.Company.description}</p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

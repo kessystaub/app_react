@@ -78,21 +78,27 @@ function Talentos() {
                 </div>
             </div>
 
-            {users.map((item) => (
-                <div key={item.id} className="card-deck m-2">
-                    <div className="card">
-                        <div className="card-body">
-                            <h5 className="card-title">{item.User.name}</h5>
-                            <p className="card-text">{item.User.email}</p>
-                            <p className="card-text">{item.User.phone_number}</p>
-                            <p className="card-text">{item.City.name}</p>
-                        <button className='btn' onClick={() => navigateToCurriculo(item.User.id)}>
-                            Visualizar currículo
-                        </button>
+            <div className="form-inline justify-content-center">
+                <div className="row d-flex justify-content-center align-items-center">
+                    {users.map((item) => (
+                    <div key={item.id} className="col-sm-3 m-1">
+                        <div className='card'>
+                            <div className="card-body">
+                                <div className="form-inline">
+                                <h5 className="card-title">Nome: {item.User.name}</h5>
+                                </div>
+                                <p className="card-text">Email: {item.User.email}</p>
+                                <p className="card-text">Telefone: {item.User.phone_number}</p>
+                                <p className="card-text">Cidade: {item.City.name}</p>
+                                <button className='btn' onClick={() => navigateToCurriculo(item.User.id)}>
+                                    Visualizar currículo
+                                </button>
+                            </div>
                         </div>
                     </div>
+                    ))}
                 </div>
-            ))}
+            </div>
         </div>                              
     </ div>
   );

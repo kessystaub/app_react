@@ -61,22 +61,26 @@ function Vagas() {
                     <h4 className="text-center text-secondary mb-4">Suas vagas de emprego</h4>
                 </div>
         </div>
-        {console.log(vagas)}
 
-        {vagas.map((item) => (
-            <div key={item.id} className="card-deck m-2">
-                <div className="card">
-                    <div className="card-body">
-                        <h5 className="card-title">{item.Joboffer.name}</h5>
-                        <p className="card-text">{item.Joboffer.code}</p>
-                        <p className="card-text">{item.Joboffer.description}</p>
-                        <p className="card-text">{item.Position.name}</p>
-                        <p className="card-text">{item.City.name}</p>
-                        {/* <p className="card-text">{item.Application}</p> */}
+        <div className="form-inline justify-content-center">
+          <div className="row d-flex justify-content-center align-items-center">
+            {vagas.map((item) => (
+              <div key={item.id} className="col-sm-3 m-1">
+                <div className='card'>
+                  <div className="card-body">
+                    <div className="form-inline">
+                      <h5 className="card-title">Vaga: {item.Joboffer.name}</h5>
                     </div>
+                    <p className="card-text">Código: {item.Joboffer.code}</p>
+                    <p className="card-text">Descrição: {item.Joboffer.description}</p>
+                    <p className="card-text">Cargo: {item.Position.name}</p>
+                    <p className="card-text">Cidade: {item.City.name}</p>
+                  </div>
                 </div>
-            </div>
-        ))}
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </>
   );
