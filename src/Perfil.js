@@ -15,11 +15,16 @@ import Footer from './Footer';
 
 function Perfil() {
   const [user, setUser] = useState([]);
-  const [formNome, setFormNome] = useState('');
-  const [formEmail, setFormEmail] = useState('');
-  const [formPhone, setFormPhone] = useState('');
-  const [formAddress, setFormAddress] = useState('');
-  const [disabled, setDisabled] = useState(true)
+  const [showUserForm, setShowUserForm] = useState(false);
+  const [userForm, setUserForm] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    address: '',
+    address_number: '',
+    address_neighborhood: '',
+    address_complement: '',
+  });
   
   // formation states
   const [showAddFormation, setShowAddFormation] = useState(false)
@@ -52,48 +57,51 @@ function Perfil() {
 
   const navigate = useNavigate();
 
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setUser((prevUser) => ({ ...prevUser, [name]: value }));
+  };
+
   const navigateToCurriculo = () => {
     navigate('/curriculo');
   };
 
-  // function updateUser() {
-  //   setDisabled(true)
-
-  //   if (formNome === ''){
-  //     setFormNome(nome)
-  //   }
-
-  //   const update = {
-  //     "parameter": {
-  //       "phone": formPhone,
-  //       "name": formNome,
-  //       "email": formEmail,
-  //       "address": formAddress
-  //     }
-  //   }
+  function updateUser() {
+    const update = {
+      "parameter": {
+        "phone": user.phone,
+        "name": user.name,
+        "email": user.email,
+        "address": user.address,
+        "address_number": user.address_number,
+        "address_neighborhood": user.address_neighborhood,
+        "address_complement": user.address_complement,
+        "city_id": 4
+      }
+    }
   
-  //   console.log(update)
+    console.log(update)
 
-  //   const options = {
-  //     method: 'PATCH',
-  //     headers: {
-  //     'Content-Type': 'application/json',
-  //     },
-  //     body: JSON.stringify(update),
-  //     };
+    const options = {
+      method: 'PATCH',
+      headers: {
+      'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(update),
+      };
   
-  //   fetch(`http://localhost:8000/user/${id}`, options)
-  //   .then(data => {
-  //     if (!data.ok) {
-  //       throw Error(data.status);
-  //       }
-  //       return data.json();
-  //     }).then(update => {
-  //     console.log(update);
-  //     }).catch(e => {
-  //     console.log(e);
-  //     });
-  // }
+    fetch(`http://localhost:8000/user/${user.id}`, options)
+    .then(data => {
+      if (!data.ok) {
+        throw Error(data.status);
+        }
+        return data.json();
+      }).then(update => {
+      console.log(update);
+      }).catch(e => {
+      console.log(e);
+      });
+  }
 
   function addFormation() {
     let institution_id = institution
@@ -350,6 +358,11 @@ function Perfil() {
 
     const fetchData = async () => {
       try {
+        // user
+        const response_user = await fetch(`http://localhost:8000/user/${user.id}`);
+        const data_user = await response_user.json();
+        setUserForm(data_user.result)
+
         // formacao
 
         const response = await fetch(`http://localhost:8000/institution`);
@@ -419,50 +432,150 @@ function Perfil() {
                   <div className="card border-0">
                     <div className="card-body">
                       <h5 className="card-title mb-4">Informações pessoais</h5>
-                      <table className="table">
-                        <tbody>
-                          <tr>
-                            <th className='text-secondary' scope="row">Nome</th>
-                            <td>{user.name}</td>
-                          </tr>
-                          <tr>
-                            <th className='text-secondary' scope="row">Email</th>
-                            <td>{user.email}</td>
-                          </tr>
-                          <tr>
-                            <th className='text-secondary' scope="row">Telefone</th>
-                            <td>{user.phone}</td>
-                          </tr>
-                          <tr>
-                            <th className='text-secondary' scope="row">Endereço</th>
-                            <td>{user.address}</td>
-                          </tr>
-                          <tr>
-                            <th className='text-secondary' scope="row">Número de endereço</th>
-                            <td>{user.address_number}</td>
-                          </tr>
-                          <tr>
-                            <th className='text-secondary' scope="row">Bairro</th>
-                            <td>{user.address_neighborhood}</td>
-                          </tr>
-                          <tr>
-                            <th className='text-secondary' scope="row">Complemento</th>
-                            <td>{user.address_complement}</td>
-                          </tr>
-                          <tr>
-                            <td colSpan="1">
-                              <button className="btn btn-outline-secondary" onClick={navigateToCurriculo}>
-                                Visualizar currículo
-                              </button>
-                            </td>
-                            <td colSpan="2">
-                              <button className="btn btn-outline-secondary text-end" onClick={navigateToCurriculo}>
-                                Editar perfil
-                              </button>
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
+                      {!showUserForm && (
+                        <table className="table">
+                          <tbody>
+                            <tr>
+                              <th className='text-secondary' scope="row">Nome</th>
+                              <td>{user.name}</td>
+                            </tr>
+                            <tr>
+                              <th className='text-secondary' scope="row">Email</th>
+                              <td>{user.email}</td>
+                            </tr>
+                            <tr>
+                              <th className='text-secondary' scope="row">Telefone</th>
+                              <td>{user.phone}</td>
+                            </tr>
+                            <tr>
+                              <th className='text-secondary' scope="row">Endereço</th>
+                              <td>{user.address}</td>
+                            </tr>
+                            <tr>
+                              <th className='text-secondary' scope="row">Número de endereço</th>
+                              <td>{user.address_number}</td>
+                            </tr>
+                            <tr>
+                              <th className='text-secondary' scope="row">Bairro</th>
+                              <td>{user.address_neighborhood}</td>
+                            </tr>
+                            <tr>
+                              <th className='text-secondary' scope="row">Complemento</th>
+                              <td>{user.address_complement}</td>
+                            </tr>
+                            <tr>
+                              <td colSpan="1">
+                                <button className="btn btn-outline-secondary" onClick={navigateToCurriculo}>
+                                  Visualizar currículo
+                                </button>
+                              </td>
+                              <td colSpan="2">
+                                <button className="btn btn-outline-secondary text-end" onClick={() => setShowUserForm(true)}>
+                                  Editar perfil
+                                </button>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      )}
+
+                      {showUserForm && (
+                        <form>
+                          <table className="table">
+                            <tbody>
+                              <tr>
+                                <th className='text-secondary' scope="row">Nome</th>
+                                <td>
+                                  <input
+                                    type="text"
+                                    name="name"
+                                    value={user.name}
+                                    onChange={handleInputChange}
+                                  />
+                                </td>
+                              </tr>
+                              <tr>
+                                <th className='text-secondary' scope="row">Email</th>
+                                <td>
+                                  <input
+                                    type="email"
+                                    name="email"
+                                    value={user.email}
+                                    onChange={handleInputChange}
+                                  />
+                                </td>
+                              </tr>
+                              <tr>
+                                <th className='text-secondary' scope="row">Telefone</th>
+                                <td>
+                                  <input
+                                    type="tel"
+                                    name="phone"
+                                    value={user.phone}
+                                    onChange={handleInputChange}
+                                  />
+                                </td>
+                              </tr>
+                              <tr>
+                                <th className='text-secondary' scope="row">Endereço</th>
+                                <td>
+                                  <input
+                                    type="text"
+                                    name="address"
+                                    value={user.address}
+                                    onChange={handleInputChange}
+                                  />
+                                </td>
+                              </tr>
+                              <tr>
+                                <th className='text-secondary' scope="row">Número de endereço</th>
+                                <td>
+                                  <input
+                                    type="text"
+                                    name="address_number"
+                                    value={user.address_number}
+                                    onChange={handleInputChange}
+                                  />
+                                </td>
+                              </tr>
+                              <tr>
+                                <th className='text-secondary' scope="row">Bairro</th>
+                                <td>
+                                  <input
+                                    type="text"
+                                    name="address_neighborhood"
+                                    value={user.address_neighborhood}
+                                    onChange={handleInputChange}
+                                  />
+                                </td>
+                              </tr>
+                              <tr>
+                                <th className='text-secondary' scope="row">Complemento</th>
+                                <td>
+                                  <input
+                                    type="text"
+                                    name="address_complement"
+                                    value={user.address_complement}
+                                    onChange={handleInputChange}
+                                  />
+                                </td>
+                              </tr>
+                              <tr>
+                                <td colSpan="1">
+                                </td>
+                                <td colSpan="2">
+                                  <button className="btn btn-outline-secondary m-1" onClick={() => setShowUserForm(false)}>
+                                    Cancelar
+                                  </button>
+                                  <button className="btn btn-outline-success m-1" onClick={() => updateUser()}>
+                                    Salvar
+                                  </button>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </form>
+                      )}
                     </div>
                   </div>
                 </div>
