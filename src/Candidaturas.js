@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import Menu from './Menu';
 import { useNavigate } from 'react-router-dom';
+import Progress from './Progress';
+import CustomProgressBar from './Progress';
 
 function Candidaturas() {
   const navigate = useNavigate();
@@ -50,31 +52,32 @@ function Candidaturas() {
 
         <div className="form-inline justify-content-center">
 
-        {applications.map((item) => (
-          <div key={item.id} className="card m-3">
-            <div className="card-body">
-              <div className="form-inline">
-                <h5 className="card-title">{item.Joboffer.name}</h5>
+          <div className="row d-flex justify-content-center align-items-center">
+            {applications.map((item) => (
+              <div key={item.id} className="col-sm-3 m-3">
+                <div className='card'>
+                  <div className="card-body">
+                    <div className="form-inline">
+                      <h5 className="card-title">Vaga: {item.Joboffer.name}</h5>
+                    </div>
+                    <p className="card-text">Situação: {item.Status.status}</p>
+
+                    <CustomProgressBar progress={10} />
+                  </div>
+                  <ul className="list-group list-group-flush">
+                    <li className="list-group-item">Descrição: {item.Joboffer.description}
+                    </li>
+                    <li className="list-group-item">Data da candidatura: {item.Application.date}</li>
+                  </ul>
+                  <div className="card-body">
+                    <button className="btn" onClick={() => navigateToVaga(item.Joboffer.id)}>Descrição</button>
+                    <button className="btn btn-secondary my-2 my-sm-0 m-3" onClick={navigateToVagas}>Outras
+                      vagas</button>
+                  </div>
+                </div>
               </div>
-              <p className="card-text">Situação: {item.Status.status}</p>
-              <div className="progress">
-                <div className="progress-bar progress-bar-striped
-                  progress-bar-animated" role="progressbar" aria-valuenow="75"
-                  aria-valuemin="0" aria-valuemax="100"></div>
-              </div>
-            </div>
-            <ul className="list-group list-group-flush">
-              <li className="list-group-item">Descrição: {item.Joboffer.description}
-              </li>
-              <li className="list-group-item">Data da candidatura: {item.Application.date}</li>
-            </ul>
-            <div className="card-body">
-              <button className="btn btn-outline-success my-2 my-sm-0 m-3" onClick={() => navigateToVaga(item.Joboffer.id)}>Descrição completa</button>
-              <button className="btn btn-outline-success my-2 my-sm-0 m-3" onClick={navigateToVagas}>Outras
-                vagas</button>
-            </div>
+            ))}
           </div>
-        ))}
         </div>
       </div>
     </div>

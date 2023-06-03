@@ -53,21 +53,27 @@ function Search() {
           </form>
         </div>
 
-        {joboffersFilter.map((item) => (
-        <div key={item.id} className="card-deck m-2">
-          <div className="card">
-              <div className="card-body">
-                  <h5 className="card-title">{item.Joboffer.name}</h5>
-                  <p className="card-text">Código da vaga: {item.Joboffer.code}</p>
-                  <p className="card-text">Descrição da vaga: {item.Joboffer.description}</p>
-                  <p className="card-text">Empresa: {item.Company.name}</p>
-                  <p className="card-text">Cidade: {item.City.name}</p>
-                  <p className="card-text">Cargo: {item.Position.name}</p>
-                  <button className="btn btn-secondary btn-sm" onClick={() => navigateToVaga(item.Joboffer.id)}>Visualizar</button>
+        <div className="row d-flex justify-content-center align-items-center">
+          {joboffersFilter.map((item) => (
+              <div key={item.id} className="col-sm-3">
+                {/* style={{ width: '200px', height: '200px'}} */}
+                <div className="card">
+                  <div className="card-body">
+                    <h5 className="card-title">Vaga: {item.Joboffer.name}</h5>
+                    <p className="card-text">Código da vaga: {item.Joboffer.code}</p>
+                    <ul className="list-group list-group-flush">
+                      <li className="list-group-item">Descrição da vaga: {item.Joboffer.description}</li>
+                      <li className="list-group-item">Empresa: {item.Company.name}</li>
+                      <li className="list-group-item">Cidade: {item.City.name}</li>
+                      <li className="list-group-item">Cargo: {item.Position.name}</li>
+                    </ul>
+
+                    <button className="btn btn-secondary btn-sm mt-3" onClick={() => navigateToVaga(item.Joboffer.id)}>Visualizar</button>
+                  </div>
+                </div>
               </div>
-          </div>
+            ))}
         </div>
-      ))}
       </div>
     </div>
   </div>
