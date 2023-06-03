@@ -45,13 +45,17 @@ function Menu() {
                 <button className="btn" onClick={navigateToVaga}>Vagas</button>
               </li>
             </div>
+            <div className='m-1'>
+              <li className="nav-item">
+                <button className="btn my-2 my-sm-0" onClick={navigateToCandidaturas} type="button">Candidaturas</button>
+              </li>
+            </div>
+            <div className='m-1 ml-auto'>
+              <li className="nav-item">
+                <button className="btn my-2 my-sm-0" onClick={exit} type="button">Sair</button>
+              </li>
+            </div>
           </ul>
-          <div className='m-1'>
-            <button className="btn my-2 my-sm-0" onClick={navigateToCandidaturas} type="button">Candidaturas</button>
-          </div>
-          <div className='m-1'>
-            <button className="btn my-2 my-sm-0" onClick={exit} type="button">Sair</button>
-          </div>
         </div>
       </div>
       </nav>

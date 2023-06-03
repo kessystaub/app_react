@@ -29,6 +29,7 @@ function RegisterForm() {
 
 
   function getCityByName(city_name) {
+    console.log(city_name)
       fetch(`http://localhost:8000/city/getCityByName/${city_name}`)
       .then(response => response.json())
       .then(data => {
@@ -57,6 +58,7 @@ function RegisterForm() {
           }
       };
 
+      console.log(create)
     const options = {
       method: 'POST',
       headers: {
@@ -166,17 +168,6 @@ function RegisterForm() {
 								<option value="TIJUCAS">Tijucas</option>
 								<option value="ITAPEMA">Itapema</option>
 								<option value="PORTO BELO">Porto Belo</option>
-							</select>
-						</div>
-
-						<div className="form-group p-1">
-							<label htmlFor="state">Estado:</label>
-							<select className="form-control" id="state" name="state" value={state}
-                onChange={(event) => setState(event.target.value)} required>
-								<option value="">Selecione...</option>
-								<option value="SP">São Paulo</option>
-								<option value="RS">Rio Grande do Sul</option>
-								<option value="SC">Santa Catarina</option>
 							</select>
 						</div>
 

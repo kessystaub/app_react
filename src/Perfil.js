@@ -2,6 +2,11 @@ import React, { useEffect, useState } from 'react';
 import {useNavigate} from 'react-router-dom';
 import Menu from './Menu';
 import axios from 'axios';
+import FormacaoImagem from './images/education.png';
+import UsuarioImagem from './images/user (2).png';
+import SubImagem from './images/sub.png';
+import AdicionarImagem from './images/plus.png';
+
 
 function Perfil() {
   const [id, setId] = useState('');
@@ -242,21 +247,6 @@ function Perfil() {
   }, [setUser, setFormations, setExperiences, setInstitutions, setRelations, setFormationsList]);
 
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response3 = await fetch(`http://localhost:8000/user_formation/getFormationsByUserId2/${user.id}`);
-        const data3 = await response3.json();
-        console.log(data3)
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
-
-    fetchData();
-
-  }, [user, setRelations, relations])
-
   function returnPositionName(position_id) {
     const fetchData = async () => {
       try {
@@ -277,198 +267,266 @@ function Perfil() {
       <Menu/>
 
       <div className="container mt-5">
-        <div className="row">
-          <div className="col-md-4">
-            <div className="card">
-              <img src="https://via.placeholder.com/150" className="card-img-top"
-                alt="..." />
-              <div className="card-body">
-                <h5 className="card-title">{user.name}</h5>
-                <p className="card-text">{user.description}</p>
-              </div>
-            </div>
-            <div className="mt-5">
-              <button className="btn btn-outline-success my-2 my-sm-0"
-                type="button" onClick={navigateToCurriculo}>Currículo</button>
-            </div>
-          </div>
-          <div className="col-md-8">
-            <div className="card">
-              <div className="card-body">
-                <h5 className="card-title">Informações pessoais</h5>
-                <table className="table">
-                  <tbody>
-                    <tr>
-                      <th scope="row">
-                        <label htmlFor="form">Nome</label>
-                      </th>
-                      <td>
-                        <input type="text" className="form-control" id="form"
-                          placeholder={user.name} onChange={(event) => setFormNome(event.target.value)} disabled={disabled} />
-                      </td>
-                    </tr>
-                    <tr>
-                      <th scope="row">
-                        <label htmlFor="form">Email</label>
-                      </th>
-                      <td>
-                        <input type="text" className="form-control" id="form"
-                          placeholder={user.email} onChange={(event) => setFormEmail(event.target.value)} disabled={disabled} />
-                      </td>
-                    </tr>
-                    <tr>
-                      <th scope="row">
-                        <label htmlFor="form">Telefone</label>
-                      </th>
-                      <td>
-                        <input type="text" className="form-control" id="form"
-                          placeholder={user.phone} onChange={(event) => setFormPhone(event.target.value)} disabled={disabled} />
-                      </td>
-                    </tr>
-                    <tr>
-                      <th scope="row">
-                        <label htmlFor="form">Endereço</label>
-                      </th>
-                      <td>
-                        <input type="text" className="form-control" id="form" onChange={(event) => setFormAddress(event.target.value)}
-                          placeholder={user.address} disabled={disabled} />
-                      </td>
-                    </tr>
+        <div className='d-flex justify-content-center align-items-center'>    
+            <div className="card mt-4 w-75 border-0">
+              <div className="row">
+                <div className="col-md-4">
+                  <div className="card border-0">
+                    <div className='d-flex align-items-center justify-content-center'>
+                      <img src={UsuarioImagem} className="card-img-top w-50 mt-5"
+                          alt="..." />
+                    </div>
+                    <div class="d-flex justify-content-around m-5">
+                      <div>
+                        <h5 className="card-title">{user.name}</h5>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="col-md-8">
+                  <div className="card border-0">
+                    <div className="card-body">
+                      <h5 className="card-title mb-5">Informações pessoais</h5>
+                      <table className="table">
+                        <tbody>
+                          <tr>
+                            <th scope="row">
+                              <label htmlFor="form">Nome</label>
+                            </th>
+                            <td>
+                              <input type="text" className="form-control" id="form"
+                                placeholder={user.name} onChange={(event) => setFormNome(event.target.value)} />
+                            </td>
+                          </tr>
+                          <tr>
+                            <th scope="row">
+                              <label htmlFor="form">Email</label>
+                            </th>
+                            <td>
+                              <input type="text" className="form-control" id="form"
+                                placeholder={user.email} onChange={(event) => setFormEmail(event.target.value)} />
+                            </td>
+                          </tr>
+                          <tr>
+                            <th scope="row">
+                              <label htmlFor="form">Telefone</label>
+                            </th>
+                            <td>
+                              <input type="text" className="form-control" id="form"
+                                placeholder={user.phone} onChange={(event) => setFormPhone(event.target.value)} />
+                            </td>
+                          </tr>
+                          <tr>
+                            <th scope="row">
+                              <label htmlFor="form">Endereço</label>
+                            </th>
+                            <td>
+                              <input type="text" className="form-control" id="form" onChange={(event) => setFormAddress(event.target.value)}
+                                placeholder={user.address} />
+                            </td>
+                          </tr>
 
-                  </tbody>
-                </table>
-              </div>
-            </div>
-            <div className="card mt-4">
-              <div className="card-body">
-                <h5 className="card-title">Sobre</h5>
-                <table className="table">
-                  <tbody>
-                    <tr>
-                      <th scope="row">
-                        <label htmlFor="form">Formação</label>
-                      </th>
-                      <td>
-                        <button className="btn btn-outline-secondary btn-sm m-2" onClick={() => setShowAddFormation(true)}>
-                                adicionar
-                        </button>
-                        {showAddFormation && (
-                          <form >
-                            <div className="form-group">
-                    
-                            <div className="form-group m-3">
-                              <label htmlFor="course">Curso:</label>
-                              <input type="text" className="form-control" id="course" name="course" value={curso}
-                                      placeholder="Digite seu curso" onChange={(event) => setCurso(event.target.value)} required />
-                            </div>
-                    
-                            <div className="form-group m-3">
-                              <label htmlFor="date">Período:</label>
-                              <input type="text" className="form-control" id="date" name="date" value={periodo}
-                                      placeholder="Digite o período do curso" onChange={(event) => setPeriodo(event.target.value)} required />
-                            </div>
-                    
-                            <div className="form-group m-3">
-                              <label htmlFor="name">Selecione a instituição</label>
-                              <select className="form-control" id="softskill" name="softskill" value={institution}
-                                onChange={(event) => { setInstitution(event.target.value)}} required>
-                                <option value="">Selecione...</option>
-                                {institutions.map((item) => (
-                                  <option key={item.id} value={item.id}>{item.name}</option>
-                                ))}
-                              </select>
-                            </div>
-                    
-                            <button type="button" className="btn btn-secondary mb-2" onClick={addFormation}>
-                              Adicionar
+                          <tr>
+                            <th scope="row">
+                              <label htmlFor="form">Numero de endereço</label>
+                            </th>
+                            <td>
+                              <input type="text" className="form-control" id="form"
+                                placeholder={user.address_number} />
+                            </td>
+                          </tr>
+
+                          <tr>
+                            <th scope="row">
+                              <label htmlFor="form">Bairro</label>
+                            </th>
+                            <td>
+                              <input type="text" className="form-control" id="form"
+                                placeholder={user.address_neighborhood} />
+                            </td>
+                          </tr>
+
+                          <tr>
+                            <th scope="row">
+                              <label htmlFor="form">Complemento</label>
+                            </th>
+                            <td>
+                              <input type="text" className="form-control" id="form"
+                                placeholder={user.address_complement} />
+                            </td>
+                          </tr>
+                          <tr>
+                            <button className="btn btn-sm my-2 my-sm-0"
+                              type="button" onClick={navigateToCurriculo}>
+          
+                              <p>Visualizar currículo</p>
                             </button>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="card-body">
+                  <h4 className="card-title d-flex align-items-center justify-content-center m-3">Sobre</h4>
+
+                  <hr class="my-4"></hr>
+                  
+                  <div className='card-title d-flex align-items-center justify-content-center m-3'>
+                    <h4 className="m-2">Formação</h4>
+                    <img src={FormacaoImagem} alt='formation' className="mb-3" />
+                  </div>
+
+                  <div className="row d-flex justify-content-center align-items-center">
+                    {relations.map((item) => (
+                      <div className="col-sm-3">
+                        {/* style={{ width: '200px', height: '200px'}} */}
+                        <div className="card">
+                          <div className="card-body">
+                            <h5 className="card-title">{item.Formation.course}</h5>
+                            <p className="card-text">{item.date}</p>
+                            <p className="card-text">{item.Institution.name}</p>
+                            <button className="btn btn-secondary m-2" onClick={() => deleteFormation(item.Formation.id)}>excluir</button>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                    <div className='d-flex justify-content-center align-items-center m-3'>
+                      <button className="btn mt-2 border-0" onClick={() => setShowAddFormation(!showAddFormation)}>
+                        {!showAddFormation && (<img src={AdicionarImagem} alt='formation' className="w-50" />)}
+                        {showAddFormation && (<img src={SubImagem} alt='formation' className="w-50" />)}
+                      </button>
+                    </div>
+                    <div className='d-flex justify-content-center align-items-center'>
+                      {showAddFormation && (
+                        <form >
+                          <div className="row">
+                            <div className='col'>
+                              <div className="form-group m-3">
+                                <label htmlFor="course">Curso:</label>
+                                <input type="text" className="form-control" id="course" name="course" value={curso}
+                                        placeholder="Digite seu curso" onChange={(event) => setCurso(event.target.value)} required />
+                              </div>
                             </div>
-                          </form>
-                        )}
-                        {relations.map((item) => (
-                          <div key={item.id} className="card m-2">
-                            <div className="card-body">
-                              <h5 className="card-title">{item.Formation.course}</h5>
-                              {/* <h6 className="card-subtitle mb-2 text-muted">{item.date}</h6> */}
-                              <p className="card-text">{item.Institution.name}</p>
-                              <button className="btn btn-outline-secondary btn-sm m-2" onClick={() => deleteFormation(item.Formation.id)}>
-                                excluir
+
+                            <div className='col'>
+                              <div className="form-group m-3">
+                                <label htmlFor="date">Período:</label>
+                                <input type="text" className="form-control" id="date" name="date" value={periodo}
+                                        placeholder="Exemplo: 2019-2020" onChange={(event) => setPeriodo(event.target.value)} required />
+                              </div>
+                            </div>
+
+                            <div className='col'>
+                              <div className="form-group m-3">
+                                <label htmlFor="name">Selecione a instituição</label>
+                                <select className="form-control" id="softskill" name="softskill" value={institution}
+                                  onChange={(event) => { setInstitution(event.target.value)}} required>
+                                  <option value="">Selecione...</option>
+                                  {institutions.map((item) => (
+                                    <option key={item.id} value={item.id}>{item.name}</option>
+                                  ))}
+                                </select>
+                              </div>
+                            </div>
+
+                            <div className='d-flex justify-content-center align-items-center'>
+                              <button type="button" className="btn btn-secondary m-2" onClick={() => setShowAddFormation(!showAddFormation)}>
+                                Cancelar
+                              </button>
+                              <button type="button" className="btn btn-secondary m-2" onClick={addFormation}>
+                                Adicionar
                               </button>
                             </div>
                           </div>
-                        ))}
-                      </td>
-                    </tr>
-                    <tr>
-                      <th scope="row">
-                        <label htmlFor="exp">Experiência</label>
-                      </th>
-                      <td>
-                        <button className="btn btn-outline-secondary btn-sm m-2">
-                                adicionar
-                        </button>
-                        {experiences.map((item) => (
-                          <div key={item.id} className="card">
-                            <div className="card-body">
-                              <h5 className="card-title">{item.company}</h5>
-                              <h6 className="card-subtitle mb-2 text-muted">{item.date}</h6>
-                              <p className="card-text">{returnPositionName(item.position_id)}</p>
-                              <button className="btn btn-outline-secondary btn-sm m-2" onClick={() => deleteExperience(item.id)}>
-                                excluir
-                              </button>
+                        </form>
+                      )}
+                    </div>
+                  </div>
+
+                  <hr class="my-4"></hr>
+
+                  <div className='card-title d-flex align-items-center justify-content-center m-3'>
+                    <h4 className="m-2">Experiência</h4>
+                    <img src={FormacaoImagem} alt='formation' className="mb-3" />
+                  </div>
+
+                  <hr class="my-4"></hr>
+
+                  <table className="table">
+                    <tbody>
+                      <tr>
+                        <th scope="row">
+                          <label htmlFor="exp">Experiência</label>
+                        </th>
+                        <td>
+                          <button className="btn btn-outline-secondary btn-sm m-2">
+                                  adicionar
+                          </button>
+                          {experiences.map((item) => (
+                            <div key={item.id} className="card">
+                              <div className="card-body">
+                                <h5 className="card-title">{item.company}</h5>
+                                <h6 className="card-subtitle mb-2 text-muted">{item.date}</h6>
+                                <p className="card-text">{returnPositionName(item.position_id)}</p>
+                                <button className="btn btn-outline-secondary btn-sm m-2" onClick={() => deleteExperience(item.id)}>
+                                  excluir
+                                </button>
+                              </div>
                             </div>
-                          </div>
-                        ))}
-                      </td>
-                    </tr>
-                    <tr>
-                      <th scope="row">
-                        <label htmlFor="exp">Habilidades interpessoais</label>
-                      </th>
-                      <td>
-                        <button className="btn btn-outline-secondary btn-sm m-2">
-                                adicionar
-                        </button>
-                        {softskills.map((item) => (
-                          <div key={item.id} className="card">
-                            <div className="card-body">
-                              <h5 className="card-title">{item.name}</h5>
-                              <button className="btn btn-outline-secondary btn-sm m-2" onClick={() => deleteSoftskill(item.id)}>
-                                excluir
-                              </button>
+                          ))}
+                        </td>
+                      </tr>
+                      <tr>
+                        <th scope="row">
+                          <label htmlFor="exp">Habilidades interpessoais</label>
+                        </th>
+                        <td>
+                          <button className="btn btn-outline-secondary btn-sm m-2">
+                                  adicionar
+                          </button>
+                          {softskills.map((item) => (
+                            <div key={item.id} className="card">
+                              <div className="card-body">
+                                <h5 className="card-title">{item.name}</h5>
+                                <button className="btn btn-outline-secondary btn-sm m-2" onClick={() => deleteSoftskill(item.id)}>
+                                  excluir
+                                </button>
+                              </div>
                             </div>
-                          </div>
-                        ))}
-                      </td>
-                    </tr>
-                    <tr>
-                      <th scope="row">
-                        <label htmlFor="exp">Habilidades técnicas</label>
-                      </th>
-                      <td>
-                        <button className="btn btn-outline-secondary btn-sm m-2">
-                                adicionar
-                        </button>
-                        
-                        {hardskills.map((item) => (
-                          <div key={item.id} className="card">
-                            <div className="card-body">
-                              <h5 className="card-title">{item.name}</h5>
-                              <button className="btn btn-outline-secondary btn-sm m-2" onClick={() => deleteHardskill(item.id)}>
-                                excluir
-                              </button>
+                          ))}
+                        </td>
+                      </tr>
+                      <tr>
+                        <th scope="row">
+                          <label htmlFor="exp">Habilidades técnicas</label>
+                        </th>
+                        <td>
+                          <button className="btn btn-outline-secondary btn-sm m-2">
+                                  adicionar
+                          </button>
+                          
+                          {hardskills.map((item) => (
+                            <div key={item.id} className="card">
+                              <div className="card-body">
+                                <h5 className="card-title">{item.name}</h5>
+                                <button className="btn btn-outline-secondary btn-sm m-2" onClick={() => deleteHardskill(item.id)}>
+                                  excluir
+                                </button>
+                              </div>
                             </div>
-                          </div>
-                        ))}
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
+                          ))}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
-          </div>
         </div>
       </div>
+
     </div>
   );
 }
