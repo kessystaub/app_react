@@ -24,7 +24,7 @@ function Menu() {
   return (
     <div>
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
-      <h4 className='m-2'>Match Code</h4>
+      <h4 className='m-2 text-secondary'>Match Code</h4>
       <div className='pl-2'>
         <button className="navbar-toggler" type="button" data-toggle="collapse"
           data-target="#navbarSupportedContent"
@@ -37,22 +37,22 @@ function Menu() {
           <ul className="navbar-nav mr-auto">
             <div className='m-1'>
               <li className="nav-item active">
-                <button className="btn" onClick={navigateToPerfil}>Perfil</button>
+                <button className="btn text-secondary" onClick={navigateToPerfil}><strong>Perfil</strong></button>
               </li>
             </div>
             <div className='m-1'>
               <li className="nav-item">
-                <button className="btn" onClick={navigateToVaga}>Vagas</button>
+                <button className="btn text-secondary" onClick={navigateToVaga}><strong>Vagas</strong></button>
               </li>
             </div>
             <div className='m-1'>
               <li className="nav-item">
-                <button className="btn my-2 my-sm-0" onClick={navigateToCandidaturas} type="button">Candidaturas</button>
+                <button className="btn text-secondary my-2 my-sm-0" onClick={navigateToCandidaturas} type="button"><strong>Candidaturas</strong></button>
               </li>
             </div>
-            <div className='m-1 ml-auto'>
+            <div className='m-1'>
               <li className="nav-item">
-                <button className="btn my-2 my-sm-0" onClick={exit} type="button">Sair</button>
+                <button className="btn text-secondary my-2 my-sm-0" onClick={exit} type="button">Sair</button>
               </li>
             </div>
           </ul>

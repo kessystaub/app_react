@@ -49,10 +49,10 @@ function Login() {
     <div>
       <div className="container mt-5">
 			<div className="row justify-content-center">
-				<div className="col-md-6">
-					<img src="logo.png" alt="Logo" />
+				<div className="col-md-6 row justify-content-center align-items-center mt-5">
+					<img src="logo.png" alt="Logo" className='w-75'/>
 					<h4 className="text-center text-secondary mb-4">Acesse sua conta Match Code</h4>
-					<form>
+					<form >
 						<div className="form-group">
 							<label htmlFor="email">Email:</label>
 							<input type="email" className="form-control" id="email" name="email"
@@ -70,16 +70,17 @@ function Login() {
 						</div>
 
 						<div className="text-center p-3">
-							<button className="btn btn-secondary btn-lg" onClick={handleSubmit}>Entrar</button>
+							<button className="btn btn-secondary" onClick={handleSubmit}>Entrar</button>
 						</div>
 
-						<div>
-							<span>Ainda não tem conta?</span>
-							  <button className="btn btn-sm" onClick={navigateToCadastro}>Criar conta</button>
-						</div>
-
-						<div className='m-1'>
-							<button className="btn btn-secondary my-2 my-sm-0" type="button" onClick={navigateToLoginEmpresa}>Sou Empresa</button>
+						<div className='row'>
+							<div className='col'>
+								<span>Ainda não tem conta?</span>
+							  	<button className="btn btn-sm" onClick={navigateToCadastro}>Criar conta</button>
+							</div>
+							<div className='col text-end'>
+								<button className="btn btn-outline-secondary" type="button" onClick={navigateToLoginEmpresa}>Sou Empresa</button>
+							</div>
 						</div>
 					</form>
 				</div>

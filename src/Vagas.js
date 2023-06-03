@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from './UserContext';
 import MenuCompany from './MenuCompany';
+import Card from 'react-bootstrap/Card';
 
 function Vagas() {
   const [vagas, setVagas] = useState([]);
@@ -65,19 +66,27 @@ function Vagas() {
         <div className="form-inline justify-content-center">
           <div className="row d-flex justify-content-center align-items-center">
             {vagas.map((item) => (
-              <div key={item.id} className="col-sm-3 m-1">
-                <div className='card' style={{ width: '18rem', height: '18rem'}}>
-                  <div className="card-body">
-                    <div className="form-inline">
-                      <h5 className="card-title">Vaga: {item.Joboffer.name}</h5>
-                    </div>
-                    <p className="card-text">Código: {item.Joboffer.code}</p>
-                    <p className="card-text">Descrição: {item.Joboffer.description}</p>
-                    <p className="card-text">Cargo: {item.Position.name}</p>
-                    <p className="card-text">Cidade: {item.City.name}</p>
-                  </div>
-                </div>
-              </div>
+                <Card className='m-3' style={{ width: '18rem' }}>
+                <Card.Body>
+                  <Card.Title>{company.name}</Card.Title>
+                  <Card.Subtitle className="mb-2 text-muted">{item.Joboffer.name}</Card.Subtitle>
+                  <Card.Text>
+                    Descrição: {item.Joboffer.description}
+                  </Card.Text>
+                  <Card.Text>
+                    Código:
+                    <ul>
+                      <li>{item.Joboffer.code}</li>
+                    </ul>
+                  </Card.Text>
+                  <Card.Text>
+                    Cidade:
+                    <ul>
+                      <li>{item.City.name}</li>
+                    </ul>
+                  </Card.Text>
+                </Card.Body>
+              </Card>
             ))}
           </div>
         </div>

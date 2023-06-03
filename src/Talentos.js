@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import {useNavigate} from 'react-router-dom';
 import MenuCompany from './MenuCompany';
+import UsuarioImagem from './images/user (2).png';
 
 function Talentos() {
   const [id, setId] = useState('');
@@ -81,16 +82,17 @@ function Talentos() {
                 <div className="row d-flex justify-content-center align-items-center">
                     {users.map((item) => (
                     <div key={item.id} className="col-sm-3 m-1">
-                        <div className='card'>
+                        <div className="card">
                             <div className="card-body">
-                                <div className="form-inline">
-                                <h5 className="card-title">Nome: {item.User.name}</h5>
+                                <div className="d-flex align-items-center mb-3">
+                                <img src={UsuarioImagem} alt="user" className="w-25 rounded-circle mr-3" />
+                                <h5 className="card-title m-1">{item.User.name}</h5>
                                 </div>
-                                <p className="card-text">Email: {item.User.email}</p>
-                                <p className="card-text">Telefone: {item.User.phone_number}</p>
-                                <p className="card-text">Cidade: {item.City.name}</p>
-                                <button className='btn' onClick={() => navigateToCurriculo(item.User.id)}>
-                                    Visualizar currículo
+                                <p className="card-text"><strong>Email:</strong> {item.User.email}</p>
+                                <p className="card-text"><strong>Telefone:</strong> {item.User.phone_number}</p>
+                                <p className="card-text"><strong>Cidade:</strong> {item.City.name}</p>
+                                <button className="btn btn-secondary" onClick={() => navigateToCurriculo(item.User.id)}>
+                                Visualizar currículo
                                 </button>
                             </div>
                         </div>

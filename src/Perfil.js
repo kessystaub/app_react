@@ -9,6 +9,7 @@ import SubImagem from './images/sub.png';
 import AdicionarImagem from './images/plus.png';
 import SoftskillImagem from './images/notes.png';
 import HardskillImagem from './images/development.png';
+import ExcluirImagem from './images/lixo.png';
 import Footer from './Footer';
 
 
@@ -407,103 +408,62 @@ function Perfil() {
             <div className="card mt-4 w-75 border-0">
               <div className="row">
                 <div className="col-md-4">
-                  <div className="card border-0">
-                    <div className='d-flex align-items-center justify-content-center'>
-                      <img src={UsuarioImagem} className="card-img-top w-50 mt-5"
-                          alt="..." />
-                    </div>
-                    <div className="d-flex justify-content-around m-5">
-                      <div>
-                        <h5 className="card-title">{user.name}</h5>
-                      </div>
+                  <div className="card border-0 text-center">
+                    <img src={UsuarioImagem} className="card-img-top w-75 mt-5" alt="User" />
+                    <div className="card-body">
+                      <h5 className="card-title">{user.name}</h5>
                     </div>
                   </div>
                 </div>
                 <div className="col-md-8">
                   <div className="card border-0">
                     <div className="card-body">
-                      <h5 className="card-title mb-5">Informações pessoais</h5>
+                      <h5 className="card-title mb-4">Informações pessoais</h5>
                       <table className="table">
                         <tbody>
                           <tr>
-                            <th scope="row">
-                              <label htmlFor="form">Nome</label>
-                            </th>
-                            <td>
-                              <input type="text" className="form-control" id="form"
-                                placeholder={user.name} onChange={(event) => setFormNome(event.target.value)} />
-                            </td>
+                            <th className='text-secondary' scope="row">Nome</th>
+                            <td>{user.name}</td>
                           </tr>
                           <tr>
-                            <th scope="row">
-                              <label htmlFor="form">Email</label>
-                            </th>
-                            <td>
-                              <input type="text" className="form-control" id="form"
-                                placeholder={user.email} onChange={(event) => setFormEmail(event.target.value)} />
-                            </td>
+                            <th className='text-secondary' scope="row">Email</th>
+                            <td>{user.email}</td>
                           </tr>
                           <tr>
-                            <th scope="row">
-                              <label htmlFor="form">Telefone</label>
-                            </th>
-                            <td>
-                              <input type="text" className="form-control" id="form"
-                                placeholder={user.phone} onChange={(event) => setFormPhone(event.target.value)} />
-                            </td>
+                            <th className='text-secondary' scope="row">Telefone</th>
+                            <td>{user.phone}</td>
                           </tr>
                           <tr>
-                            <th scope="row">
-                              <label htmlFor="form">Endereço</label>
-                            </th>
-                            <td>
-                              <input type="text" className="form-control" id="form" onChange={(event) => setFormAddress(event.target.value)}
-                                placeholder={user.address} />
-                            </td>
-                          </tr>
-
-                          <tr>
-                            <th scope="row">
-                              <label htmlFor="form">Numero de endereço</label>
-                            </th>
-                            <td>
-                              <input type="text" className="form-control" id="form"
-                                placeholder={user.address_number} />
-                            </td>
-                          </tr>
-
-                          <tr>
-                            <th scope="row">
-                              <label htmlFor="form">Bairro</label>
-                            </th>
-                            <td>
-                              <input type="text" className="form-control" id="form"
-                                placeholder={user.address_neighborhood} />
-                            </td>
-                          </tr>
-
-                          <tr>
-                            <th scope="row">
-                              <label htmlFor="form">Complemento</label>
-                            </th>
-                            <td>
-                              <input type="text" className="form-control" id="form"
-                                placeholder={user.address_complement} />
-                            </td>
+                            <th className='text-secondary' scope="row">Endereço</th>
+                            <td>{user.address}</td>
                           </tr>
                           <tr>
-                            <button className="btn btn-sm my-2 my-sm-0"
-                              type="button" onClick={navigateToCurriculo}>
-          
-                              <p>Visualizar currículo</p>
-                            </button>
+                            <th className='text-secondary' scope="row">Número de endereço</th>
+                            <td>{user.address_number}</td>
+                          </tr>
+                          <tr>
+                            <th className='text-secondary' scope="row">Bairro</th>
+                            <td>{user.address_neighborhood}</td>
+                          </tr>
+                          <tr>
+                            <th className='text-secondary' scope="row">Complemento</th>
+                            <td>{user.address_complement}</td>
+                          </tr>
+                          <tr>
+                            <td colSpan="2">
+                              <button className="btn btn-secondary" onClick={navigateToCurriculo}>
+                                Visualizar currículo
+                              </button>
+                            </td>
                           </tr>
                         </tbody>
                       </table>
                     </div>
                   </div>
                 </div>
+              </div>
 
+              <div className="row">
                 <div className="card-body">
                   <h4 className="card-title d-flex align-items-center justify-content-center m-3">Sobre</h4>
 
@@ -518,14 +478,16 @@ function Perfil() {
 
                   <div className="row d-flex justify-content-center align-items-center">
                     {relationsFormation.map((item) => (
-                      <div className="col-sm-3">
+                      <div className="col-sm-3 d-flex justify-content-center">
                         {/* style={{ width: '200px', height: '200px'}} */}
                         <div className="card">
-                          <div className="card-body">
+                          <div className="card-body text-center">
                             <h5 className="card-title">Curso: {item.Formation.course}</h5>
-                            <p className="card-text">Período: {item.Formation.date}</p>
+                            <p className="card-text text-secondary">Período: {item.Formation.date}</p>
                             <p className="card-text">Instituição: {item.Institution.name}</p>
-                            <button className="btn btn-secondary m-2" onClick={() => deleteFormation(item.Formation.id)}>excluir</button>
+                            <button className="btn" onClick={() => deleteFormation(item.Formation.id)}>
+                              <img src={ExcluirImagem} alt='delete' className='w-75' />
+                            </button>
                           </div>
                         </div>
                       </div>
@@ -594,14 +556,16 @@ function Perfil() {
 
                   <div className="row d-flex justify-content-center align-items-center">
                     {relationsExperience.map((item) => (
-                        <div className="col-sm-3">
+                        <div className="col-sm-3 d-flex justify-content-center">
                           {/* style={{ width: '200px', height: '200px'}} */}
                           <div className="card">
-                            <div className="card-body">
+                            <div className="card-body text-center">
                               <h5 className="card-title">Empresa: {item.Experience.company}</h5>
-                              <p className="card-text">Período: {item.Experience.date}</p>
+                              <p className="card-text text-secondary">Período: {item.Experience.date}</p>
                               <p className="card-text">Cargo: {item.Position.name}</p>
-                              <button className="btn btn-secondary m-2" onClick={() => deleteExperience(item.Experience.id)}>excluir</button>
+                              <button className="btn" onClick={() => deleteExperience(item.Experience.id)}>
+                                <img src={ExcluirImagem} alt='delete' className='w-75' />
+                              </button>
                             </div>
                           </div>
                         </div>
@@ -672,15 +636,16 @@ function Perfil() {
 
                   <div className="row d-flex justify-content-center align-items-center">
                     {relationsSoftskill.map((item) => (
-                        <div className="col-sm-3">
-                          {/* style={{ width: '200px', height: '200px'}} */}
-                          <div className="card">
-                            <div className="card-body">
-                              <h5 className="card-title">Habilidade: {item.Softskill.name}</h5>
-                              <button className="btn btn-secondary m-2" onClick={() => deleteSoftskill(item.Softskill.id)}>excluir</button>
-                            </div>
-                          </div>
-                        </div>
+                       <div className="col-sm-4 d-flex justify-content-center">
+                       <div className="card">
+                         <div className="card-body d-flex align-items-center justify-content-between">
+                           <h5 className="card-title">{item.Softskill.name}</h5>
+                           <button className="btn" onClick={() => deleteSoftskill(item.Softskill.id)}>
+                             <img src={ExcluirImagem} alt="delete" className="w-75" />
+                           </button>
+                         </div>
+                       </div>
+                     </div>
                       ))}
 
                     <div className='d-flex justify-content-center align-items-center m-3'>
@@ -729,12 +694,14 @@ function Perfil() {
 
                   <div className="row d-flex justify-content-center align-items-center">
                     {relationsHardskill.map((item) => (
-                        <div className="col-sm-3">
+                        <div className="col-sm-3 d-flex justify-content-center">
                           {/* style={{ width: '200px', height: '200px'}} */}
                           <div className="card">
-                            <div className="card-body">
-                              <h5 className="card-title">Habilidade: {item.Hardskill.name}</h5>
-                              <button className="btn btn-secondary m-2" onClick={() => deleteHardskill(item.Hardskill.id)}>excluir</button>
+                            <div className="card-body d-flex align-items-center justify-content-between">
+                              <h5 className="card-title">{item.Hardskill.name}</h5>
+                              <button className="btn" onClick={() => deleteHardskill(item.Hardskill.id)}>
+                                <img src={ExcluirImagem} alt='delete' className='w-75' />
+                              </button>
                             </div>
                           </div>
                         </div>
