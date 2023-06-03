@@ -7,6 +7,9 @@ import ExperienciaImagem from './images/brain.png';
 import UsuarioImagem from './images/user (2).png';
 import SubImagem from './images/sub.png';
 import AdicionarImagem from './images/plus.png';
+import SoftskillImagem from './images/notes.png';
+import HardskillImagem from './images/development.png';
+import Footer from './Footer';
 
 
 function Perfil() {
@@ -42,6 +45,7 @@ function Perfil() {
   const [experienceslist, setExperiencesList] = useState([]);
   const [periodo, setPeriodo] = useState('');
 
+  // experiencia states
   const [empresa, setEmpresa] = useState('');
   const [cargos, setCargos] = useState([]);
   const [cargo, setCargo] = useState('');
@@ -49,6 +53,16 @@ function Perfil() {
   const [showAddExperience, setShowAddExperience] = useState(false)
   const [relationsExperience, setRelationsExperience] = useState([{ Experience: { company: '', date: '' } , Position: {name: ''}}]);
   
+  // softskills states
+  const [showAddSoftskill, setShowAddSoftskill] = useState(false)
+  const [relationsSoftskill, setRelationsSoftskill] = useState([{ Softskill: { id: '', name: '' } }]);
+  const [softskillsList, setSoftskillsList] = useState([]);
+
+
+  // hardskills states
+  const [showAddHardskill, setShowAddHardskill] = useState(false)
+  const [relationsHardskill, setRelationsHardskill] = useState([{ Hardskill: { id: '', name: '' } }]);
+  const [hardskillsList, setHardskillsList] = useState([]);
 
 
   const navigate = useNavigate();
@@ -224,6 +238,65 @@ function Perfil() {
       });
   }
 
+  async function addSoftskill(softskill_id) {
+		const create = {
+			"parameter": {
+					"user_id": user.id,
+					"softskill_id": softskill_id
+				}
+			};
+
+		const options = {
+			method: 'POST',
+			headers: {
+			'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(create),
+			};
+
+		fetch(`http://localhost:8000/user_softskill`, options)
+		.then(data => {
+			if (!data.ok) {
+				throw Error(data.status);
+				}
+				return data.json();
+			}).then(create => {
+			console.log(create);
+			}).catch(e => {
+			console.log(e);
+			});
+
+	};
+
+  async function addHardskill(hardskill_id) {
+		const create = {
+			"parameter": {
+					"user_id": user.id,
+					"hardskill_id": hardskill_id
+				}
+			};
+
+		const options = {
+			method: 'POST',
+			headers: {
+			'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(create),
+			};
+
+		fetch(`http://localhost:8000/user_hardskill`, options)
+		.then(data => {
+			if (!data.ok) {
+				throw Error(data.status);
+				}
+				return data.json();
+			}).then(create => {
+			console.log(create);
+			}).catch(e => {
+			console.log(e);
+			});
+	};
+
   async function deleteFormation(formation_id) {
 		axios.delete(`http://localhost:8000/user_formation/deleteByUser/${user.id}/${formation_id}`)
 		.then(response => {
@@ -324,29 +397,35 @@ function Perfil() {
         const response6 = await fetch(`http://localhost:8000/user_experience/getExperiencesByUserId2/${user.id}`);
         const data6 = await response6.json();
         setRelationsExperience(data6.result);
+
+        // softskill
+
+        const response7 = await fetch(`http://localhost:8000/softskill`);
+        const data7 = await response7.json();
+        setSoftskillsList(data7.result)
+
+        const response8 = await fetch(`http://localhost:8000/user_softskill/getSoftskillsByUserId2/${user.id}`);
+        const data8 = await response8.json();
+        setRelationsSoftskill(data8.result)
+
+
+        // hardskill
+
+        const response9 = await fetch(`http://localhost:8000/hardskill`);
+        const data9 = await response9.json();
+        setHardskillsList(data9.result)
+
+        const response10 = await fetch(`http://localhost:8000/user_hardskill/getHardskillsByUserId2/${user.id}`);
+        const data10 = await response10.json();
+        setRelationsHardskill(data10.result)		
       } catch (error) {
         console.error('Error fetching data:', error);
       }
     };
 
     fetchData();
-  }, [setUser, setFormations, setExperiences, setInstitutions, setRelations, setFormationsList, setCargos, setExperiencesList, setRelationsExperience]);
+  }, [setUser, setFormations, setExperiences, setInstitutions, setRelations, setFormationsList, setCargos, setExperiencesList, setRelationsExperience, setSoftskillsList, setRelationsSoftskill]);
 
-
-  function returnPositionName(position_id) {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(`http://localhost:8000/position/${position_id}`);
-        const data = await response.json();
-        setNomePos(data.result.name)
-        } catch (error) {
-          console.error('Error fetching data:', error);
-        }
-      };
-
-    fetchData();
-    return nomePos
-  }
 
   return (
     <div>
@@ -607,81 +686,126 @@ function Perfil() {
                     </div>
                   </div>
 
+                  {/* softskills */}
+
                   <hr className="my-4"></hr>
 
-                  <table className="table">
-                    <tbody>
-                      <tr>
-                        <th scope="row">
-                          <label htmlFor="exp">Experiência</label>
-                        </th>
-                        <td>
-                          <button className="btn btn-outline-secondary btn-sm m-2">
-                                  adicionar
-                          </button>
-                          {experiences.map((item) => (
-                            <div key={item.id} className="card">
-                              <div className="card-body">
-                                <h5 className="card-title">{item.company}</h5>
-                                <h6 className="card-subtitle mb-2 text-muted">{item.date}</h6>
-                                <p className="card-text">{returnPositionName(item.position_id)}</p>
-                                <button className="btn btn-outline-secondary btn-sm m-2" onClick={() => deleteExperience(item.id)}>
-                                  excluir
-                                </button>
+                  <div className='card-title d-flex align-items-center justify-content-center m-3'>
+                    <h4 className="m-2">Habilidades interpessoais</h4>
+                    <img src={SoftskillImagem} alt='formation' className="mb-3" />
+                  </div>
+
+                  <div className="row d-flex justify-content-center align-items-center">
+                    {relationsSoftskill.map((item) => (
+                        <div className="col-sm-3">
+                          {/* style={{ width: '200px', height: '200px'}} */}
+                          <div className="card">
+                            <div className="card-body">
+                              <h5 className="card-title">Habilidade: {item.Softskill.name}</h5>
+                              <button className="btn btn-secondary m-2" onClick={() => deleteSoftskill(item.Softskill.id)}>excluir</button>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+
+                    <div className='d-flex justify-content-center align-items-center m-3'>
+                      <button className="btn mt-2 border-0" onClick={() => setShowAddSoftskill(!showAddSoftskill)}>
+                        {!showAddSoftskill && (<img src={AdicionarImagem} alt='formation' className="w-50" />)}
+                        {showAddSoftskill && (<img src={SubImagem} alt='formation' className="w-50" />)}
+                      </button>
+                    </div>
+
+                    <div className='d-flex justify-content-center align-items-center'>
+                      {showAddSoftskill && (
+                        <form>
+                          <div className='row'>
+                            <div className='col'>
+                              <div className="form-group">
+                                <label htmlFor="name">Selecione uma habilidade que possui</label>
+                                <select className="form-control" id="softskill" name="softskill" value={softskills}
+                                  onChange={(event) => { addSoftskill(event.target.value)}} required>
+                                  <option value="">Selecione...</option>
+                                  {softskillsList.map((item) => (
+                                    <option key={item.id} value={item.id}>{item.name}</option>
+                                  ))}
+                                </select>
                               </div>
                             </div>
-                          ))}
-                        </td>
-                      </tr>
-                      <tr>
-                        <th scope="row">
-                          <label htmlFor="exp">Habilidades interpessoais</label>
-                        </th>
-                        <td>
-                          <button className="btn btn-outline-secondary btn-sm m-2">
-                                  adicionar
-                          </button>
-                          {softskills.map((item) => (
-                            <div key={item.id} className="card">
-                              <div className="card-body">
-                                <h5 className="card-title">{item.name}</h5>
-                                <button className="btn btn-outline-secondary btn-sm m-2" onClick={() => deleteSoftskill(item.id)}>
-                                  excluir
-                                </button>
+
+                            <div className='d-flex justify-content-center align-items-center'>
+                              <button type="button" className="btn btn-secondary m-2" onClick={() => setShowAddSoftskill(!showAddSoftskill)}>
+                                Cancelar
+                              </button>
+                            </div>
+                          </div>
+                        </form>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* hardskills */}
+                  
+                  <hr className="my-4"></hr>
+
+                  <div className='card-title d-flex align-items-center justify-content-center m-3'>
+                    <h4 className="m-2">Habilidades técnicas</h4>
+                    <img src={HardskillImagem} alt='formation' className="mb-3" />
+                  </div>
+
+                  <div className="row d-flex justify-content-center align-items-center">
+                    {relationsHardskill.map((item) => (
+                        <div className="col-sm-3">
+                          {/* style={{ width: '200px', height: '200px'}} */}
+                          <div className="card">
+                            <div className="card-body">
+                              <h5 className="card-title">Habilidade: {item.Hardskill.name}</h5>
+                              <button className="btn btn-secondary m-2" onClick={() => deleteHardskill(item.Hardskill.id)}>excluir</button>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+
+                    <div className='d-flex justify-content-center align-items-center m-3'>
+                      <button className="btn mt-2 border-0" onClick={() => setShowAddHardskill(!showAddHardskill)}>
+                        {!showAddHardskill && (<img src={AdicionarImagem} alt='formation' className="w-50" />)}
+                        {showAddHardskill && (<img src={SubImagem} alt='formation' className="w-50" />)}
+                      </button>
+                    </div>
+
+                    <div className='d-flex justify-content-center align-items-center'>
+                      {showAddHardskill && (
+                        <form>
+                          <div className='row'>
+                            <div className='col'>
+                              <div className="form-group">
+                                <label htmlFor="name">Selecione uma habilidade que possui</label>
+                                <select className="form-control" id="hardskill" name="hardskill" value={hardskills}
+                                  onChange={(event) => { addHardskill(event.target.value)}} required>
+                                  <option value="">Selecione...</option>
+                                  {hardskillsList.map((item) => (
+                                    <option key={item.id} value={item.id}>{item.name}</option>
+                                  ))}
+                                </select>
                               </div>
                             </div>
-                          ))}
-                        </td>
-                      </tr>
-                      <tr>
-                        <th scope="row">
-                          <label htmlFor="exp">Habilidades técnicas</label>
-                        </th>
-                        <td>
-                          <button className="btn btn-outline-secondary btn-sm m-2">
-                                  adicionar
-                          </button>
-                          
-                          {hardskills.map((item) => (
-                            <div key={item.id} className="card">
-                              <div className="card-body">
-                                <h5 className="card-title">{item.name}</h5>
-                                <button className="btn btn-outline-secondary btn-sm m-2" onClick={() => deleteHardskill(item.id)}>
-                                  excluir
-                                </button>
-                              </div>
+
+                            <div className='d-flex justify-content-center align-items-center'>
+                              <button type="button" className="btn btn-secondary m-2" onClick={() => setShowAddHardskill(!showAddHardskill)}>
+                                Cancelar
+                              </button>
                             </div>
-                          ))}
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
+                          </div>
+                        </form>
+                      )}
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
         </div>
       </div>
 
+    <Footer />
     </div>
   );
 }
