@@ -9,7 +9,6 @@ function ExperienceForm() {
   const [cargos, setCargos] = useState([]);
   const [cargo, setCargo] = useState('');
   const [id, setId] = useState('');
-  const [experienceId, setExperienceId] = useState('');
   const [relations, setRelations] = useState([]);
 
 
@@ -51,15 +50,17 @@ function ExperienceForm() {
         return data.json();
       }).then(create => {
         console.log(create)
-        setExperienceId(create.result.id)
+        addUserExperience(create.result.id)
       }).catch(e => {
       console.log(e);
       });
+  }
 
+  function addUserExperience(experience_id) {
     const relation = {
       "parameter": {
           "user_id": id,
-          "experience_id": experienceId
+          "experience_id": experience_id
         }
       };
 
