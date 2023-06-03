@@ -4,7 +4,7 @@ import Menu from './Menu';
 import axios from 'axios';
 import FormacaoImagem from './images/education.png';
 import ExperienciaImagem from './images/brain.png';
-import UsuarioImagem from './images/user (2).png';
+import UsuarioImagem from './images/user.png';
 import SubImagem from './images/sub.png';
 import AdicionarImagem from './images/plus.png';
 import SoftskillImagem from './images/notes.png';

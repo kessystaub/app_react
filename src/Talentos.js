@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import {useNavigate} from 'react-router-dom';
 import MenuCompany from './MenuCompany';
-import UsuarioImagem from './images/user (2).png';
+import UsuarioImagem from './images/user.png';
 
 function Talentos() {
   const [id, setId] = useState('');
