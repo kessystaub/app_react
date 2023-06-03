@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Menu from './Menu';
+import UsuarioImagem from './images/user.png';
 
 function Curriculo() {
     const [user, setUser] = useState([]);
@@ -28,22 +29,21 @@ function Curriculo() {
       <Menu />
 
       <div className="container">
-            <div className="row justify-content-center">
+            <div className="row justify-content-center m-5">
                 <div className="col-lg-8 col-md-10">
                     <div className="card shadow-lg">
                         <div className="card-body">
                             <div className="row">
                                 <div className="col-md-4">
                                     <img
-                                        src="https://via.placeholder.com/150"
-                                        alt="Profile
-                                        Picture" className="img-fluid
-                                        rounded-circle mb-3" />
+                                        src={UsuarioImagem}
+                                        alt="user" className="img-fluid
+                                        rounded-circle mb-3 w-75" />
                                 </div>
                                 <div className="col-md-8">
                                     <h2 className="mb-0">{user.name}</h2>
                                     <p className="mb-3"><i className="fas
-                                            fa-map-marker-alt mr-2"></i>{user.address}</p>
+                                            fa-map-marker-alt mr-2"></i>Endereço: {user.address}</p>
                                     <p>{user.description}</p>
                                 </div>
                             </div>
@@ -90,11 +90,10 @@ function Curriculo() {
                                         <li className="list-group-item"><i
                                                 className="fas fa-phone mr-2"></i>{user.phone}</li>
                                         <li className="list-group-item"><i
-                                                className="fab fa-github mr-2"></i>https://github.com/johndoe</li>
+                                                className="fab fa-github mr-2"></i>https://github.com/</li>
                                     </div>
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 </div>

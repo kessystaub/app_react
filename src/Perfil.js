@@ -450,9 +450,14 @@ function Perfil() {
                             <td>{user.address_complement}</td>
                           </tr>
                           <tr>
-                            <td colSpan="2">
-                              <button className="btn btn-secondary" onClick={navigateToCurriculo}>
+                            <td colSpan="1">
+                              <button className="btn btn-outline-secondary" onClick={navigateToCurriculo}>
                                 Visualizar currículo
+                              </button>
+                            </td>
+                            <td colSpan="2">
+                              <button className="btn btn-outline-secondary text-end" onClick={navigateToCurriculo}>
+                                Editar perfil
                               </button>
                             </td>
                           </tr>
