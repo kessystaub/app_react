@@ -66,7 +66,7 @@ function Vagas() {
           <div className="row d-flex justify-content-center align-items-center">
             {vagas.map((item) => (
               <div key={item.id} className="col-sm-3 m-1">
-                <div className='card'>
+                <div className='card' style={{ width: '18rem', height: '18rem'}}>
                   <div className="card-body">
                     <div className="form-inline">
                       <h5 className="card-title">Vaga: {item.Joboffer.name}</h5>

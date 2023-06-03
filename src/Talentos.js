@@ -73,7 +73,6 @@ function Talentos() {
         <div className="container mt-5">
             <div className="row justify-content-center">
                 <div className="col-md-6">
-                    <img src="logo.png" alt="Logo" />
                     <h4 className="text-center text-secondary mb-4">Aqui estão alguns talentos para a sua empresa</h4>
                 </div>
             </div>
