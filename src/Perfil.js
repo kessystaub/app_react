@@ -409,8 +409,8 @@ function Perfil() {
               <div className="row">
                 <div className="col-md-4">
                   <div className="card border-0 text-center">
-                    <img src={UsuarioImagem} className="card-img-top w-75 mt-5" alt="User" />
                     <div className="card-body">
+                      <img src={UsuarioImagem} className="card-img-top w-75 mb-5 mt-5" alt="User" />
                       <h5 className="card-title">{user.name}</h5>
                     </div>
                   </div>
