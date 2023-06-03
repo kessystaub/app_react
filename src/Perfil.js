@@ -13,36 +13,19 @@ import Footer from './Footer';
 
 
 function Perfil() {
-  const [id, setId] = useState('');
   const [user, setUser] = useState([]);
-  const [experiences, setExperiences] = useState([]);
-  const [formations, setFormations] = useState([]);
   const [softskills, setSoftskills] = useState([]);
   const [hardskills, setHardskills] = useState([])
-  const [nome, setNome] = useState('');
   const [formNome, setFormNome] = useState('');
-  const [email, setEmail] = useState('');
   const [formEmail, setFormEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [phone, setPhone] = useState('');
-  const [address, setAddress] = useState('');
   const [formPhone, setFormPhone] = useState('');
   const [formAddress, setFormAddress] = useState('');
-  const [city, setCity] = useState('');
-  const [state, setState] = useState('');
   const [disabled, setDisabled] = useState(true)
-  const [mostraBotao, setMostraBotao] = useState(false)
-  const [nomeIns, setNomeIns] = useState('')
-  const [nomePos, setNomePos] = useState('')
   const [showAddFormation, setShowAddFormation] = useState(false)
   const [institution, setInstitution] = useState('');
-  const [institutionName, setInstitutionName] = useState('');
   const [institutions, setInstitutions] = useState([]);
   const [curso, setCurso] = useState('');
-  const [formationId, setFormationId] = useState(0);
   const [relations, setRelations] = useState([{ Formation: { course: '', date: '' } , Institution: {name: ''}}]);
-  const [formationslist, setFormationsList] = useState([]);
-  const [experienceslist, setExperiencesList] = useState([]);
   const [periodo, setPeriodo] = useState('');
 
   // experiencia states
@@ -71,44 +54,44 @@ function Perfil() {
     navigate('/curriculo');
   };
 
-  function updateUser() {
-    setDisabled(true)
+  // function updateUser() {
+  //   setDisabled(true)
 
-    if (formNome === ''){
-      setFormNome(nome)
-    }
+  //   if (formNome === ''){
+  //     setFormNome(nome)
+  //   }
 
-    const update = {
-      "parameter": {
-        "phone": formPhone,
-        "name": formNome,
-        "email": formEmail,
-        "address": formAddress
-      }
-    }
+  //   const update = {
+  //     "parameter": {
+  //       "phone": formPhone,
+  //       "name": formNome,
+  //       "email": formEmail,
+  //       "address": formAddress
+  //     }
+  //   }
   
-    console.log(update)
+  //   console.log(update)
 
-    const options = {
-      method: 'PATCH',
-      headers: {
-      'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(update),
-      };
+  //   const options = {
+  //     method: 'PATCH',
+  //     headers: {
+  //     'Content-Type': 'application/json',
+  //     },
+  //     body: JSON.stringify(update),
+  //     };
   
-    fetch(`http://localhost:8000/user/${id}`, options)
-    .then(data => {
-      if (!data.ok) {
-        throw Error(data.status);
-        }
-        return data.json();
-      }).then(update => {
-      console.log(update);
-      }).catch(e => {
-      console.log(e);
-      });
-  }
+  //   fetch(`http://localhost:8000/user/${id}`, options)
+  //   .then(data => {
+  //     if (!data.ok) {
+  //       throw Error(data.status);
+  //       }
+  //       return data.json();
+  //     }).then(update => {
+  //     console.log(update);
+  //     }).catch(e => {
+  //     console.log(e);
+  //     });
+  // }
 
   function addFormation() {
     let institution_id = institution
@@ -357,13 +340,9 @@ function Perfil() {
   useEffect(() => {
     const storedValue = localStorage.getItem('user-info') ? JSON.parse(localStorage.getItem('user-info')) : [];
     const user = storedValue.user;
-    const formationslist = storedValue.formations;
-    const experienceslist = storedValue.experiences;
     const softskillslist = storedValue.softskills;
     const hardskillslist = storedValue.hardskills;
     setUser(user)
-    setFormations(formationslist)
-    setExperiences(experienceslist)
     setSoftskills(softskillslist)
     setHardskills(hardskillslist)
 
@@ -374,10 +353,6 @@ function Perfil() {
         const response = await fetch(`http://localhost:8000/institution`);
         const data = await response.json();
         setInstitutions(data.result)
-
-        const response2 = await fetch(`http://localhost:8000/formation`);
-        const data2 = await response2.json();
-        setFormationsList(data2.result)
 
         const response3 = await fetch(`http://localhost:8000/user_formation/getFormationsByUserId2/${user.id}`);
         const data3 = await response3.json();
@@ -390,10 +365,6 @@ function Perfil() {
         const data4 = await response4.json();
         setCargos(data4.result)
 
-        const response5 = await fetch(`http://localhost:8000/experience`);
-        const data5 = await response5.json();
-        setExperiencesList(data5.result)
-    
         const response6 = await fetch(`http://localhost:8000/user_experience/getExperiencesByUserId2/${user.id}`);
         const data6 = await response6.json();
         setRelationsExperience(data6.result);
@@ -424,7 +395,7 @@ function Perfil() {
     };
 
     fetchData();
-  }, [setUser, setFormations, setExperiences, setInstitutions, setRelations, setFormationsList, setCargos, setExperiencesList, setRelationsExperience, setSoftskillsList, setRelationsSoftskill]);
+  }, [setUser, setInstitutions, setRelations, setCargos, setRelationsExperience, setSoftskillsList, setRelationsSoftskill]);
 
 
   return (
@@ -536,6 +507,8 @@ function Perfil() {
                 <div className="card-body">
                   <h4 className="card-title d-flex align-items-center justify-content-center m-3">Sobre</h4>
 
+                  {/* formations */}
+
                   <hr className="my-4"></hr>
                   
                   <div className='card-title d-flex align-items-center justify-content-center m-3'>
@@ -609,6 +582,8 @@ function Perfil() {
                       )}
                     </div>
                   </div>
+
+                  {/* experiences */}
 
                   <hr className="my-4"></hr>
 
