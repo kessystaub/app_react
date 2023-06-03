@@ -3,6 +3,7 @@ import {useNavigate} from 'react-router-dom';
 import Menu from './Menu';
 import axios from 'axios';
 import FormacaoImagem from './images/education.png';
+import ExperienciaImagem from './images/brain.png';
 import UsuarioImagem from './images/user (2).png';
 import SubImagem from './images/sub.png';
 import AdicionarImagem from './images/plus.png';
@@ -35,11 +36,19 @@ function Perfil() {
   const [institutionName, setInstitutionName] = useState('');
   const [institutions, setInstitutions] = useState([]);
   const [curso, setCurso] = useState('');
-  const [periodo, setPeriodo] = useState('');
   const [formationId, setFormationId] = useState(0);
-  const [relations, setRelations] = useState([{ Formation: { course: '' } , Institution: {name: ''}}]);
+  const [relations, setRelations] = useState([{ Formation: { course: '', date: '' } , Institution: {name: ''}}]);
   const [formationslist, setFormationsList] = useState([]);
   const [experienceslist, setExperiencesList] = useState([]);
+  const [periodo, setPeriodo] = useState('');
+
+  const [empresa, setEmpresa] = useState('');
+  const [cargos, setCargos] = useState([]);
+  const [cargo, setCargo] = useState('');
+  const [periodoExperiencia, setPeriodoExperiencia] = useState('');
+  const [showAddExperience, setShowAddExperience] = useState(false)
+  const [relationsExperience, setRelationsExperience] = useState([{ Experience: { company: '', date: '' } , Position: {name: ''}}]);
+  
 
 
   const navigate = useNavigate();
@@ -153,6 +162,67 @@ function Perfil() {
       });
   }
   
+  function addExperience() {
+    let cargo_id = cargo
+
+	  const create = {
+      "parameter": {
+        "company": empresa,
+        "date": periodoExperiencia,
+        "position_id": cargo_id
+      }
+	  }
+
+    const options = {
+      method: 'POST',
+      headers: {
+      'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(create),
+      };
+
+    fetch(`http://localhost:8000/experience`, options)
+    .then(data => {
+      if (!data.ok) {
+        throw Error(data.status);
+        }
+        return data.json();
+      }).then(create => {
+        console.log(create)
+        addUserExperience(create.result.id)
+      }).catch(e => {
+      console.log(e);
+      });
+  }
+
+  function addUserExperience(experience_id) {
+    const relation = {
+      "parameter": {
+          "user_id": user.id,
+          "experience_id": experience_id
+        }
+      };
+
+    const options2 = {
+      method: 'POST',
+      headers: {
+      'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(relation),
+      };
+
+    fetch(`http://localhost:8000/user_experience`, options2)
+    .then(data => {
+      if (!data.ok) {
+        throw Error(data.status);
+        }
+        return data.json();
+      }).then(create => {
+      console.log(create);
+      }).catch(e => {
+      console.log(e);
+      });
+  }
 
   async function deleteFormation(formation_id) {
 		axios.delete(`http://localhost:8000/user_formation/deleteByUser/${user.id}/${formation_id}`)
@@ -226,6 +296,8 @@ function Perfil() {
 
     const fetchData = async () => {
       try {
+        // formacao
+
         const response = await fetch(`http://localhost:8000/institution`);
         const data = await response.json();
         setInstitutions(data.result)
@@ -238,13 +310,27 @@ function Perfil() {
         const data3 = await response3.json();
         console.log(data3)
         setRelations(data3.result);
+
+        // experiencias
+
+        const response4 = await fetch(`http://localhost:8000/position`);
+        const data4 = await response4.json();
+        setCargos(data4.result)
+
+        const response5 = await fetch(`http://localhost:8000/experience`);
+        const data5 = await response5.json();
+        setExperiencesList(data5.result)
+    
+        const response6 = await fetch(`http://localhost:8000/user_experience/getExperiencesByUserId2/${user.id}`);
+        const data6 = await response6.json();
+        setRelationsExperience(data6.result);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
     };
 
     fetchData();
-  }, [setUser, setFormations, setExperiences, setInstitutions, setRelations, setFormationsList]);
+  }, [setUser, setFormations, setExperiences, setInstitutions, setRelations, setFormationsList, setCargos, setExperiencesList, setRelationsExperience]);
 
 
   function returnPositionName(position_id) {
@@ -276,7 +362,7 @@ function Perfil() {
                       <img src={UsuarioImagem} className="card-img-top w-50 mt-5"
                           alt="..." />
                     </div>
-                    <div class="d-flex justify-content-around m-5">
+                    <div className="d-flex justify-content-around m-5">
                       <div>
                         <h5 className="card-title">{user.name}</h5>
                       </div>
@@ -371,7 +457,7 @@ function Perfil() {
                 <div className="card-body">
                   <h4 className="card-title d-flex align-items-center justify-content-center m-3">Sobre</h4>
 
-                  <hr class="my-4"></hr>
+                  <hr className="my-4"></hr>
                   
                   <div className='card-title d-flex align-items-center justify-content-center m-3'>
                     <h4 className="m-2">Formação</h4>
@@ -384,9 +470,9 @@ function Perfil() {
                         {/* style={{ width: '200px', height: '200px'}} */}
                         <div className="card">
                           <div className="card-body">
-                            <h5 className="card-title">{item.Formation.course}</h5>
-                            <p className="card-text">{item.date}</p>
-                            <p className="card-text">{item.Institution.name}</p>
+                            <h5 className="card-title">Curso: {item.Formation.course}</h5>
+                            <p className="card-text">Período: {item.Formation.date}</p>
+                            <p className="card-text">Instituição: {item.Institution.name}</p>
                             <button className="btn btn-secondary m-2" onClick={() => deleteFormation(item.Formation.id)}>excluir</button>
                           </div>
                         </div>
@@ -445,14 +531,83 @@ function Perfil() {
                     </div>
                   </div>
 
-                  <hr class="my-4"></hr>
+                  <hr className="my-4"></hr>
 
                   <div className='card-title d-flex align-items-center justify-content-center m-3'>
                     <h4 className="m-2">Experiência</h4>
-                    <img src={FormacaoImagem} alt='formation' className="mb-3" />
+                    <img src={ExperienciaImagem} alt='formation' className="mb-3" />
                   </div>
 
-                  <hr class="my-4"></hr>
+                  <div className="row d-flex justify-content-center align-items-center">
+                    {relationsExperience.map((item) => (
+                        <div className="col-sm-3">
+                          {/* style={{ width: '200px', height: '200px'}} */}
+                          <div className="card">
+                            <div className="card-body">
+                              <h5 className="card-title">Empresa: {item.Experience.company}</h5>
+                              <p className="card-text">Período: {item.Experience.date}</p>
+                              <p className="card-text">Cargo: {item.Position.name}</p>
+                              <button className="btn btn-secondary m-2" onClick={() => deleteExperience(item.Experience.id)}>excluir</button>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+
+                    <div className='d-flex justify-content-center align-items-center m-3'>
+                      <button className="btn mt-2 border-0" onClick={() => setShowAddExperience(!showAddExperience)}>
+                        {!showAddExperience && (<img src={AdicionarImagem} alt='formation' className="w-50" />)}
+                        {showAddExperience && (<img src={SubImagem} alt='formation' className="w-50" />)}
+                      </button>
+                    </div>
+
+                    <div className='d-flex justify-content-center align-items-center'>
+                      {showAddExperience && (
+                        <form>
+                          <div className='row'>
+                            <div className='col'>
+                              <div className="form-group m-3">
+                                <label htmlFor="course">Empresa:</label>
+                                <input type="text" className="form-control" id="course" name="course" value={empresa}
+                                        placeholder="Digite o nome da empresa" onChange={(event) => setEmpresa(event.target.value)} required />
+                              </div>
+                            </div>
+
+                            <div className='col'>
+                              <div className="form-group m-3">
+                                <label htmlFor="date">Período:</label>
+                                <input type="text" className="form-control" id="date" name="date" value={periodoExperiencia}
+                                        placeholder="Exemplo: 2019-2020" onChange={(event) => setPeriodoExperiencia(event.target.value)} required />
+                              </div>
+                            </div>
+
+                            <div className='col'>
+                              <div className="form-group m-3">
+                                <label htmlFor="name">Selecione o cargo</label>
+                                <select className="form-control" id="softskill" name="softskill" value={cargo}
+                                  onChange={(event) => { setCargo(event.target.value)}} required>
+                                  <option value="">Selecione...</option>
+                                  {cargos.map((item) => (
+                                    <option key={item.id} value={item.id}>{item.name}</option>
+                                  ))}
+                                </select>
+                              </div>
+                            </div>
+
+                            <div className='d-flex justify-content-center align-items-center'>
+                              <button type="button" className="btn btn-secondary m-2" onClick={() => setShowAddExperience(!showAddExperience)}>
+                                Cancelar
+                              </button>
+                              <button type="button" className="btn btn-secondary m-2" onClick={() => addExperience()}>
+                                Adicionar
+                              </button>
+                            </div>
+                          </div>
+                        </form>
+                      )}
+                    </div>
+                  </div>
+
+                  <hr className="my-4"></hr>
 
                   <table className="table">
                     <tbody>
