@@ -14,20 +14,20 @@ import Footer from './Footer';
 
 function Perfil() {
   const [user, setUser] = useState([]);
-  const [softskills, setSoftskills] = useState([]);
-  const [hardskills, setHardskills] = useState([])
   const [formNome, setFormNome] = useState('');
   const [formEmail, setFormEmail] = useState('');
   const [formPhone, setFormPhone] = useState('');
   const [formAddress, setFormAddress] = useState('');
   const [disabled, setDisabled] = useState(true)
+  
+  // formation states
   const [showAddFormation, setShowAddFormation] = useState(false)
+  const [relationsFormation, setRelationsFormation] = useState([{ Formation: { course: '', date: '' } , Institution: {name: ''}}]);
   const [institution, setInstitution] = useState('');
   const [institutions, setInstitutions] = useState([]);
   const [curso, setCurso] = useState('');
-  const [relations, setRelations] = useState([{ Formation: { course: '', date: '' } , Institution: {name: ''}}]);
   const [periodo, setPeriodo] = useState('');
-
+  
   // experiencia states
   const [empresa, setEmpresa] = useState('');
   const [cargos, setCargos] = useState([]);
@@ -37,12 +37,14 @@ function Perfil() {
   const [relationsExperience, setRelationsExperience] = useState([{ Experience: { company: '', date: '' } , Position: {name: ''}}]);
   
   // softskills states
+  const [softskills, setSoftskills] = useState([]);
   const [showAddSoftskill, setShowAddSoftskill] = useState(false)
   const [relationsSoftskill, setRelationsSoftskill] = useState([{ Softskill: { id: '', name: '' } }]);
   const [softskillsList, setSoftskillsList] = useState([]);
-
-
+  
+  
   // hardskills states
+  const [hardskills, setHardskills] = useState([])
   const [showAddHardskill, setShowAddHardskill] = useState(false)
   const [relationsHardskill, setRelationsHardskill] = useState([{ Hardskill: { id: '', name: '' } }]);
   const [hardskillsList, setHardskillsList] = useState([]);
@@ -357,7 +359,7 @@ function Perfil() {
         const response3 = await fetch(`http://localhost:8000/user_formation/getFormationsByUserId2/${user.id}`);
         const data3 = await response3.json();
         console.log(data3)
-        setRelations(data3.result);
+        setRelationsFormation(data3.result);
 
         // experiencias
 
@@ -395,7 +397,7 @@ function Perfil() {
     };
 
     fetchData();
-  }, [setUser, setInstitutions, setRelations, setCargos, setRelationsExperience, setSoftskillsList, setRelationsSoftskill]);
+  }, []);
 
 
   return (
@@ -517,7 +519,7 @@ function Perfil() {
                   </div>
 
                   <div className="row d-flex justify-content-center align-items-center">
-                    {relations.map((item) => (
+                    {relationsFormation.map((item) => (
                       <div className="col-sm-3">
                         {/* style={{ width: '200px', height: '200px'}} */}
                         <div className="card">
