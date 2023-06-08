@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from './UserContext';
 
@@ -16,9 +16,8 @@ function RegisterFormCompany() {
   const [addressNumber, setAddressNumber] = useState('');
   const [description, setDescription] = useState('');
   const [cnpj, setCnpj] = useState('');
+  const [cities, setCities] = useState([]);
 
-
-  const { currentUser } = useContext(UserContext);
 
   const navigate = useNavigate();
 
@@ -78,12 +77,26 @@ function RegisterFormCompany() {
         }).then(create => {
           console.log(create)
           localStorage.setItem("user-info", JSON.stringify(create))
-          navigateToTalentos()
+          navigateToLoginCompany()
         console.log(create);
         }).catch(e => {
         console.log(e);
         });
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`http://localhost:8000/city`);
+        const data = await response.json();
+        setCities(data.result)
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <div className="container">
@@ -170,20 +183,17 @@ function RegisterFormCompany() {
                 onChange={(event) => setAddressComplement(event.target.value)} required />
 						</div>
 
-						<div className="form-group p-1">
+            <div className="form-group p-1">
 							<label htmlFor="city">Cidade:</label>
-              <select className="form-control" id="city" name="city" value={city}
-                onChange={(event) => {
-                  setCity(event.target.value)
-                  getCityByName(event.target.value)
-                  }} required>
-								<option value="">Selecione...</option>
-								<option value="TIJUCAS">Tijucas</option>
-								<option value="ITAPEMA">Itapema</option>
-								<option value="PORTO BELO">Porto Belo</option>
-							</select>
+              <select className="form-control" id="city" name="city"
+                  onChange={(event) => setCityId(event.target.value)} required>
+                  <option value="">Selecione...</option>
+                    {cities.map((item) => (
+                      <option key={item.id} value={item.id}>{item.name}</option>
+                    ))}
+                </select>
 						</div>
-
+          
 						<div className="text-center p-3">
 							<button type="submit" className="btn btn-secondary btn-lg" onClick={handleSubmit}>Enviar</button>
 						</div>

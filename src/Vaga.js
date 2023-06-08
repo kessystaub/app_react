@@ -88,7 +88,7 @@ function Vaga() {
                 <li className="list-group-item">Descrição da vaga: {joboffer.Joboffer.description}</li>
                 <li className="list-group-item">Empresa: {joboffer.Company.name}</li>
                 <li className="list-group-item">Cidade: {joboffer.City.name}</li>
-                {/* <li className="list-group-item">Cargo: {joboffer.Position.name}</li> */}
+                <li className="list-group-item">Cargo: {joboffer.Position.name}</li>
               </ul>
 
               <button type="button" className="btn btn-outline-primary m-3" onClick={navigateToSearch}>Voltar</button>

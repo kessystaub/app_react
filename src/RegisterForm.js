@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from './UserContext';
 
@@ -10,7 +10,7 @@ function RegisterForm() {
   const [address, setAddress] = useState('');
   const [city, setCity] = useState('');
   const [cityId, setCityId] = useState('');
-  const [state, setState] = useState('');
+  const [cities, setCities] = useState([]);
   const [addressNeighborhood, setAddressNeighborhood] = useState('');
   const [addressComplement, setAddressComplement] = useState('');
   const [addressNumber, setAddressNumber] = useState('');
@@ -25,20 +25,6 @@ function RegisterForm() {
 
   const navigateToSoftskillForm = () => {
     navigate('/softskillForm')
-  }
-
-
-  function getCityByName(city_name) {
-    console.log(city_name)
-      fetch(`http://localhost:8000/city/getCityByName/${city_name}`)
-      .then(response => response.json())
-      .then(data => {
-        console.log('data.result.id', data.result.id)
-        setCityId(data.result.id)
-    })
-    .catch(error => {
-      console.error('Erro:', error);
-    });
   }
 
   const handleSubmit = (event) => {
@@ -82,6 +68,20 @@ function RegisterForm() {
         console.log(e);
         });
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`http://localhost:8000/city`);
+        const data = await response.json();
+        setCities(data.result)
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   console.log(currentUser)
 
@@ -159,16 +159,13 @@ function RegisterForm() {
 
 						<div className="form-group p-1">
 							<label htmlFor="city">Cidade:</label>
-              <select className="form-control" id="city" name="city" value={city}
-                onChange={(event) => {
-                  setCity(event.target.value)
-                  getCityByName(event.target.value)
-                  }} required>
-								<option value="">Selecione...</option>
-								<option value="TIJUCAS">Tijucas</option>
-								<option value="ITAPEMA">Itapema</option>
-								<option value="PORTO BELO">Porto Belo</option>
-							</select>
+              <select className="form-control" id="city" name="city"
+                  onChange={(event) => setCityId(event.target.value)} required>
+                  <option value="">Selecione...</option>
+                    {cities.map((item) => (
+                      <option key={item.id} value={item.id}>{item.name}</option>
+                    ))}
+                </select>
 						</div>
 
 						<div className="text-center p-3">

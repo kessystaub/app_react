@@ -4,10 +4,10 @@ import MenuCompany from './MenuCompany';
 
 function RegisterVaga() {
   const [nome, setNome] = useState('');
-  const [cityId, setCityId] = useState('');
   const [description, setDescription] = useState('');
   const [company, setCompany] = useState([]);
   const [cargos, setCargos] = useState([]);
+  const [cityId, setCityId] = useState('');
   const [cities, setCities] = useState([]);
   const [cargo, setCargo] = useState('');
 
