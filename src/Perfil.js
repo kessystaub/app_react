@@ -326,6 +326,17 @@ function Perfil() {
 				}
 				return data.json();
 			}).then(create => {
+        fetch(`http://localhost:8000/hardskill/${hardskill_id}`)
+            .then(response => response.json())
+            .then(data => {
+              const experienceTemp = { Hardskill: { id: hardskill_id, name: data.result.name } }
+              setRelationsHardskill([...relationsHardskill, experienceTemp]);
+              console.log('relationsHardskill', relationsHardskill)
+              console.log(create);
+          })
+          .catch(error => {
+            console.error('Erro:', error);
+          }); 
 			console.log(create);
 			}).catch(e => {
 			console.log(e);
@@ -385,8 +396,10 @@ function Perfil() {
 	};
 
   async function deleteHardskill(tecnicalskill_id) {
+    const novoArrayObjetos = relationsHardskill.filter(objeto => objeto.Hardskill.id !== tecnicalskill_id);
 		axios.delete(`http://localhost:8000/user_hardskill/deleteByUser/${user.id}/${tecnicalskill_id}`)
 		.then(response => {
+      setRelationsHardskill(novoArrayObjetos)
 			console.log(response);
 		})
 		.catch(error => {
