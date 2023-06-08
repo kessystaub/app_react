@@ -216,8 +216,18 @@ function Perfil() {
         }
         return data.json();
       }).then(create => {
-        console.log(create)
-        addUserExperience(create.result.id)
+        fetch(`http://localhost:8000/position/${cargo}`)
+          .then(response => response.json())
+          .then(data => {
+            const experienceTemp = { Experience: { id: create.result.id, company: create.result.company, date: create.result.date } , Position: {name: data.result.name}}
+            setRelationsExperience([...relationsExperience, experienceTemp]);
+            console.log('relationsExperiencen', relationsExperience)
+            addUserExperience(create.result.id)
+        })
+        .catch(error => {
+          console.error('Erro:', error);
+        });
+        
       }).catch(e => {
       console.log(e);
       });
@@ -313,7 +323,6 @@ function Perfil() {
 
   async function deleteFormation(formation_id) {
     const novoArrayObjetos = relationsFormation.filter(objeto => objeto.Formation.id !== formation_id);
-    setRelationsFormation([...relationsFormation]);
 		axios.delete(`http://localhost:8000/user_formation/deleteByUser/${user.id}/${formation_id}`)
 		.then(response => {
 			console.log(response);
@@ -333,6 +342,7 @@ function Perfil() {
 	};
 
   async function deleteExperience(experience_id) {
+    const novoArrayObjetos = relationsExperience.filter(objeto => objeto.Experience.id !== experience_id);
     axios.delete(`http://localhost:8000/user_experience/deleteByUser/${user.id}/${experience_id}`)
     .then(response => {
       console.log(response);
@@ -343,6 +353,7 @@ function Perfil() {
 
     axios.delete(`http://localhost:8000/experience/${experience_id}`)
     .then(response => {
+      setRelationsExperience(novoArrayObjetos)
       console.log(response);
     })
     .catch(error => {
