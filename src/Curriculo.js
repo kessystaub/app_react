@@ -8,21 +8,71 @@ function Curriculo() {
     const [formations, setFormations] = useState([]);
     const [softskills, setSoftskills] = useState([]);
     const [hardskills, setHardskills] = useState([])
+    const [relationsFormation, setRelationsFormation] = useState([{ Formation: { course: '', date: '' } , Institution: {name: ''}}]);
+    const [relationsExperience, setRelationsExperience] = useState([{ Experience: { company: '', date: '' } , Position: {name: ''}}]);
+    const [relationsSoftskill, setRelationsSoftskill] = useState([{ Softskill: { id: '', name: '' } }]);
+    const [relationsHardskill, setRelationsHardskill] = useState([{ Hardskill: { id: '', name: '' } }]);
+
+//   useEffect(() => {
+//     const storedValue = localStorage.getItem('user-info') ? JSON.parse(localStorage.getItem('user-info')) : [];
+//     console.log(storedValue)
+//     const user = storedValue.user;
+//     const formationslist = storedValue.formations;
+//     const experienceslist = storedValue.experiences;
+//     const softskillslist = storedValue.softskills;
+//     const hardskillslist = storedValue.hardskills;
+//     setUser(user)
+//     setFormations(formationslist)
+//     setExperiences(experienceslist)
+//     setSoftskills(softskillslist)
+//     setHardskills(hardskillslist)
+//   }, [setUser, setFormations, setExperiences]);
 
   useEffect(() => {
     const storedValue = localStorage.getItem('user-info') ? JSON.parse(localStorage.getItem('user-info')) : [];
-    console.log(storedValue)
     const user = storedValue.user;
-    const formationslist = storedValue.formations;
-    const experienceslist = storedValue.experiences;
     const softskillslist = storedValue.softskills;
     const hardskillslist = storedValue.hardskills;
     setUser(user)
-    setFormations(formationslist)
-    setExperiences(experienceslist)
     setSoftskills(softskillslist)
     setHardskills(hardskillslist)
-  }, [setUser, setFormations, setExperiences]);
+
+    const fetchData = async () => {
+      try {
+        // user
+        // const response_user = await fetch(`http://localhost:8000/user/${user.id}`);
+        // const data_user = await response_user.json();
+        // setUserForm(data_user.result)
+        // setUserForm(user)
+
+        const response3 = await fetch(`http://localhost:8000/user_formation/getFormationsByUserId2/${user.id}`);
+        const data3 = await response3.json();
+        console.log(data3)
+        setRelationsFormation(data3.result);
+
+        // experiencia
+        const response6 = await fetch(`http://localhost:8000/user_experience/getExperiencesByUserId2/${user.id}`);
+        const data6 = await response6.json();
+        setRelationsExperience(data6.result);
+
+        // softskill
+
+        const response8 = await fetch(`http://localhost:8000/user_softskill/getSoftskillsByUserId2/${user.id}`);
+        const data8 = await response8.json();
+        setRelationsSoftskill(data8.result)
+
+        // hardskill
+
+        const response10 = await fetch(`http://localhost:8000/user_hardskill/getHardskillsByUserId2/${user.id}`);
+        const data10 = await response10.json();
+        setRelationsHardskill(data10.result)		
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <div>
@@ -52,33 +102,41 @@ function Curriculo() {
                                 <div className="col-md-4 m-3">
                                     <h4>Habilidades interpessoais</h4>
                                     <ul className="list-group">
-                                        {softskills.map((item) => (
-                                            <li key={item.id} className="list-group-item">{item.name}</li>
+                                        {relationsSoftskill.map((item) => (
+                                            <li key={item.id} className="list-group-item">{item.Softskill.name}</li>
                                         ))}
                                     </ul>
                                 </div>
                                 <div className="col-md-4 m-3">
                                     <h4>Habilidades técnicas</h4>
                                     <ul className="list-group">
-                                        {hardskills.map((item) => (
-                                            <li key={item.id} className="list-group-item">{item.name}</li>
+                                        {relationsHardskill.map((item) => (
+                                            <li key={item.id} className="list-group-item">{item.Hardskill.name}</li>
                                         ))}
                                     </ul>
                                 </div>
                                 <div className="col-md-4 m-3">
                                     <h4>Educação</h4>
                                     <ul className="list-group">
-                                        {formations.map((item) => (
-                                                <li key={item.id} className="list-group-item">{item.course}</li>
+                                        {relationsFormation.map((item) => (
+                                                <li key={item.id} className="list-group-item">
+                                                    <strong>Curso:</strong> {item.Formation.course}<br />
+                                                    <strong>Instituição:</strong> {item.Institution.name}<br />
+                                                    <strong>Período:</strong> {item.Formation.date}
+                                                </li>
                                             ))}
                                     </ul>
                                 </div>
                                 <div className="col-md-4 m-3">
                                     <h4>Experiência</h4>
                                     <ul className="list-group">
-                                        {experiences.map((item) => (
-                                                <li key={item.id} className="list-group-item">{item.company}</li>
-                                            ))}
+                                        {relationsExperience.map((item) => (
+                                            <li key={item.id} className="list-group-item">
+                                                <strong>Empresa:</strong> {item.Experience.company}<br />
+                                                <strong>Cargo:</strong> {item.Position.name}<br />
+                                                <strong>Período:</strong> {item.Experience.date}
+                                            </li>
+                                        ))}
                                     </ul>
                                 </div>
                                 <div className="col-md-4 m-3">
