@@ -89,8 +89,8 @@ function Curriculo() {
                                                 mr-2"></i>{user.email}</li>
                                         <li className="list-group-item"><i
                                                 className="fas fa-phone mr-2"></i>{user.phone}</li>
-                                        <li className="list-group-item"><i
-                                                className="fab fa-github mr-2"></i>https://github.com/</li>
+                                        {/* <li className="list-group-item"><i
+                                                className="fab fa-github mr-2"></i>https://github.com/</li> */}
                                     </div>
                                 </div>
                             </div>

@@ -88,14 +88,14 @@ function RegisterFormCompany() {
   return (
     <div className="container">
       <div className="row justify-content-center">
-				<div className="col-md-6">
-          <img src="logo.png" alt="Logo" />
+        <div className="col-md-6 row justify-content-center align-items-center mt-5">
+          <img src="logo.png" alt="Logo" className='w-75'/>
           <h4 className="text-center text-secondary mb-4">Crie sua conta Match Code</h4>
           <form onSubmit={handleSubmit}>
             <div className="form-group">
               <label htmlFor="name">Nome da empresa:</label>
 							<input type="text" className="form-control" id="name" name="name" value={nome}
-								placeholder="Digiteo o nome da empresa" onChange={(event) => setNome(event.target.value)} required />
+								placeholder="Digite o nome da empresa" onChange={(event) => setNome(event.target.value)} required />
             </div>
             <div className="form-group p-1">
 							<label htmlFor="cnpj">CNPJ:</label>
@@ -106,7 +106,7 @@ function RegisterFormCompany() {
 
             <div className="form-group p-1">
 							<label htmlFor="description">Descrição:</label>
-							<input type="text" className="form-control" id="description" name="description"
+							<textarea type="text" className="form-control" id="description" name="description"
 								placeholder="Digite a descrição da sua empresa" value={description}
                 onChange={(event) => setDescription(event.target.value)} required />
 						</div>

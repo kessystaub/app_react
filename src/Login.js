@@ -65,9 +65,9 @@ function Login() {
 								onChange={(event) => setPassword(event.target.value)} placeholder="Digite a sua senha" required />
 						</div>
 
-						<div>
-							<a href="">Esqueci minha senha</a>
-						</div>
+						{/* <div> */}
+							{/* <a href="">Esqueci minha senha</a> */}
+						{/* </div> */}
 
 						<div className="text-center p-3">
 							<button className="btn btn-secondary" onClick={handleSubmit}>Entrar</button>

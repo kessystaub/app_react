@@ -18,12 +18,17 @@ function PerfilEmpresa() {
   const [city, setCity] = useState('');
   const [disabled, setDisabled] = useState(true)
   const [mostraBotao, setMostraBotao] = useState(false)
+  const [showUserForm, setShowUserForm] = useState(false);
 
 
   const navigate = useNavigate();
 
   const navigateToCurriculo = () => {
     navigate('/curriculo');
+  };
+  const handleInputChange = (e) => {
+    const { name, address_number, value } = e.target;
+    setCompany((prevUser) => ({ ...prevUser, [name]: value, [address_number]: value }));
   };
 
   useEffect(() => {
@@ -55,112 +60,170 @@ function PerfilEmpresa() {
           <div className="card mt-4 w-75 border-0">
             <div className="row">
               <div className="col-md-4">
-                <div className="card border-0">
-                  <img src={UsuarioImagem} className="card-img-top w-50 mt-5"
-                              alt="..." />
-                  <div className="card-body">
-                    <h5 className="card-title">{company.Company.name}</h5>
+                  <div className="card border-0 text-center">
+                    <div className="card-body">
+                      <img src={UsuarioImagem} className="card-img-top w-75 mb-5 mt-5" alt="User" />
+                      <h5 className="card-title">{company.Company.name}</h5>
+                    </div>
                   </div>
-                </div>
               </div>
               <div className="col-md-8">
-                <div className="card">
-                  <div className="card-body">
-                    <h5 className="card-title">Informações pessoais</h5>
-                    <table className="table">
-                      <tbody>
-                        <tr>
-                          <th scope="row">
-                            <label htmlFor="form">Nome</label>
-                          </th>
-                          <td>
-                            <input type="text" className="form-control" id="form"
-                              placeholder={company.Company.name} onChange={(event) => setFormNome(event.target.value)} disabled={disabled} />
-                          </td>
-                          <td>
-                          <button className="btn my-2 my-sm-0"
-                            type="button" onClick={() => {
-                              setMostraBotao(true)
-                              setDisabled(false)
-                            }}>Editar</button>
-                          </td>
-                        </tr>
-                        <tr>
-                          <th scope="row">
-                            <label htmlFor="form">CNPJ: </label>
-                          </th>
-                        <td>
-                          <input type="text" className="form-control" id="form"
-                              placeholder={company.Company.cnpj} disabled={disabled} />
-                          </td>
-                          <td>
-                          <button className="btn my-2 my-sm-0"
-                            type="button" onClick={() => {
-                              setMostraBotao(true)
-                              setDisabled(false)
-                            }}>Editar</button>
-                          </td>
-                        </tr>
-                        <tr>
-                          <th scope="row">
-                            <label htmlFor="form">Email</label>
-                          </th>
-                          <td>
-                            <input type="text" className="form-control" id="form"
-                              placeholder={company.Company.email} onChange={(event) => setFormEmail(event.target.value)} disabled={disabled} />
-                          </td>
-                          <td>
-                          <button className="btn my-2 my-sm-0"
-                            type="button" onClick={() => {
-                              setMostraBotao(true)
-                              setDisabled(false)
-                            }}>Editar</button>
-                          </td>
-                          
-                        </tr>
-                        <tr>
-                          <th scope="row">
-                            <label htmlFor="form">Telefone</label>
-                          </th>
-                          <td>
-                            <input type="text" className="form-control" id="form"
-                              placeholder={company.Company.phone_number} onChange={(event) => setFormPhone(event.target.value)} disabled={disabled} />
-                          </td>
-                          <td>
-                          <button className="btn my-2 my-sm-0"
-                            type="button" onClick={() => {
-                              setMostraBotao(true)
-                              setDisabled(false)
-                            }}>Editar</button>
-                          </td>
-                        </tr>
-                        <tr>
-                          <th scope="row">
-                            <label htmlFor="form">Endereço</label>
-                          </th>
-                          <td>
-                            <input type="text" className="form-control" id="form" onChange={(event) => setFormAddress(event.target.value)}
-                              placeholder={company.Company.address}disabled={disabled} />
-                          </td>
-                          <td>
-                          <button className="btn my-2 my-sm-0"
-                            type="button" onClick={() => {
-                              setMostraBotao(true)
-                              setDisabled(false)
-                            }}>Editar</button>
-                          </td>
-                        </tr>
+                  <div className="card border-0">
+                    <div className="card-body">
+                      <h5 className="card-title mb-4">Informações pessoais</h5>
+                      {!showUserForm && (
+                        <table className="table">
+                          <tbody>
+                            <tr>
+                              <th className='text-secondary' scope="row">Nome</th>
+                              <td>{company.Company.name}</td>
+                            </tr>
+                            <tr>
+                              <th className='text-secondary' scope="row">Email</th>
+                              <td>{company.Company.email}</td>
+                            </tr>
+                            <tr>
+                              <th className='text-secondary' scope="row">CNPJ</th>
+                              <td>{company.Company.cnpj}</td>
+                            </tr>
+                            <tr>
+                              <th className='text-secondary' scope="row">Telefone</th>
+                              <td>{company.Company.phone_number}</td>
+                            </tr>
+                            <tr>
+                              <th className='text-secondary' scope="row">Endereço</th>
+                              <td>{company.Company.address}</td>
+                            </tr>
+                            <tr>
+                              <th className='text-secondary' scope="row">Número de endereço</th>
+                              <td>{company.Company.address_number}</td>
+                            </tr>
+                            <tr>
+                              <th className='text-secondary' scope="row">Bairro</th>
+                              <td>{company.Company.address_neighborhood}</td>
+                            </tr>
+                            <tr>
+                              <th className='text-secondary' scope="row">Complemento</th>
+                              <td>{company.Company.address_complement}</td>
+                            </tr>
+                            {/* <tr>
+                              <td colSpan="1">
+                              </td>
+                              <td colSpan="2">
+                                <button className="btn btn-outline-secondary text-end" onClick={() => setShowUserForm(true)}>
+                                  Editar perfil
+                                </button>
+                              </td>
+                            </tr> */}
+                          </tbody>
+                        </table>
+                      )}
+                      <div className="card mt-4">
+                        <div className="card-body">
+                          <h5 className="card-title">Sobre</h5>
+                          <p>{company.Company.description}</p>
+                        </div>
+                      </div>
 
-                      </tbody>
-                    </table>
+                      {/* {showUserForm && (
+                        <form>
+                          <table className="table">
+                            <tbody>
+                              <tr>
+                                <th className='text-secondary' scope="row">Nome</th>
+                                <td>
+                                  <input
+                                    type="text"
+                                    name="name"
+                                    value={company.Company.name}
+                                    onChange={handleInputChange}
+                                  />
+                                </td>
+                              </tr>
+                              <tr>
+                                <th className='text-secondary' scope="row">Email</th>
+                                <td>
+                                  <input
+                                    type="email"
+                                    name="email"
+                                    value={company.Company.email}
+                                    onChange={handleInputChange}
+                                  />
+                                </td>
+                              </tr>
+                              <tr>
+                                <th className='text-secondary' scope="row">Telefone</th>
+                                <td>
+                                  <input
+                                    type="tel"
+                                    name="phone"
+                                    value={company.Company.phone}
+                                    onChange={handleInputChange}
+                                  />
+                                </td>
+                              </tr>
+                              <tr>
+                                <th className='text-secondary' scope="row">Endereço</th>
+                                <td>
+                                  <input
+                                    type="text"
+                                    name="address"
+                                    value={company.Company.address}
+                                    onChange={handleInputChange}
+                                  />
+                                </td>
+                              </tr>
+                              <tr>
+                                <th className='text-secondary' scope="row">Número de endereço</th>
+                                <td>
+                                  <input
+                                    type="text"
+                                    name="address_number"
+                                    value={company.Company.address_number}
+                                    onChange={handleInputChange}
+                                  />
+                                </td>
+                              </tr>
+                              <tr>
+                                <th className='text-secondary' scope="row">Bairro</th>
+                                <td>
+                                  <input
+                                    type="text"
+                                    name="address_neighborhood"
+                                    value={company.Company.address_neighborhood}
+                                    onChange={handleInputChange}
+                                  />
+                                </td>
+                              </tr>
+                              <tr>
+                                <th className='text-secondary' scope="row">Complemento</th>
+                                <td>
+                                  <input
+                                    type="text"
+                                    name="address_complement"
+                                    value={company.Company.address_complement}
+                                    onChange={handleInputChange}
+                                  />
+                                </td>
+                              </tr>
+                              <tr>
+                                <td colSpan="1">
+                                </td>
+                                <td colSpan="2">
+                                  <button className="btn btn-outline-secondary m-1" onClick={() => setShowUserForm(false)}>
+                                    Cancelar
+                                  </button>
+                                  <button className="btn btn-outline-success m-1" >
+                                    Salvar
+                                  </button>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </form>
+                      )} */}
+                    </div>
                   </div>
-                </div>
-                <div className="card mt-4">
-                  <div className="card-body">
-                    <h5 className="card-title">Sobre</h5>
-                    <p>{company.Company.description}</p>
-                  </div>
-                </div>
               </div>
             </div>
           </div>

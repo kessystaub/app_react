@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {useNavigate} from 'react-router-dom';
 import Menu from './Menu';
 import axios from 'axios';
@@ -25,6 +25,8 @@ function Perfil() {
     address_neighborhood: '',
     address_complement: '',
   });
+  const [userName, setUserName] = useState('');
+
   
   // formation states
   const [showAddFormation, setShowAddFormation] = useState(false)
@@ -33,6 +35,7 @@ function Perfil() {
   const [institutions, setInstitutions] = useState([]);
   const [curso, setCurso] = useState('');
   const [periodo, setPeriodo] = useState('');
+  const [institutionName, setInstitutionName] = useState('');
   
   // experiencia states
   const [empresa, setEmpresa] = useState('');
@@ -58,20 +61,32 @@ function Perfil() {
   const navigate = useNavigate();
 
   const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setUser((prevUser) => ({ ...prevUser, [name]: value }));
+    const { name, address_number, value } = e.target;
+    setUser((prevUser) => ({ ...prevUser, [name]: value, [address_number]: value }));
   };
 
   const navigateToCurriculo = () => {
     navigate('/curriculo');
   };
 
-  function updateUser() {
+  const updateUser = useCallback(() => {
+    const userTemp = {
+      name: user.name,
+      email: user.email,
+      phone: user.phone,
+      address: user.address,
+      address_number: user.address_number,
+      address_neighborhood: user.address_neighborhood,
+      address_complement: user.address_complement,
+    }
+
+    setUserForm(userTemp)
+    
     const update = {
       "parameter": {
-        "phone": user.phone,
         "name": user.name,
         "email": user.email,
+        "phone": user.phone,
         "address": user.address,
         "address_number": user.address_number,
         "address_neighborhood": user.address_neighborhood,
@@ -101,7 +116,7 @@ function Perfil() {
       }).catch(e => {
       console.log(e);
       });
-  }
+  }, [user.id, user.name, user.email, user.phone, user.address, user.address_number, user.address_neighborhood, user.address_complement])
 
   function addFormation() {
     let institution_id = institution
@@ -129,13 +144,20 @@ function Perfil() {
         }
         return data.json();
       }).then(create => {
-        console.log('create.result.id',create.result.id)
-        addUserFormation(create.result.id)
+        fetch(`http://localhost:8000/institution/${institution}`)
+          .then(response => response.json())
+          .then(data => {
+            const formationTemp = { Formation: { id: create.result.id, course: create.result.course, date: create.result.date } , Institution: {name: data.result.name}}
+            setRelationsFormation([...relationsFormation, formationTemp]);
+            console.log('relationsFormation', relationsFormation)
+            addUserFormation(create.result.id)
+        })
+        .catch(error => {
+          console.error('Erro:', error);
+        });
       }).catch(e => {
       console.log(e);
       });
-  
-      
   }
 
   function addUserFormation(formation_id) {
@@ -362,6 +384,7 @@ function Perfil() {
         const response_user = await fetch(`http://localhost:8000/user/${user.id}`);
         const data_user = await response_user.json();
         setUserForm(data_user.result)
+        // setUserForm(user)
 
         // formacao
 
@@ -412,6 +435,10 @@ function Perfil() {
   }, []);
 
 
+  // useEffect(() => {
+  //   setUserForm(user)
+  // }, [updateUser, user])
+
   return (
     <div>
       <Menu/>
@@ -437,31 +464,31 @@ function Perfil() {
                           <tbody>
                             <tr>
                               <th className='text-secondary' scope="row">Nome</th>
-                              <td>{user.name}</td>
+                              <td>{userForm.name}</td>
                             </tr>
                             <tr>
                               <th className='text-secondary' scope="row">Email</th>
-                              <td>{user.email}</td>
+                              <td>{userForm.email}</td>
                             </tr>
                             <tr>
                               <th className='text-secondary' scope="row">Telefone</th>
-                              <td>{user.phone}</td>
+                              <td>{userForm.phone}</td>
                             </tr>
                             <tr>
                               <th className='text-secondary' scope="row">Endereço</th>
-                              <td>{user.address}</td>
+                              <td>{userForm.address}</td>
                             </tr>
                             <tr>
                               <th className='text-secondary' scope="row">Número de endereço</th>
-                              <td>{user.address_number}</td>
+                              <td>{userForm.address_number}</td>
                             </tr>
                             <tr>
                               <th className='text-secondary' scope="row">Bairro</th>
-                              <td>{user.address_neighborhood}</td>
+                              <td>{userForm.address_neighborhood}</td>
                             </tr>
                             <tr>
                               <th className='text-secondary' scope="row">Complemento</th>
-                              <td>{user.address_complement}</td>
+                              <td>{userForm.address_complement}</td>
                             </tr>
                             <tr>
                               <td colSpan="1">
@@ -470,9 +497,9 @@ function Perfil() {
                                 </button>
                               </td>
                               <td colSpan="2">
-                                <button className="btn btn-outline-secondary text-end" onClick={() => setShowUserForm(true)}>
+                                {/* <button className="btn btn-outline-secondary text-end" onClick={() => setShowUserForm(true)}>
                                   Editar perfil
-                                </button>
+                                </button> */}
                               </td>
                             </tr>
                           </tbody>
@@ -640,10 +667,11 @@ function Perfil() {
                               <div className="form-group m-3">
                                 <label htmlFor="name">Selecione a instituição</label>
                                 <select className="form-control" id="softskill" name="softskill" value={institution}
-                                  onChange={(event) => { setInstitution(event.target.value)}} required>
+                                  onChange={(event) => { 
+                                    setInstitution(event.target.value)}} required>
                                   <option value="">Selecione...</option>
                                   {institutions.map((item) => (
-                                    <option key={item.id} value={item.id}>{item.name}</option>
+                                    <option key={item.name} value={item.id}>{item.name}</option>
                                   ))}
                                 </select>
                               </div>

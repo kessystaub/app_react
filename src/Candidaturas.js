@@ -44,8 +44,8 @@ function Candidaturas() {
 
         <div className="container mt-5">
         <div className="row justify-content-center">
-          <div className="col-md-6">
-            <img src="logo.png" alt="Logo" />
+        <div className="col-md-6 row justify-content-center align-items-center mt-5">
+            <img src="logo.png" alt="Logo" className='w-75' />
             <h4 className="text-center text-secondary mb-4">Candidaturas</h4>
           </div>
         </div>
@@ -60,7 +60,7 @@ function Candidaturas() {
                     <div className="form-inline">
                       <h5 className="card-title">Vaga: {item.Joboffer.name}</h5>
                     </div>
-                    <p className="card-text">Situação: {item.Status.status}</p>
+                    <p className="card-text">Situação: Pendente</p>
 
                     <CustomProgressBar progress={10} />
                   </div>

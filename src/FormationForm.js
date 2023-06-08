@@ -13,6 +13,8 @@ function FormationForm() {
   const [formationId, setFormationId] = useState(0);
   const [formations, setFormations] = useState([]);
   const [relations, setRelations] = useState([]);
+  const [relationsFormation, setRelationsFormation] = useState([{ Formation: { course: '', date: '' } , Institution: {name: ''}}]);
+  
 
   const navigateToPerfil = () => {
     navigate('/perfil');
@@ -53,8 +55,6 @@ function FormationForm() {
       }).catch(e => {
       console.log(e);
       });
-  
-      
   }
 
   function addUserFormation(formation_id) {
@@ -108,6 +108,11 @@ function FormationForm() {
         const response3 = await fetch(`http://localhost:8000/user_formation/getFormationsByUserId/${id}`);
         const data3 = await response3.json();
         setRelations(data3.result);
+
+		const response4 = await fetch(`http://localhost:8000/user_formation/getFormationsByUserId2/${id}`);
+        const data4 = await response4.json();
+        console.log(data3)
+        setRelationsFormation(data4.result);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -115,20 +120,6 @@ function FormationForm() {
 
     fetchData();
   }, [id, relations]); // Empty dependency array ensures the effect runs only once
-
-  function returnFormations() {
-	const result = []
-
-	formations?.forEach((item) => {
-		relations?.forEach((names) => {
-			if (item.id === names.formation_id) {
-				result.push(item)
-			}
-		});
-	});
-
-	return result
-}
 
 	async function deleteFormation(formation_id) {
 		console.log(formation_id)
@@ -157,8 +148,8 @@ function FormationForm() {
     <div>
       <div className="container mt-5">
       	<div className="row justify-content-center">
-		  <div className="col-md-6">
-			<img src="logo.png" alt="Logo" />
+		  <div className="col-md-6 row justify-content-center align-items-center mt-5">
+			<img src="logo.png" alt="Logo" className='w-75'/>
 			<h4 className="text-center text-secondary mb-4">Sua formação acadêmica</h4>
 			<form >
 				<div className="form-group">
@@ -186,33 +177,41 @@ function FormationForm() {
 					</select>
 				</div>
 
-				<button type="button" className="btn btn-secondary mb-2" onClick={() => addFormation()}>
-					Adicionar
-				</button>
+				<div className="justify-content-end row">
+				<div className="text-center p-3">
+					<button type="button" className="btn btn-outline-secondary mb-2" onClick={() => addFormation()}>
+						Adicionar
+					</button>
 				</div>
-				{returnFormations().map((item) => (
-					<div key={item.id} className="card mb-3">
-						<div className="card-header">
-							{item.course}
-						</div>
-						<div className="card-body">
-							<blockquote className="blockquote mb-0">
-							<p>{item.institution_id}</p>
-							<footer className="blockquote-footer">{item.date}</footer>
-							</blockquote>
+				</div>
 
-							<button className="btn btn-outline-secondary btn-sm m-2" onClick={() => deleteFormation(item.id)}>
-								excluir
-							</button>
+				</div>
+	
+				{relationsFormation && (
+					relationsFormation.map((item) => (
+						<div key={item.id} className="card mb-3">
+							<div className="card-header">
+								{item.Formation.course}
+							</div>
+							<div className="card-body">
+								<blockquote className="blockquote mb-0">
+								<p>{item.Institution.name}</p>
+								<footer className="blockquote-footer">{item.Formation.date}</footer>
+								</blockquote>
+	
+								<button className="btn btn-outline-secondary btn-sm m-2" onClick={() => deleteFormation(item.Formation.id)}>
+									excluir
+								</button>
+							</div>
+							
 						</div>
-						
-					</div>
-				))}
+					))
+				)}
 
 				<div className="justify-content-end row">
 				<div className="text-center p-3">
-					<button type="button" className="btn btn-outline-secondary btn-lg" onClick={navigateToPerfil}>Pular</button>
-					<button type="button" className="btn btn-secondary btn-lg" onClick={navigateToExperienceForm}>Continuar</button>
+					<button type="button" className="btn btn-outline-secondary btn-lg m-1" onClick={navigateToPerfil}>Pular</button>
+					<button type="button" className="btn btn-secondary btn-lg m-1" onClick={navigateToExperienceForm}>Continuar</button>
 				</div>
 				</div>
 			</form>

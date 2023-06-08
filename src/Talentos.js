@@ -89,11 +89,11 @@ function Talentos() {
                                 <h5 className="card-title m-1">{item.User.name}</h5>
                                 </div>
                                 <p className="card-text"><strong>Email:</strong> {item.User.email}</p>
-                                <p className="card-text"><strong>Telefone:</strong> {item.User.phone_number}</p>
+                                <p className="card-text"><strong>Telefone:</strong> {item.User.phone}</p>
                                 <p className="card-text"><strong>Cidade:</strong> {item.City.name}</p>
-                                <button className="btn btn-secondary" onClick={() => navigateToCurriculo(item.User.id)}>
+                                {/* <button className="btn btn-secondary" onClick={() => navigateToCurriculo(item.User.id)}>
                                 Visualizar currículo
-                                </button>
+                                </button> */}
                             </div>
                         </div>
                     </div>

@@ -107,8 +107,8 @@ function SoftskillForm() {
 		<div>
 			<div className="container mt-5">
 				<div className="row justify-content-center">
-					<div className="col-md-6">
-						<img src="logo.png" alt="Logo" />
+					<div className="col-md-6 row justify-content-center align-items-center mt-5">
+						<img src="logo.png" alt="Logo" className='w-75'/>
 						<h4 className="text-center text-secondary mb-4">Suas habilidades interpessoais</h4>
 						<form>
 							<div className="form-group">
@@ -137,8 +137,8 @@ function SoftskillForm() {
 
 							<div className="justify-content-end row">
 								<div className="text-center p-3">
-									<button type="button" className="btn btn-outline-secondary btn-lg" onClick={navigateToPerfil}>Pular</button>
-									<button type="submit" className="btn btn-secondary btn-lg" onClick={navigateToTecnicalskillForm}>Continuar</button>
+									<button type="button" className="btn btn-outline-secondary btn-lg m-1" onClick={navigateToPerfil}>Pular</button>
+									<button type="submit" className="btn btn-secondary btn-lg m-1" onClick={navigateToTecnicalskillForm}>Continuar</button>
 								</div>
 							</div>
 						</form>

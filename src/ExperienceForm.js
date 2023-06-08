@@ -10,6 +10,7 @@ function ExperienceForm() {
   const [cargo, setCargo] = useState('');
   const [id, setId] = useState('');
   const [relations, setRelations] = useState([]);
+  const [relationsExperience, setRelationsExperience] = useState([{ Experience: { company: '', date: '' } , Position: {name: ''}}]);
 
 
   const navigate = useNavigate();
@@ -85,20 +86,6 @@ function ExperienceForm() {
       });
   }
 
-  function returnExperiences() {
-    const result = []
-  
-    experiences?.forEach((item) => {
-      relations?.forEach((names) => {
-        if (item.id === names.experience_id) {
-          result.push(item)
-        }
-      });
-    });
-  
-    return result
-  }
-
   useEffect(() => {
     const storedValue = localStorage.getItem('user-info');
     const jsonObject = JSON.parse(storedValue);
@@ -118,6 +105,10 @@ function ExperienceForm() {
           const response3 = await fetch(`http://localhost:8000/user_experience/getExperiencesByUserId/${id}`);
           const data3 = await response3.json();
           setRelations(data3.result);
+
+          const response6 = await fetch(`http://localhost:8000/user_experience/getExperiencesByUserId2/${id}`);
+          const data6 = await response6.json();
+          setRelationsExperience(data6.result);
           } catch (error) {
             console.error('Error fetching data:', error);
           }
@@ -154,8 +145,8 @@ function ExperienceForm() {
     <div>
       <div className="container mt-5">
       <div className="row justify-content-center">
-        <div className="col-md-6">
-          <img src="logo.png" alt="Logo" />
+        <div className="col-md-6 row justify-content-center align-items-center mt-5">
+          <img src="logo.png" alt="Logo" className='w-75'/>
           <h4 className="text-center text-secondary mb-4">Sua experiência
             profissional</h4>
           <form>
@@ -182,33 +173,39 @@ function ExperienceForm() {
             </select>
           </div>
 
-          <button type="button" className="btn btn-secondary mb-2" onClick={() => addExperience()}>
+          <div className="justify-content-end row">
+				<div className="text-center p-3">
+          <button type="button" className="btn btn-outline-secondary mb-2" onClick={() => addExperience()}>
             Adicionar
           </button>
+          </div>
+          </div>
 
-          {returnExperiences().map((item) => (
+          {relationsExperience && (  
+            relationsExperience.map((item) => (
               <div key={item.id} className="card">
                 <div className="card-header">
-                  {item.company}
+                  {item.Experience.company}
                 </div>
                 <div className="card-body">
                   <blockquote className="blockquote mb-0">
-                    <p>{item.date}</p>
-                    <footer className="blockquote-footer">{item.position_id}</footer>
+                    <p>{item.Experience.date}</p>
+                    <footer className="blockquote-footer">{item.Position.name}</footer>
                   </blockquote>
                   
-                  <button className="btn btn-outline-secondary btn-sm m-2" onClick={() => deleteExperience(item.id)}>
+                  <button className="btn btn-outline-secondary btn-sm m-2" onClick={() => deleteExperience(item.Experience.id)}>
                     excluir
                   </button>
                 </div>
               </div>
-          ))}
+            ))
+          )}
             
 
             <div className="justify-content-end row">
               <div className="text-center p-3">
-                <button type="button" className="btn btn-outline-secondary btn-lg" onClick={navigateToPerfil}>Pular</button>
-                <button type="button" className="btn btn-secondary btn-lg" onClick={navigateToLogin}>Continuar</button>
+                <button type="button" className="btn btn-outline-secondary btn-lg m-1" onClick={navigateToPerfil}>Pular</button>
+                <button type="button" className="btn btn-secondary btn-lg m-1" onClick={navigateToLogin}>Continuar</button>
               </div>
             </div>
           </form>

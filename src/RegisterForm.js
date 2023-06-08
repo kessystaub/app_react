@@ -88,8 +88,8 @@ function RegisterForm() {
   return (
     <div className="container">
       <div className="row justify-content-center">
-				<div className="col-md-6">
-          <img src="logo.png" alt="Logo" />
+        <div className="col-md-6 row justify-content-center align-items-center mt-5">
+          <img src="logo.png" alt="Logo" className='w-75'/>
           <h4 className="text-center text-secondary mb-4">Crie sua conta Match Code</h4>
           <form onSubmit={handleSubmit}>
             <div className="form-group">

@@ -76,25 +76,26 @@ function Vaga() {
   return (
     <div>
       <Menu/>
+      <h4 className="text-center text-secondary m-4">Vaga</h4>
 
-      <div className="card text-center">
-        <div className="card-header">
-          Vaga
-        </div>
-        <div className="card-body">
-          <h5 className="card-title">{joboffer.Joboffer.name}</h5>
-          <p>
-              Código: {joboffer.Joboffer.code}
-          </p>
-          <p>
-              Cidade: {joboffer.City.name}
-          </p>
-          <p>
-              Empresa: {joboffer.Company.name}
-          </p>
-          <p className="card-text">{joboffer.Joboffer.description}</p>
-        <button type="button" className="btn btn-outline-primary m-3" onClick={navigateToSearch}>Voltar</button>
-        <button href="#" className="btn btn-primary" onClick={addApplication}>Aplicar</button>
+      <div className="row d-flex justify-content-center align-items-center">
+        <div className="col-sm-3">
+          {/* style={{ width: '200px', height: '200px'}} */}
+          <div className="card">
+            <div className="card-body">
+              <h5 className="card-title">Vaga: {joboffer.Joboffer.name}</h5>
+              <p className="card-text">Código da vaga: {joboffer.Joboffer.code}</p>
+              <ul className="list-group list-group-flush">
+                <li className="list-group-item">Descrição da vaga: {joboffer.Joboffer.description}</li>
+                <li className="list-group-item">Empresa: {joboffer.Company.name}</li>
+                <li className="list-group-item">Cidade: {joboffer.City.name}</li>
+                {/* <li className="list-group-item">Cargo: {joboffer.Position.name}</li> */}
+              </ul>
+
+              <button type="button" className="btn btn-outline-primary m-3" onClick={navigateToSearch}>Voltar</button>
+              <button className="btn btn-primary" onClick={addApplication}>Aplicar</button>
+            </div>
+          </div>
         </div>
       </div>
     </div>

@@ -51,9 +51,9 @@ function Login() {
     <div>
       <div className="container mt-5">
 			<div className="row justify-content-center">
-				<div className="col-md-6">
-					<img src="logo.png" alt="Logo" />
-					<h4 className="text-center text-secondary mb-4">Acesse sua conta empresarial Match Code</h4>
+				<div className="col-md-6 row justify-content-center align-items-center mt-5">
+					<img src="logo.png" alt="Logo" className='w-75'/>
+					<h4 className="text-center text-secondary mb-4 mt-3">Acesse sua conta empresarial Match Code</h4>
 					<form>
 						<div className="form-group">
 							<label htmlFor="email">Email:</label>
@@ -67,9 +67,9 @@ function Login() {
 								onChange={(event) => setPassword(event.target.value)} placeholder="Digite a sua senha" required />
 						</div>
 
-						<div>
+						{/* <div>
 							<a href="">Esqueci minha senha</a>
-						</div>
+						</div> */}
 
 						<div className="text-center p-3">
 							<button className="btn btn-secondary btn-lg" onClick={handleSubmit}>Entrar</button>
