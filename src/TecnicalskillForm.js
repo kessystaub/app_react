@@ -6,6 +6,8 @@ function TecnicalskillForm() {
 	const [tecnicalskills, setTecnicalskills] = useState([]);
 	const [relations, setRelations] = useState([]);
 	const [id, setId] = useState('');
+	const [relationsHardskill, setRelationsHardskill] = useState([]);
+
 
 	const navigate = useNavigate();
 
@@ -40,22 +42,31 @@ function TecnicalskillForm() {
 				}
 				return data.json();
 			}).then(create => {
-			console.log(create);
+				fetch(`http://localhost:8000/hardskill/${tecnicalskill_id}`)
+            .then(response => response.json())
+            .then(data => {
+              const experienceTemp = { Hardskill: { id: tecnicalskill_id, name: data.result.name } }
+              setRelationsHardskill([...relationsHardskill, experienceTemp]);
+              console.log(create);
+          })
+          .catch(error => {
+            console.error('Erro:', error);
+          }); 
 			}).catch(e => {
 			console.log(e);
 			});
 	};
 
 	async function deleteTecnicalskill(tecnicalskill_id) {
-		axios.delete(`http://localhost:8000/user_hardskill/deleteByUser/${id}/${tecnicalskill_id}`)
-		.then(response => {
-			// Manipule a resposta da API, se necessário
-			console.log(response);
-		})
-		.catch(error => {
-			// Manipule erros da solicitação, se houver
-			console.error(error);
-		});
+		const novoArrayObjetos = relationsHardskill.filter(objeto => objeto.Hardskill.id !== tecnicalskill_id);
+			axios.delete(`http://localhost:8000/user_hardskill/deleteByUser/${id}/${tecnicalskill_id}`)
+			.then(response => {
+		  setRelationsHardskill(novoArrayObjetos)
+				console.log(response);
+			})
+			.catch(error => {
+				console.error(error);
+			});
 	};
 
 
@@ -81,37 +92,7 @@ function TecnicalskillForm() {
 		};
 
 		fetchData();
-	}, [id, relations]); // Empty dependency array ensures the effect runs only once
-
-	async function getTecnicalByName(name) {
-		const response = await fetch(`http://localhost:8000/hardskill/getByName/${name}`);
-		const data = await response.json();
-		console.log(data)
-		deleteTecnicalskill(data.result.id)
-	}
-
-// id """
-// 	SELECT name,intitution,formation FROM users 
-// 	inner join userformations on userformations.uid= user.id
-// 	inner join formation on formation.id=formations.id
-// 	inner join institution on instituition.id = formation.intitutionid
-// 	where user.id = {id}
-
-
-// """
-	function returnNames() {
-		const result = []
-
-		tecnicalskills?.forEach((item) => {
-			relations?.forEach((names) => {
-				if (item.id === names.hardskill_id) {
-					result.push(item.name)
-				}
-			});
-		});
-		return result
-	}
-
+	}, []); // Empty dependency array ensures the effect runs only once
 
 	return (
 		<div>
@@ -133,11 +114,11 @@ function TecnicalskillForm() {
 							</div>
 							
 							{/* buscar softskill pelo nome e retornar um objeto com nome e id*/}
-							{returnNames().map((item) => (
+							{relationsHardskill.map((item) => (
 								<div key={item} className="card m-2">
 									<div className="card-header">
-										<p>{item}</p>
-										<button className="btn btn-outline-secondary btn-sm" onClick={() => getTecnicalByName(item)}>
+										<p>{item.Hardskill.name}</p>
+										<button className="btn btn-outline-secondary btn-sm" onClick={() => deleteTecnicalskill(item.Hardskill.id)}>
 											excluir
 										</button>
 									</div>

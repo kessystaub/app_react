@@ -10,7 +10,7 @@ function ExperienceForm() {
   const [cargo, setCargo] = useState('');
   const [id, setId] = useState('');
   const [relations, setRelations] = useState([]);
-  const [relationsExperience, setRelationsExperience] = useState([{ Experience: { company: '', date: '' } , Position: {name: ''}}]);
+  const [relationsExperience, setRelationsExperience] = useState([]);
 
 
   const navigate = useNavigate();
@@ -50,8 +50,17 @@ function ExperienceForm() {
         }
         return data.json();
       }).then(create => {
-        console.log(create)
-        addUserExperience(create.result.id)
+        fetch(`http://localhost:8000/position/${cargo}`)
+        .then(response => response.json())
+        .then(data => {
+          const experienceTemp = { Experience: { id: create.result.id, company: create.result.company, date: create.result.date } , Position: {name: data.result.name}}
+          setRelationsExperience([...relationsExperience, experienceTemp]);
+          console.log('relationsExperiencen', relationsExperience)
+          addUserExperience(create.result.id)
+      })
+      .catch(error => {
+        console.error('Erro:', error);
+      });
       }).catch(e => {
       console.log(e);
       });
@@ -97,46 +106,31 @@ function ExperienceForm() {
           const response1 = await fetch(`http://localhost:8000/position`);
           const data1 = await response1.json();
           setCargos(data1.result)
-
-          const response2 = await fetch(`http://localhost:8000/experience`);
-          const data2 = await response2.json();
-          setExperiences(data2.result)
-      
-          const response3 = await fetch(`http://localhost:8000/user_experience/getExperiencesByUserId/${id}`);
-          const data3 = await response3.json();
-          setRelations(data3.result);
-
-          const response6 = await fetch(`http://localhost:8000/user_experience/getExperiencesByUserId2/${id}`);
-          const data6 = await response6.json();
-          setRelationsExperience(data6.result);
           } catch (error) {
             console.error('Error fetching data:', error);
           }
       };
   
       fetchData();
-    }, [id, relations, setExperiences, cargos]); // Empty dependency array ensures the effect runs only once
+    }, []); // Empty dependency array ensures the effect runs only once
 
 
     async function deleteExperience(experience_id) {
-      console.log(experience_id)
+      const novoArrayObjetos = relationsExperience.filter(objeto => objeto.Experience.id !== experience_id);
       axios.delete(`http://localhost:8000/user_experience/deleteByUser/${id}/${experience_id}`)
       .then(response => {
-        // Manipule a resposta da API, se necessário
         console.log(response);
       })
       .catch(error => {
-        // Manipule erros da solicitação, se houver
         console.error(error);
       });
   
       axios.delete(`http://localhost:8000/experience/${experience_id}`)
       .then(response => {
-        // Manipule a resposta da API, se necessário
+        setRelationsExperience(novoArrayObjetos)
         console.log(response);
       })
       .catch(error => {
-        // Manipule erros da solicitação, se houver
         console.error(error);
       });
     };
@@ -180,8 +174,8 @@ function ExperienceForm() {
           </button>
           </div>
           </div>
-
-          {relationsExperience && (  
+          
+          {
             relationsExperience.map((item) => (
               <div key={item.id} className="card">
                 <div className="card-header">
@@ -199,8 +193,7 @@ function ExperienceForm() {
                 </div>
               </div>
             ))
-          )}
-            
+          }
 
             <div className="justify-content-end row">
               <div className="text-center p-3">

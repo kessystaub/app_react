@@ -455,6 +455,7 @@ function Perfil() {
         const response8 = await fetch(`http://localhost:8000/user_softskill/getSoftskillsByUserId2/${user.id}`);
         const data8 = await response8.json();
         setRelationsSoftskill(data8.result)
+        console.log(relationsSoftskill)
 
         // hardskill
 

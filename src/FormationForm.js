@@ -13,7 +13,7 @@ function FormationForm() {
   const [formationId, setFormationId] = useState(0);
   const [formations, setFormations] = useState([]);
   const [relations, setRelations] = useState([]);
-  const [relationsFormation, setRelationsFormation] = useState([{ Formation: { course: '', date: '' } , Institution: {name: ''}}]);
+  const [relationsFormation, setRelationsFormation] = useState([]);
   
 
   const navigateToPerfil = () => {
@@ -50,8 +50,17 @@ function FormationForm() {
         }
         return data.json();
       }).then(create => {
-        console.log('create.result.id',create.result.id)
-        addUserFormation(create.result.id)
+			fetch(`http://localhost:8000/institution/${institution}`)
+			.then(response => response.json())
+			.then(data => {
+				const formationTemp = { Formation: { id: create.result.id, course: create.result.course, date: create.result.date } , Institution: {name: data.result.name}}
+				setRelationsFormation([...relationsFormation, formationTemp]);
+				console.log('relationsFormation', relationsFormation)
+				addUserFormation(create.result.id)
+			})
+			.catch(error => {
+			console.error('Erro:', error);
+			});
       }).catch(e => {
       console.log(e);
       });
@@ -88,6 +97,26 @@ function FormationForm() {
       });
   }
 
+  async function deleteFormation(formation_id) {
+    const novoArrayObjetos = relationsFormation.filter(objeto => objeto.Formation.id !== formation_id);
+		axios.delete(`http://localhost:8000/user_formation/deleteByUser/${id}/${formation_id}`)
+		.then(response => {
+			console.log(response);
+		})
+		.catch(error => {
+			console.error(error);
+		});
+
+		axios.delete(`http://localhost:8000/formation/${formation_id}`)
+		.then(response => {
+      setRelationsFormation(novoArrayObjetos)
+			console.log(response);
+		})
+		.catch(error => {
+			console.error(error);
+		});
+	};
+
 
   useEffect(() => {
 	const storedValue = localStorage.getItem('user-info');
@@ -100,49 +129,15 @@ function FormationForm() {
 		const response = await fetch(`http://localhost:8000/institution`);
 		const data = await response.json();
 		setInstitutions(data.result)
-
-		const response2 = await fetch(`http://localhost:8000/formation`);
-		const data2 = await response2.json();
-		setFormations(data2.result)
-
-        const response3 = await fetch(`http://localhost:8000/user_formation/getFormationsByUserId/${id}`);
-        const data3 = await response3.json();
-        setRelations(data3.result);
-
-		const response4 = await fetch(`http://localhost:8000/user_formation/getFormationsByUserId2/${id}`);
-        const data4 = await response4.json();
-        console.log(data3)
-        setRelationsFormation(data4.result);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
     };
 
     fetchData();
-  }, [id, relations]); // Empty dependency array ensures the effect runs only once
+  }, []); // Empty dependency array ensures the effect runs only once
 
-	async function deleteFormation(formation_id) {
-		console.log(formation_id)
-		axios.delete(`http://localhost:8000/user_formation/deleteByUser/${id}/${formation_id}`)
-		.then(response => {
-			// Manipule a resposta da API, se necessário
-			console.log(response);
-		})
-		.catch(error => {
-			// Manipule erros da solicitação, se houver
-			console.error(error);
-		});
 
-		axios.delete(`http://localhost:8000/formation/${formation_id}`)
-		.then(response => {
-			// Manipule a resposta da API, se necessário
-			console.log(response);
-		})
-		.catch(error => {
-			// Manipule erros da solicitação, se houver
-			console.error(error);
-		});
-	};
 
   return (
     <div>
@@ -186,8 +181,8 @@ function FormationForm() {
 				</div>
 
 				</div>
-	
-				{relationsFormation && (
+
+				{
 					relationsFormation.map((item) => (
 						<div key={item.id} className="card mb-3">
 							<div className="card-header">
@@ -206,7 +201,7 @@ function FormationForm() {
 							
 						</div>
 					))
-				)}
+				}
 
 				<div className="justify-content-end row">
 				<div className="text-center p-3">
