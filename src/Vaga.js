@@ -5,7 +5,7 @@ import moment from 'moment';
 
 function Vaga() {
   const [user, setUser] = useState({});
-  const [joboffer, setJoboffer] = useState({ Joboffer: { name: '', code: '', description: '' } , City: { name: '' } ,  Company: {name: ''}});
+  const [joboffer, setJoboffer] = useState({ Joboffer: { name: '', description: '' } , City: { name: '' } ,  Company: {name: ''}});
 
   const navigate = useNavigate();
 
@@ -84,7 +84,6 @@ function Vaga() {
           <div className="card">
             <div className="card-body">
               <h5 className="card-title">Vaga: {joboffer.Joboffer.name}</h5>
-              <p className="card-text">Código da vaga: {joboffer.Joboffer.code}</p>
               <ul className="list-group list-group-flush">
                 <li className="list-group-item">Descrição da vaga: {joboffer.Joboffer.description}</li>
                 <li className="list-group-item">Empresa: {joboffer.Company.name}</li>

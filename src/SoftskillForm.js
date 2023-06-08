@@ -124,7 +124,7 @@ function SoftskillForm() {
 							
 							{/* buscar softskill pelo nome e retornar um objeto com nome e id*/}
 							{returnNames().map((item) => (
-								<div key={item} className="card m-2">
+								<div key={item.id} className="card m-2">
 									<div className="card-header">
 										<p>{item}</p>
 										<button className="btn btn-outline-secondary btn-sm" onClick={() => getSoftskillByName(item)}>

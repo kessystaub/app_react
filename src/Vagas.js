@@ -1,37 +1,10 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { UserContext } from './UserContext';
+import React, { useEffect, useState } from 'react';
 import MenuCompany from './MenuCompany';
 import Card from 'react-bootstrap/Card';
 
 function Vagas() {
   const [vagas, setVagas] = useState([]);
-  const [nome, setNome] = useState('');
-  const [city, setCity] = useState('');
-  const [cityId, setCityId] = useState('');
-  const [position, setPosition] = useState('');
-  const [positionId, setPositionId] = useState('');
-  const [code, setCode] = useState('');
-  const [description, setDescription] = useState('');
   const [company, setCompany] = useState({});
-
-  const navigate = useNavigate();
-
-  const navigateToVagas = () => {
-    navigate('/vagas');
-  };
-
-  function getCityByName(city_name) {
-      fetch(`http://localhost:8000/city/getCityByName/${city_name}`)
-      .then(response => response.json())
-      .then(data => {
-        console.log('data.result.id', data.result.id)
-        setCityId(data.result.id)
-    })
-    .catch(error => {
-      console.error('Erro:', error);
-    });
-  }
 
   useEffect(() => {
     const storedValue = localStorage.getItem('user-info') ? JSON.parse(localStorage.getItem('user-info')) : [];
@@ -74,10 +47,7 @@ function Vagas() {
                     Descrição: {item.Joboffer.description}
                   </Card.Text>
                   <Card.Text>
-                    Código:
-                    <ul>
-                      <li>{item.Joboffer.code}</li>
-                    </ul>
+                    Cargo: {item.Position.name}
                   </Card.Text>
                   <Card.Text>
                     Cidade:

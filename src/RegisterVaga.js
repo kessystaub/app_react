@@ -1,17 +1,15 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { UserContext } from './UserContext';
 import MenuCompany from './MenuCompany';
 
 function RegisterVaga() {
   const [nome, setNome] = useState('');
-  const [city, setCity] = useState('');
   const [cityId, setCityId] = useState('');
-  const [position, setPosition] = useState('');
-  const [positionId, setPositionId] = useState('');
-  const [code, setCode] = useState('');
   const [description, setDescription] = useState('');
   const [company, setCompany] = useState([]);
+  const [cargos, setCargos] = useState([]);
+  const [cities, setCities] = useState([]);
+  const [cargo, setCargo] = useState('');
 
   const navigate = useNavigate();
 
@@ -19,42 +17,16 @@ function RegisterVaga() {
     navigate('/vagas');
   };
 
-  function getCityByName(city_name) {
-      fetch(`http://localhost:8000/city/getCityByName/${city_name}`)
-      .then(response => response.json())
-      .then(data => {
-        console.log('data.result.id', data.result.id)
-        setCityId(data.result.id)
-    })
-    .catch(error => {
-      console.error('Erro:', error);
-    });
-  }
-
-  function getPositionByName(position_name) {
-    console.log(position_name)
-    fetch(`http://localhost:8000/position/getPositionByName/${position_name}`)
-    .then(response => response.json())
-    .then(data => {
-      console.log('data.result.id', data.result.id)
-      setPositionId(data.result.id)
-  })
-  .catch(error => {
-    console.error('Erro:', error);
-  });
-  }
-
   const handleSubmit = (event) => {
     event.preventDefault();
 
     const create = {
       "parameter": {
-        "code": code,
         "name": nome,
         "description": description,
         "city_id": cityId,
         "company_id": company.id,
-        "position_id": positionId
+        "position_id": cargo
       }
     }
 
@@ -74,7 +46,6 @@ function RegisterVaga() {
          return data.json();
         }).then(create => {
           console.log(create)
-          localStorage.setItem("user-info", JSON.stringify(create))
           navigateToVagas()
         console.log(create);
         }).catch(e => {
@@ -86,6 +57,22 @@ function RegisterVaga() {
     const storedValue = localStorage.getItem('user-info') ? JSON.parse(localStorage.getItem('user-info')) : [];
     const company = storedValue.company;
     setCompany(company)
+
+    const fetchData = async () => {
+      try {
+        const response4 = await fetch(`http://localhost:8000/position`);
+        const data4 = await response4.json();
+        setCargos(data4.result)
+
+        const response = await fetch(`http://localhost:8000/city`);
+        const data = await response.json();
+        setCities(data.result)
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
   }, [setCompany]);
 
 
@@ -119,27 +106,23 @@ function RegisterVaga() {
 
               <div className="form-group">
                 <label htmlFor="position">Cargo:</label>
-                <select className="form-control" id="position" name="position" value={position}
-                  onChange={(event) => {
-                    setPosition(event.target.value)
-                    getPositionByName(event.target.value)
-                    }} required>
-                  <option value="">Selecione...</option>
-                  <option value="Programador">Programador</option>
-                </select>
+                  <select className="form-control" id="softskill" name="softskill" value={cargo}
+                    onChange={(event) => { setCargo(event.target.value)}} required>
+                    <option value="">Selecione...</option>
+                    {cargos.map((item) => (
+                      <option key={item.id} value={item.id}>{item.name}</option>
+                    ))}
+                  </select>
               </div>
 
               <div className="form-group">
                 <label htmlFor="city">Cidade:</label>
-                <select className="form-control" id="city" name="city" value={city}
-                  onChange={(event) => {
-                    setCity(event.target.value)
-                    getCityByName(event.target.value)
-                    }} required>
+                <select className="form-control" id="city" name="city"
+                  onChange={(event) => setCityId(event.target.value)} required>
                   <option value="">Selecione...</option>
-                  <option value="TIJUCAS">Tijucas</option>
-                  <option value="ITAPEMA">Itapema</option>
-                  <option value="PORTO BELO">Porto Belo</option>
+                    {cities.map((item) => (
+                      <option key={item.id} value={item.id}>{item.name}</option>
+                    ))}
                 </select>
               </div>
 
