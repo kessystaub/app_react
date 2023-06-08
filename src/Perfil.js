@@ -285,7 +285,18 @@ function Perfil() {
 				}
 				return data.json();
 			}).then(create => {
-			console.log(create);
+          fetch(`http://localhost:8000/softskill/${softskill_id}`)
+            .then(response => response.json())
+            .then(data => {
+              const experienceTemp = { Softskill: { id: softskill_id, name: data.result.name } }
+              setRelationsSoftskill([...relationsSoftskill, experienceTemp]);
+              console.log('relationsSoftskill', relationsSoftskill)
+              console.log(create);
+          })
+          .catch(error => {
+            console.error('Erro:', error);
+          }); 
+          
 			}).catch(e => {
 			console.log(e);
 			});
@@ -362,8 +373,10 @@ function Perfil() {
   };
 
   async function deleteSoftskill(softskill_id) {
+    const novoArrayObjetos = relationsSoftskill.filter(objeto => objeto.Softskill.id !== softskill_id);
 		axios.delete(`http://localhost:8000/user_softskill/deleteByUser/${user.id}/${softskill_id}`)
 		.then(response => {
+      setRelationsSoftskill(novoArrayObjetos)
 			console.log(response);
 		})
 		.catch(error => {
