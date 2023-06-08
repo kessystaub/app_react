@@ -35,7 +35,6 @@ function Perfil() {
   const [institutions, setInstitutions] = useState([]);
   const [curso, setCurso] = useState('');
   const [periodo, setPeriodo] = useState('');
-  const [institutionName, setInstitutionName] = useState('');
   
   // experiencia states
   const [empresa, setEmpresa] = useState('');
@@ -313,6 +312,8 @@ function Perfil() {
 	};
 
   async function deleteFormation(formation_id) {
+    const novoArrayObjetos = relationsFormation.filter(objeto => objeto.Formation.id !== formation_id);
+    setRelationsFormation([...relationsFormation]);
 		axios.delete(`http://localhost:8000/user_formation/deleteByUser/${user.id}/${formation_id}`)
 		.then(response => {
 			console.log(response);
@@ -323,6 +324,7 @@ function Perfil() {
 
 		axios.delete(`http://localhost:8000/formation/${formation_id}`)
 		.then(response => {
+      setRelationsFormation(novoArrayObjetos)
 			console.log(response);
 		})
 		.catch(error => {
@@ -433,11 +435,6 @@ function Perfil() {
 
     fetchData();
   }, []);
-
-
-  // useEffect(() => {
-  //   setUserForm(user)
-  // }, [updateUser, user])
 
   return (
     <div>
