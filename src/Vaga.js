@@ -5,12 +5,16 @@ import moment from 'moment';
 
 function Vaga() {
   const [user, setUser] = useState({});
-  const [joboffer, setJoboffer] = useState({ Joboffer: { name: '', description: '' } , City: { name: '' } ,  Company: {name: ''}});
+  const [joboffer, setJoboffer] = useState({ Joboffer: { name: '', description: '' } , City: { name: '' } ,  Company: {name: ''}, Position: {name: ''}});
 
   const navigate = useNavigate();
 
   const navigateToSearch = () => {
     navigate('/search');
+  };
+
+  function navigateToCandidaturas() {
+    navigate('/candidaturas');
   };
 
   const getCurrentDate = () => {
@@ -45,7 +49,8 @@ function Vaga() {
 				}
 				return data.json();
 			}).then(create => {
-			console.log(create);
+        console.log(create);
+        navigateToCandidaturas()
 			}).catch(e => {
 			console.log(e);
 			});

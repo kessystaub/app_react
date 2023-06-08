@@ -6,6 +6,8 @@ function SoftskillForm() {
 	const [softskills, setSoftskills] = useState([]);
 	const [relations, setRelations] = useState([]);
 	const [id, setId] = useState('');
+	const [relationsSoftskill, setRelationsSoftskill] = useState([]);
+
 
 	const navigate = useNavigate();
 
@@ -40,6 +42,17 @@ function SoftskillForm() {
 				}
 				return data.json();
 			}).then(create => {
+				fetch(`http://localhost:8000/softskill/${softskill_id}`)
+            .then(response => response.json())
+            .then(data => {
+              const experienceTemp = { Softskill: { id: softskill_id, name: data.result.name } }
+              setRelationsSoftskill([...relationsSoftskill, experienceTemp]);
+              console.log('relationsSoftskill', relationsSoftskill)
+              console.log(create);
+          })
+          .catch(error => {
+            console.error('Erro:', error);
+          }); 
 			console.log(create);
 			}).catch(e => {
 			console.log(e);
@@ -48,13 +61,13 @@ function SoftskillForm() {
 	};
 
 	async function deleteSoftskill(softskill_id) {
+		const novoArrayObjetos = relationsSoftskill.filter(objeto => objeto.Softskill.id !== softskill_id);
 		axios.delete(`http://localhost:8000/user_softskill/deleteByUser/${id}/${softskill_id}`)
 		.then(response => {
-			// Manipule a resposta da API, se necessário
+      setRelationsSoftskill(novoArrayObjetos)
 			console.log(response);
 		})
 		.catch(error => {
-			// Manipule erros da solicitação, se houver
 			console.error(error);
 		});
 	};
@@ -72,9 +85,9 @@ function SoftskillForm() {
 			const data = await response.json();
 			setSoftskills(data.result)
 
-			const response2 = await fetch(`http://localhost:8000/user_softskill/getSoftskillsByUserId/${id}`);
-			const data2 = await response2.json();
-			setRelations(data2.result)
+			// const response2 = await fetch(`http://localhost:8000/user_softskill/getSoftskillsByUserId/${id}`);
+			// const data2 = await response2.json();
+			// setRelations(data2.result)
 		} catch (error) {
 			console.error('Error fetching data:', error);
 		}
@@ -82,26 +95,6 @@ function SoftskillForm() {
 
 		fetchData();
 	}, [id, relations]); // Empty dependency array ensures the effect runs only once
-
-	async function getSoftskillByName(name) {
-		const response = await fetch(`http://localhost:8000/softskill/getByName/${name}`);
-		const data = await response.json();
-		deleteSoftskill(data.result.id)
-	}
-
-	// seta as softskills do usuário
-	function returnNames() {
-		const result = []
-
-		softskills?.forEach((item) => {
-			relations?.forEach((names) => {
-				if (item.id === names.softskill_id) {
-					result.push(item.name)
-				}
-			});
-		});
-		return result
-	}
 
 	return (
 		<div>
@@ -123,16 +116,19 @@ function SoftskillForm() {
 							</div>
 							
 							{/* buscar softskill pelo nome e retornar um objeto com nome e id*/}
-							{returnNames().map((item) => (
-								<div key={item.id} className="card m-2">
-									<div className="card-header">
-										<p>{item}</p>
-										<button className="btn btn-outline-secondary btn-sm" onClick={() => getSoftskillByName(item)}>
-											excluir
-										</button>
+							{console.log(relationsSoftskill)}
+							{relationsSoftskill && (
+								relationsSoftskill.map((item) => (
+									<div key={item.id} className="card m-2">
+										<div className="card-header">
+											<p>{item.Softskill.name}</p>
+											<button className="btn btn-outline-secondary btn-sm" onClick={() => deleteSoftskill(item.Softskill.id)}>
+												excluir
+											</button>
+										</div>
 									</div>
-								</div>
-							))}
+								))
+							)}
 
 
 							<div className="justify-content-end row">
