@@ -26,7 +26,7 @@ function Candidaturas() {
 
     const fetchData = async () => {
       try {
-        const response = await fetch(`https://projeto_1-4-h0551544.deta.app/user/get_candidaturas_do_usuario/${user.id}`);
+        const response = await fetch(`https://projeto_1-1-h0551544.deta.app/user/get_candidaturas_do_usuario/${user.id}`);
         const data = await response.json();
         setApplications(data.result)
         } catch (error) {

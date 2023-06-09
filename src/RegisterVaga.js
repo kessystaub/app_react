@@ -38,7 +38,7 @@ function RegisterVaga() {
       body: JSON.stringify(create),
       };
 
-    fetch('https://projeto_1-4-h0551544.deta.app/joboffer', options)
+    fetch('https://projeto_1-1-h0551544.deta.app/joboffer', options)
     .then(data => {
         if (!data.ok) {
           throw Error(data.status);
@@ -60,11 +60,11 @@ function RegisterVaga() {
 
     const fetchData = async () => {
       try {
-        const response4 = await fetch(`https://projeto_1-4-h0551544.deta.app/position`);
+        const response4 = await fetch(`https://projeto_1-1-h0551544.deta.app/position`);
         const data4 = await response4.json();
         setCargos(data4.result)
 
-        const response = await fetch(`https://projeto_1-4-h0551544.deta.app/city`);
+        const response = await fetch(`https://projeto_1-1-h0551544.deta.app/city`);
         const data = await response.json();
         setCities(data.result)
       } catch (error) {

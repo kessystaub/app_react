@@ -33,7 +33,7 @@ function Talentos() {
 
   async function navigateToCurriculo(user_id) {
     try {
-        const response = await fetch(`https://projeto_1-4-h0551544.deta.app/user/get_skills/${user_id}`);
+        const response = await fetch(`https://projeto_1-1-h0551544.deta.app/user/get_skills/${user_id}`);
         const data = await response.json();
         console.log(data.result)
         setUser(data.result)
@@ -56,7 +56,7 @@ function Talentos() {
 
     const fetchData = async () => {
         try {
-            const response = await fetch(`https://projeto_1-4-h0551544.deta.app/user`);
+            const response = await fetch(`https://projeto_1-1-h0551544.deta.app/user`);
             const data = await response.json();
             setUsers(data.result)
         } catch (error) {

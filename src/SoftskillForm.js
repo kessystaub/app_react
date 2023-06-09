@@ -35,14 +35,14 @@ function SoftskillForm() {
 			body: JSON.stringify(create),
 			};
 
-		fetch(`https://projeto_1-4-h0551544.deta.app/user_softskill`, options)
+		fetch(`https://projeto_1-1-h0551544.deta.app/user_softskill`, options)
 		.then(data => {
 			if (!data.ok) {
 				throw Error(data.status);
 				}
 				return data.json();
 			}).then(create => {
-				fetch(`https://projeto_1-4-h0551544.deta.app/softskill/${softskill_id}`)
+				fetch(`https://projeto_1-1-h0551544.deta.app/softskill/${softskill_id}`)
             .then(response => response.json())
             .then(data => {
               const experienceTemp = { Softskill: { id: softskill_id, name: data.result.name } }
@@ -62,7 +62,7 @@ function SoftskillForm() {
 
 	async function deleteSoftskill(softskill_id) {
 		const novoArrayObjetos = relationsSoftskill.filter(objeto => objeto.Softskill.id !== softskill_id);
-		axios.delete(`https://projeto_1-4-h0551544.deta.app/user_softskill/deleteByUser/${id}/${softskill_id}`)
+		axios.delete(`https://projeto_1-1-h0551544.deta.app/user_softskill/deleteByUser/${id}/${softskill_id}`)
 		.then(response => {
       setRelationsSoftskill(novoArrayObjetos)
 			console.log(response);
@@ -81,11 +81,11 @@ function SoftskillForm() {
 
 		const fetchData = async () => {
 		try {
-			const response = await fetch(`https://projeto_1-4-h0551544.deta.app/softskill`);
+			const response = await fetch(`https://projeto_1-1-h0551544.deta.app/softskill`);
 			const data = await response.json();
 			setSoftskills(data.result)
 
-			// const response2 = await fetch(`https://projeto_1-4-h0551544.deta.app/user_softskill/getSoftskillsByUserId/${id}`);
+			// const response2 = await fetch(`https://projeto_1-1-h0551544.deta.app/user_softskill/getSoftskillsByUserId/${id}`);
 			// const data2 = await response2.json();
 			// setRelations(data2.result)
 		} catch (error) {

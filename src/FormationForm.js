@@ -43,14 +43,14 @@ function FormationForm() {
       body: JSON.stringify(create),
       };
   
-    fetch(`https://projeto_1-4-h0551544.deta.app/formation`, options)
+    fetch(`https://projeto_1-1-h0551544.deta.app/formation`, options)
     .then(data => {
       if (!data.ok) {
         throw Error(data.status);
         }
         return data.json();
       }).then(create => {
-			fetch(`https://projeto_1-4-h0551544.deta.app/institution/${institution}`)
+			fetch(`https://projeto_1-1-h0551544.deta.app/institution/${institution}`)
 			.then(response => response.json())
 			.then(data => {
 				const formationTemp = { Formation: { id: create.result.id, course: create.result.course, date: create.result.date } , Institution: {name: data.result.name}}
@@ -84,7 +84,7 @@ function FormationForm() {
       body: JSON.stringify(relation),
       };
   
-    fetch(`https://projeto_1-4-h0551544.deta.app/user_formation`, options2)
+    fetch(`https://projeto_1-1-h0551544.deta.app/user_formation`, options2)
     .then(data => {
       if (!data.ok) {
         throw Error(data.status);
@@ -99,7 +99,7 @@ function FormationForm() {
 
   async function deleteFormation(formation_id) {
     const novoArrayObjetos = relationsFormation.filter(objeto => objeto.Formation.id !== formation_id);
-		axios.delete(`https://projeto_1-4-h0551544.deta.app/user_formation/deleteByUser/${id}/${formation_id}`)
+		axios.delete(`https://projeto_1-1-h0551544.deta.app/user_formation/deleteByUser/${id}/${formation_id}`)
 		.then(response => {
 			console.log(response);
 		})
@@ -107,7 +107,7 @@ function FormationForm() {
 			console.error(error);
 		});
 
-		axios.delete(`https://projeto_1-4-h0551544.deta.app/formation/${formation_id}`)
+		axios.delete(`https://projeto_1-1-h0551544.deta.app/formation/${formation_id}`)
 		.then(response => {
       setRelationsFormation(novoArrayObjetos)
 			console.log(response);
@@ -126,7 +126,7 @@ function FormationForm() {
 	
     const fetchData = async () => {
       try {
-		const response = await fetch(`https://projeto_1-4-h0551544.deta.app/institution`);
+		const response = await fetch(`https://projeto_1-1-h0551544.deta.app/institution`);
 		const data = await response.json();
 		setInstitutions(data.result)
       } catch (error) {

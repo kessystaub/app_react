@@ -35,14 +35,14 @@ function TecnicalskillForm() {
 			body: JSON.stringify(create),
 			};
 
-		fetch(`https://projeto_1-4-h0551544.deta.app/user_hardskill`, options)
+		fetch(`https://projeto_1-1-h0551544.deta.app/user_hardskill`, options)
 		.then(data => {
 			if (!data.ok) {
 				throw Error(data.status);
 				}
 				return data.json();
 			}).then(create => {
-				fetch(`https://projeto_1-4-h0551544.deta.app/hardskill/${tecnicalskill_id}`)
+				fetch(`https://projeto_1-1-h0551544.deta.app/hardskill/${tecnicalskill_id}`)
             .then(response => response.json())
             .then(data => {
               const experienceTemp = { Hardskill: { id: tecnicalskill_id, name: data.result.name } }
@@ -59,7 +59,7 @@ function TecnicalskillForm() {
 
 	async function deleteTecnicalskill(tecnicalskill_id) {
 		const novoArrayObjetos = relationsHardskill.filter(objeto => objeto.Hardskill.id !== tecnicalskill_id);
-			axios.delete(`https://projeto_1-4-h0551544.deta.app/user_hardskill/deleteByUser/${id}/${tecnicalskill_id}`)
+			axios.delete(`https://projeto_1-1-h0551544.deta.app/user_hardskill/deleteByUser/${id}/${tecnicalskill_id}`)
 			.then(response => {
 		  setRelationsHardskill(novoArrayObjetos)
 				console.log(response);
@@ -78,11 +78,11 @@ function TecnicalskillForm() {
 
 		const fetchData = async () => {
 		try {
-			const response = await fetch(`https://projeto_1-4-h0551544.deta.app/hardskill`);
+			const response = await fetch(`https://projeto_1-1-h0551544.deta.app/hardskill`);
 			const data = await response.json();
 			setTecnicalskills(data.result)
 
-			const response2 = await fetch(`https://projeto_1-4-h0551544.deta.app/user_hardskill/getHardskillsByUserId/${id}`);
+			const response2 = await fetch(`https://projeto_1-1-h0551544.deta.app/user_hardskill/getHardskillsByUserId/${id}`);
 			const data2 = await response2.json();
 			setRelations(data2.result)					
 			

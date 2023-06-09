@@ -23,7 +23,7 @@ function Search() {
 
     const fetchData = async () => {
       try {
-        const response = await fetch(`https://projeto_1-4-h0551544.deta.app/joboffer/get_vagas`);
+        const response = await fetch(`https://projeto_1-1-h0551544.deta.app/joboffer/get_vagas`);
         const data = await response.json();
         setJoboffers(data.result);
       } catch (error) {
