@@ -40,30 +40,30 @@ function Curriculo() {
     const fetchData = async () => {
       try {
         // user
-        // const response_user = await fetch(`http://localhost:8000/user/${user.id}`);
+        // const response_user = await fetch(`https://projeto_1-4-h0551544.deta.app/user/${user.id}`);
         // const data_user = await response_user.json();
         // setUserForm(data_user.result)
         // setUserForm(user)
 
-        const response3 = await fetch(`http://localhost:8000/user_formation/getFormationsByUserId2/${user.id}`);
+        const response3 = await fetch(`https://projeto_1-4-h0551544.deta.app/user_formation/getFormationsByUserId2/${user.id}`);
         const data3 = await response3.json();
         console.log(data3)
         setRelationsFormation(data3.result);
 
         // experiencia
-        const response6 = await fetch(`http://localhost:8000/user_experience/getExperiencesByUserId2/${user.id}`);
+        const response6 = await fetch(`https://projeto_1-4-h0551544.deta.app/user_experience/getExperiencesByUserId2/${user.id}`);
         const data6 = await response6.json();
         setRelationsExperience(data6.result);
 
         // softskill
 
-        const response8 = await fetch(`http://localhost:8000/user_softskill/getSoftskillsByUserId2/${user.id}`);
+        const response8 = await fetch(`https://projeto_1-4-h0551544.deta.app/user_softskill/getSoftskillsByUserId2/${user.id}`);
         const data8 = await response8.json();
         setRelationsSoftskill(data8.result)
 
         // hardskill
 
-        const response10 = await fetch(`http://localhost:8000/user_hardskill/getHardskillsByUserId2/${user.id}`);
+        const response10 = await fetch(`https://projeto_1-4-h0551544.deta.app/user_hardskill/getHardskillsByUserId2/${user.id}`);
         const data10 = await response10.json();
         setRelationsHardskill(data10.result)		
       } catch (error) {

@@ -104,7 +104,7 @@ function Perfil() {
       body: JSON.stringify(update),
       };
   
-    fetch(`http://localhost:8000/user/${user.id}`, options)
+    fetch(`https://projeto_1-4-h0551544.deta.app/user/${user.id}`, options)
     .then(data => {
       if (!data.ok) {
         throw Error(data.status);
@@ -136,14 +136,14 @@ function Perfil() {
       body: JSON.stringify(create),
       };
   
-    fetch(`http://localhost:8000/formation`, options)
+    fetch(`https://projeto_1-4-h0551544.deta.app/formation`, options)
     .then(data => {
       if (!data.ok) {
         throw Error(data.status);
         }
         return data.json();
       }).then(create => {
-        fetch(`http://localhost:8000/institution/${institution}`)
+        fetch(`https://projeto_1-4-h0551544.deta.app/institution/${institution}`)
           .then(response => response.json())
           .then(data => {
             const formationTemp = { Formation: { id: create.result.id, course: create.result.course, date: create.result.date } , Institution: {name: data.result.name}}
@@ -177,7 +177,7 @@ function Perfil() {
       body: JSON.stringify(relation),
       };
   
-    fetch(`http://localhost:8000/user_formation`, options2)
+    fetch(`https://projeto_1-4-h0551544.deta.app/user_formation`, options2)
     .then(data => {
       if (!data.ok) {
         throw Error(data.status);
@@ -209,14 +209,14 @@ function Perfil() {
       body: JSON.stringify(create),
       };
 
-    fetch(`http://localhost:8000/experience`, options)
+    fetch(`https://projeto_1-4-h0551544.deta.app/experience`, options)
     .then(data => {
       if (!data.ok) {
         throw Error(data.status);
         }
         return data.json();
       }).then(create => {
-        fetch(`http://localhost:8000/position/${cargo}`)
+        fetch(`https://projeto_1-4-h0551544.deta.app/position/${cargo}`)
           .then(response => response.json())
           .then(data => {
             const experienceTemp = { Experience: { id: create.result.id, company: create.result.company, date: create.result.date } , Position: {name: data.result.name}}
@@ -249,7 +249,7 @@ function Perfil() {
       body: JSON.stringify(relation),
       };
 
-    fetch(`http://localhost:8000/user_experience`, options2)
+    fetch(`https://projeto_1-4-h0551544.deta.app/user_experience`, options2)
     .then(data => {
       if (!data.ok) {
         throw Error(data.status);
@@ -278,14 +278,14 @@ function Perfil() {
 			body: JSON.stringify(create),
 			};
 
-		fetch(`http://localhost:8000/user_softskill`, options)
+		fetch(`https://projeto_1-4-h0551544.deta.app/user_softskill`, options)
 		.then(data => {
 			if (!data.ok) {
 				throw Error(data.status);
 				}
 				return data.json();
 			}).then(create => {
-          fetch(`http://localhost:8000/softskill/${softskill_id}`)
+          fetch(`https://projeto_1-4-h0551544.deta.app/softskill/${softskill_id}`)
             .then(response => response.json())
             .then(data => {
               const experienceTemp = { Softskill: { id: softskill_id, name: data.result.name } }
@@ -319,14 +319,14 @@ function Perfil() {
 			body: JSON.stringify(create),
 			};
 
-		fetch(`http://localhost:8000/user_hardskill`, options)
+		fetch(`https://projeto_1-4-h0551544.deta.app/user_hardskill`, options)
 		.then(data => {
 			if (!data.ok) {
 				throw Error(data.status);
 				}
 				return data.json();
 			}).then(create => {
-        fetch(`http://localhost:8000/hardskill/${hardskill_id}`)
+        fetch(`https://projeto_1-4-h0551544.deta.app/hardskill/${hardskill_id}`)
             .then(response => response.json())
             .then(data => {
               const experienceTemp = { Hardskill: { id: hardskill_id, name: data.result.name } }
@@ -345,7 +345,7 @@ function Perfil() {
 
   async function deleteFormation(formation_id) {
     const novoArrayObjetos = relationsFormation.filter(objeto => objeto.Formation.id !== formation_id);
-		axios.delete(`http://localhost:8000/user_formation/deleteByUser/${user.id}/${formation_id}`)
+		axios.delete(`https://projeto_1-4-h0551544.deta.app/user_formation/deleteByUser/${user.id}/${formation_id}`)
 		.then(response => {
 			console.log(response);
 		})
@@ -353,7 +353,7 @@ function Perfil() {
 			console.error(error);
 		});
 
-		axios.delete(`http://localhost:8000/formation/${formation_id}`)
+		axios.delete(`https://projeto_1-4-h0551544.deta.app/formation/${formation_id}`)
 		.then(response => {
       setRelationsFormation(novoArrayObjetos)
 			console.log(response);
@@ -365,7 +365,7 @@ function Perfil() {
 
   async function deleteExperience(experience_id) {
     const novoArrayObjetos = relationsExperience.filter(objeto => objeto.Experience.id !== experience_id);
-    axios.delete(`http://localhost:8000/user_experience/deleteByUser/${user.id}/${experience_id}`)
+    axios.delete(`https://projeto_1-4-h0551544.deta.app/user_experience/deleteByUser/${user.id}/${experience_id}`)
     .then(response => {
       console.log(response);
     })
@@ -373,7 +373,7 @@ function Perfil() {
       console.error(error);
     });
 
-    axios.delete(`http://localhost:8000/experience/${experience_id}`)
+    axios.delete(`https://projeto_1-4-h0551544.deta.app/experience/${experience_id}`)
     .then(response => {
       setRelationsExperience(novoArrayObjetos)
       console.log(response);
@@ -385,7 +385,7 @@ function Perfil() {
 
   async function deleteSoftskill(softskill_id) {
     const novoArrayObjetos = relationsSoftskill.filter(objeto => objeto.Softskill.id !== softskill_id);
-		axios.delete(`http://localhost:8000/user_softskill/deleteByUser/${user.id}/${softskill_id}`)
+		axios.delete(`https://projeto_1-4-h0551544.deta.app/user_softskill/deleteByUser/${user.id}/${softskill_id}`)
 		.then(response => {
       setRelationsSoftskill(novoArrayObjetos)
 			console.log(response);
@@ -397,7 +397,7 @@ function Perfil() {
 
   async function deleteHardskill(tecnicalskill_id) {
     const novoArrayObjetos = relationsHardskill.filter(objeto => objeto.Hardskill.id !== tecnicalskill_id);
-		axios.delete(`http://localhost:8000/user_hardskill/deleteByUser/${user.id}/${tecnicalskill_id}`)
+		axios.delete(`https://projeto_1-4-h0551544.deta.app/user_hardskill/deleteByUser/${user.id}/${tecnicalskill_id}`)
 		.then(response => {
       setRelationsHardskill(novoArrayObjetos)
 			console.log(response);
@@ -420,50 +420,50 @@ function Perfil() {
     const fetchData = async () => {
       try {
         // user
-        const response_user = await fetch(`http://localhost:8000/user/${user.id}`);
+        const response_user = await fetch(`https://projeto_1-4-h0551544.deta.app/user/${user.id}`);
         const data_user = await response_user.json();
         setUserForm(data_user.result)
         // setUserForm(user)
 
         // formacao
 
-        const response = await fetch(`http://localhost:8000/institution`);
+        const response = await fetch(`https://projeto_1-4-h0551544.deta.app/institution`);
         const data = await response.json();
         setInstitutions(data.result)
 
-        const response3 = await fetch(`http://localhost:8000/user_formation/getFormationsByUserId2/${user.id}`);
+        const response3 = await fetch(`https://projeto_1-4-h0551544.deta.app/user_formation/getFormationsByUserId2/${user.id}`);
         const data3 = await response3.json();
         console.log(data3)
         setRelationsFormation(data3.result);
 
         // experiencias
 
-        const response4 = await fetch(`http://localhost:8000/position`);
+        const response4 = await fetch(`https://projeto_1-4-h0551544.deta.app/position`);
         const data4 = await response4.json();
         setCargos(data4.result)
 
-        const response6 = await fetch(`http://localhost:8000/user_experience/getExperiencesByUserId2/${user.id}`);
+        const response6 = await fetch(`https://projeto_1-4-h0551544.deta.app/user_experience/getExperiencesByUserId2/${user.id}`);
         const data6 = await response6.json();
         setRelationsExperience(data6.result);
 
         // softskill
 
-        const response7 = await fetch(`http://localhost:8000/softskill`);
+        const response7 = await fetch(`https://projeto_1-4-h0551544.deta.app/softskill`);
         const data7 = await response7.json();
         setSoftskillsList(data7.result)
 
-        const response8 = await fetch(`http://localhost:8000/user_softskill/getSoftskillsByUserId2/${user.id}`);
+        const response8 = await fetch(`https://projeto_1-4-h0551544.deta.app/user_softskill/getSoftskillsByUserId2/${user.id}`);
         const data8 = await response8.json();
         setRelationsSoftskill(data8.result)
         console.log(relationsSoftskill)
 
         // hardskill
 
-        const response9 = await fetch(`http://localhost:8000/hardskill`);
+        const response9 = await fetch(`https://projeto_1-4-h0551544.deta.app/hardskill`);
         const data9 = await response9.json();
         setHardskillsList(data9.result)
 
-        const response10 = await fetch(`http://localhost:8000/user_hardskill/getHardskillsByUserId2/${user.id}`);
+        const response10 = await fetch(`https://projeto_1-4-h0551544.deta.app/user_hardskill/getHardskillsByUserId2/${user.id}`);
         const data10 = await response10.json();
         setRelationsHardskill(data10.result)		
       } catch (error) {

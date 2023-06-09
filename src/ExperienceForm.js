@@ -43,14 +43,14 @@ function ExperienceForm() {
       body: JSON.stringify(create),
       };
 
-    fetch(`http://localhost:8000/experience`, options)
+    fetch(`https://projeto_1-4-h0551544.deta.app/experience`, options)
     .then(data => {
       if (!data.ok) {
         throw Error(data.status);
         }
         return data.json();
       }).then(create => {
-        fetch(`http://localhost:8000/position/${cargo}`)
+        fetch(`https://projeto_1-4-h0551544.deta.app/position/${cargo}`)
         .then(response => response.json())
         .then(data => {
           const experienceTemp = { Experience: { id: create.result.id, company: create.result.company, date: create.result.date } , Position: {name: data.result.name}}
@@ -82,7 +82,7 @@ function ExperienceForm() {
       body: JSON.stringify(relation),
       };
 
-    fetch(`http://localhost:8000/user_experience`, options2)
+    fetch(`https://projeto_1-4-h0551544.deta.app/user_experience`, options2)
     .then(data => {
       if (!data.ok) {
         throw Error(data.status);
@@ -103,7 +103,7 @@ function ExperienceForm() {
     
       const fetchData = async () => {
         try {
-          const response1 = await fetch(`http://localhost:8000/position`);
+          const response1 = await fetch(`https://projeto_1-4-h0551544.deta.app/position`);
           const data1 = await response1.json();
           setCargos(data1.result)
           } catch (error) {
@@ -117,7 +117,7 @@ function ExperienceForm() {
 
     async function deleteExperience(experience_id) {
       const novoArrayObjetos = relationsExperience.filter(objeto => objeto.Experience.id !== experience_id);
-      axios.delete(`http://localhost:8000/user_experience/deleteByUser/${id}/${experience_id}`)
+      axios.delete(`https://projeto_1-4-h0551544.deta.app/user_experience/deleteByUser/${id}/${experience_id}`)
       .then(response => {
         console.log(response);
       })
@@ -125,7 +125,7 @@ function ExperienceForm() {
         console.error(error);
       });
   
-      axios.delete(`http://localhost:8000/experience/${experience_id}`)
+      axios.delete(`https://projeto_1-4-h0551544.deta.app/experience/${experience_id}`)
       .then(response => {
         setRelationsExperience(novoArrayObjetos)
         console.log(response);

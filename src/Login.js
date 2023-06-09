@@ -23,7 +23,7 @@ function Login() {
     event.preventDefault();
 
 	let item = {email, password}
-    fetch(`http://localhost:8000/user/login?username=${email}&password=${password}`, {
+    fetch(`https://projeto_1-4-h0551544.deta.app/user/login?username=${email}&password=${password}`, {
 		method: 'POST',
 		headers: {
 			"Content-Type":"application/json",

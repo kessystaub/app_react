@@ -42,7 +42,7 @@ function Vaga() {
 			body: JSON.stringify(create),
 			};
 
-		fetch(`http://localhost:8000/application`, options)
+		fetch(`https://projeto_1-4-h0551544.deta.app/application`, options)
 		.then(data => {
 			if (!data.ok) {
 				throw Error(data.status);
@@ -67,7 +67,7 @@ function Vaga() {
 
     const fetchData = async () => {
       try {
-        const response = await fetch(`http://localhost:8000/joboffer/${id}`);
+        const response = await fetch(`https://projeto_1-4-h0551544.deta.app/joboffer/${id}`);
         const data = await response.json();
         setJoboffer(data.result)
         } catch (error) {

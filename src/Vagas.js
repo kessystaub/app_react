@@ -13,7 +13,7 @@ function Vagas() {
 
     const fetchData = async () => {
         try {
-            const response = await fetch(`http://localhost:8000/joboffer/get_company_vagas/${company.id}`);
+            const response = await fetch(`https://projeto_1-4-h0551544.deta.app/joboffer/get_company_vagas/${company.id}`);
             const data = await response.json();
             setVagas(data.result)
         } catch (error) {

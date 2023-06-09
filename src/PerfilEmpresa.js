@@ -39,7 +39,7 @@ function PerfilEmpresa() {
 
     const fetchData = async () => {
       try {
-          const response = await fetch(`http://localhost:8000/company/${id}`);
+          const response = await fetch(`https://projeto_1-4-h0551544.deta.app/company/${id}`);
           const data = await response.json();
           console.log(data)
           setCompany(data.result)

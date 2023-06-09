@@ -30,7 +30,7 @@ function RegisterFormCompany() {
   };
 
   function getCityByName(city_name) {
-      fetch(`http://localhost:8000/city/getCityByName/${city_name}`)
+      fetch(`https://projeto_1-4-h0551544.deta.app/city/getCityByName/${city_name}`)
       .then(response => response.json())
       .then(data => {
         console.log('data.result.id', data.result.id)
@@ -68,7 +68,7 @@ function RegisterFormCompany() {
       body: JSON.stringify(create),
       };
 
-    fetch('http://localhost:8000/company', options)
+    fetch('https://projeto_1-4-h0551544.deta.app/company', options)
     .then(data => {
         if (!data.ok) {
           throw Error(data.status);
@@ -87,7 +87,7 @@ function RegisterFormCompany() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`http://localhost:8000/city`);
+        const response = await fetch(`https://projeto_1-4-h0551544.deta.app/city`);
         const data = await response.json();
         setCities(data.result)
       } catch (error) {
