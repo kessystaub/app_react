@@ -23,7 +23,7 @@ function Search() {
 
     const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost:8000/joboffer/get_vagas');
+        const response = await fetch(`http://localhost:8000/joboffer/get_vagas`);
         const data = await response.json();
         setJoboffers(data.result);
       } catch (error) {

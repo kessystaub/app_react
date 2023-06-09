@@ -205,7 +205,7 @@ function FormationForm() {
 
 				<div className="justify-content-end row">
 				<div className="text-center p-3">
-					<button type="button" className="btn btn-outline-secondary btn-lg m-1" onClick={navigateToPerfil}>Pular</button>
+					{/* <button type="button" className="btn btn-outline-secondary btn-lg m-1" onClick={navigateToPerfil}>Pular</button> */}
 					<button type="button" className="btn btn-secondary btn-lg m-1" onClick={navigateToExperienceForm}>Continuar</button>
 				</div>
 				</div>
